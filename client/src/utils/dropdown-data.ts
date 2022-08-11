@@ -23,7 +23,7 @@ export const MOUNTAIN_LIST = [
   "북한산",
 ];
 
-export const HIKING_TRAIL = [
+export const HIKING_TRAIL_LIST = [
   "광교산 등산로1",
   "광교산 등산로2",
   "광교산 등산로3",

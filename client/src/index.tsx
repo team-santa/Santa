@@ -7,9 +7,9 @@ import { store } from "./redux";
 import { worker } from "./mocks/browser";
 
 // 실제 api 받을 때 주석 처리 해주세요.
-if (process.env.NODE_ENV === "development") {
-  worker.start();
-}
+// if (process.env.NODE_ENV === "development") {
+//   worker.start();
+// }
 
 ReactDOM.render(
   <React.StrictMode>
