@@ -20,6 +20,7 @@ const Wrapper = styled.div`
 
   section {
     flex-basis: 85%;
+    overflow: auto;
   }
 
   nav {

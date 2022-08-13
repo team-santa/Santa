@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MouseEvent, useCallback, useState } from "react";
-import { Wrapper } from "./wrapper";
+import { Wrapper } from "./DropDownWrapper";
 
 interface Props {
   width: string;
