@@ -5,16 +5,9 @@ interface Props {
 }
 
 export const Wrapper = styled.div<Props>`
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
   padding: 1rem;
-
-  .dropdown-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+  display: flex;
+  flex-direction: column;
 
   .dropdown-column {
     display: flex;
@@ -27,7 +20,7 @@ export const Wrapper = styled.div<Props>`
     display: flex;
     justify-content: space-between;
     align-items: end;
-    margin-top: 1rem;
+    margin: 2rem 1rem;
 
     h2 {
       font-size: 2.5rem;
@@ -41,11 +34,11 @@ export const Wrapper = styled.div<Props>`
     }
   }
 
-  .newFirst {
+  .new-first {
     color: ${(props) => props.selected && "#d7cccc"};
   }
 
-  .viewFirst {
+  .view-first {
     color: ${(props) => !props.selected && "#d7cccc"};
   }
 `;
