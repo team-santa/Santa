@@ -1,13 +1,12 @@
-package com.developer.santa.reviewboards.repository;
+package com.developer.santa.boards.review.repository;
 
-import com.developer.santa.reviewboards.entity.ReviewBoard;
+import com.developer.santa.boards.entity.ReviewBoard;
+import com.developer.santa.boards.review.repository.ReviewBoardRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest

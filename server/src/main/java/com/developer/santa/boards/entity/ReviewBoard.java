@@ -1,4 +1,4 @@
-package com.developer.santa.reviewboards.entity;
+package com.developer.santa.boards.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
