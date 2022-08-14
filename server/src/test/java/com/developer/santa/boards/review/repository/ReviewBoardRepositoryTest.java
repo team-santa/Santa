@@ -1,7 +1,7 @@
 package com.developer.santa.boards.review.repository;
 
 import com.developer.santa.boards.entity.ReviewBoard;
-import com.developer.santa.boards.review.repository.ReviewBoardRepository;
+import com.developer.santa.boards.repository.ReviewBoardRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

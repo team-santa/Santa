@@ -1,4 +1,4 @@
-package com.developer.santa.boards.review.repository;
+package com.developer.santa.boards.repository;
 
 
 import com.developer.santa.boards.entity.ReviewBoard;
