@@ -78,7 +78,7 @@ export const Wrapper = styled.ul`
     gap: 2rem;
 
     span {
-      padding: 0.5rem 3rem;
+      padding: 0.6rem 3rem;
       font-size: 1rem;
       border-radius: 16px;
       background-color: #d4effe;
