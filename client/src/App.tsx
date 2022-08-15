@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Main, Landing, Review } from "src/pages";
+import { Main, Landing, Review, ReviewDetail } from "src/pages";
 
 const App = () => {
   return (
@@ -12,7 +12,7 @@ const App = () => {
           <Route path="profile" element={<div>profile</div>} />
           <Route path="login" element={<div>login</div>} />
           <Route path="review" element={<Review />} />
-          <Route path="review/:id" element={<div>review/id</div>} />
+          <Route path="review/:id" element={<ReviewDetail />} />
           <Route path="write" element={<div>write</div>} />
           <Route path="write/:id" element={<div>edit</div>} />
         </Route>
