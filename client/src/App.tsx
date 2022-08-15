@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Main, Landing, Review, ReviewDetail } from "src/pages";
+import { Main, Landing, Review, ReviewDetail, NotFound } from "src/pages";
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
           <Route path="write" element={<div>write</div>} />
           <Route path="write/:id" element={<div>edit</div>} />
         </Route>
-        <Route path="*" element={<div>Not Found</div>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
