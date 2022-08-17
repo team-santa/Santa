@@ -7,25 +7,37 @@ import { Wrapper } from "./DropDownWrapper";
 interface Props {
   width: string;
   list: Array<string>;
-  title: string;
+  value: string;
+  name: string;
+  isOpen: {
+    [name: string]: boolean;
+  };
+  handleClick: (name: string) => void;
 }
 
-const DropDown: React.FC<Props> = ({ width, title, list }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [dropDownTitle, setDropDownTitle] = useState(title);
+const DropDown: React.FC<Props> = ({
+  width,
+  value,
+  list,
+  name,
+  isOpen,
+  handleClick,
+}) => {
+  // const [isOpen, setIsOpen] = useState(false);
+  const [dropDownTitle, setDropDownTitle] = useState(value);
 
   const handleListClick = useCallback(
     (event: MouseEvent<HTMLUListElement>) => {
       const selected = (event.target as HTMLLIElement).id;
       setDropDownTitle(selected);
-      setIsOpen(!isOpen);
+      handleClick(name);
     },
-    [isOpen]
+    [name, handleClick]
   );
 
   return (
-    <Wrapper isOpen={isOpen} width={width}>
-      <button type="button" onClick={() => setIsOpen((prev) => !prev)}>
+    <Wrapper isOpen={isOpen[name]} width={width}>
+      <button type="button" onClick={() => handleClick(name)}>
         <h4>{dropDownTitle}</h4>
         <MdKeyboardArrowDown />
       </button>
