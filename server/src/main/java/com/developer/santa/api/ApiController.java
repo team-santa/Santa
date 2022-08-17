@@ -1,9 +1,9 @@
 package com.developer.santa.api;
 
 
-import com.developer.santa.api.Domain.Load.Load;
-import com.developer.santa.api.Domain.Local.Local;
-import com.developer.santa.api.Domain.Mountain.Mountain;
+import com.developer.santa.api.domain.load.Load;
+import com.developer.santa.api.domain.local.Local;
+import com.developer.santa.api.domain.mountain.Mountain;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
