@@ -1,44 +1,43 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-no-comment-textnodes */
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { MouseEvent, useCallback, useState } from "react";
+import { Dispatch, MouseEvent, useCallback, SetStateAction } from "react";
 import { Wrapper } from "./DropDownWrapper";
 
 interface Props {
   width: string;
   list: Array<string>;
-  value: string;
   name: string;
-  isOpen: {
-    [name: string]: boolean;
-  };
+  isOpen: { [name: string]: boolean };
+  value: string;
+  setValue: Dispatch<SetStateAction<any>>;
   handleClick: (name: string) => void;
 }
 
 const DropDown: React.FC<Props> = ({
   width,
-  value,
   list,
   name,
   isOpen,
+  value,
+  setValue,
   handleClick,
 }) => {
-  // const [isOpen, setIsOpen] = useState(false);
-  const [dropDownTitle, setDropDownTitle] = useState(value);
-
   const handleListClick = useCallback(
     (event: MouseEvent<HTMLUListElement>) => {
       const selected = (event.target as HTMLLIElement).id;
-      setDropDownTitle(selected);
+      setValue((state: object) => {
+        return { ...state, [name]: selected };
+      });
       handleClick(name);
     },
-    [name, handleClick]
+    [name, setValue, handleClick]
   );
 
   return (
     <Wrapper isOpen={isOpen[name]} width={width}>
       <button type="button" onClick={() => handleClick(name)}>
-        <h4>{dropDownTitle}</h4>
+        <h4>{value}</h4>
         <MdKeyboardArrowDown />
       </button>
       <ul onClick={handleListClick}>

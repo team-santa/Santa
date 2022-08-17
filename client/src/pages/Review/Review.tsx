@@ -1,64 +1,68 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { DropDown, ReviewList } from "src/components";
 import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
 import { Wrapper } from "./ReviewWrapper";
 
 const Review = () => {
   const [sortByViews, setSortByViews] = useState(false);
-
   const [dropDownValue, setDropDownValue] = useState({
     region: "지역",
     mountain: "산 이름",
     hikingTrail: "등산로",
   });
-
   const [dropDownIsOpen, setDropDownIsOpen] = useState({
     region: false,
     mountain: false,
     hikingTrail: false,
   });
 
-  const handleClick = (name: string) => {
-    const newObj = {
-      region: false,
-      mountain: false,
-      hikingTrail: false,
-    };
-    newObj[name as keyof typeof newObj] =
-      !dropDownIsOpen[name as keyof typeof newObj];
-    setDropDownIsOpen(newObj);
-  };
+  const handleClick = useCallback(
+    (name: string) => {
+      const newObj = {
+        region: false,
+        mountain: false,
+        hikingTrail: false,
+      };
+      newObj[name as keyof typeof newObj] =
+        !dropDownIsOpen[name as keyof typeof newObj];
+      setDropDownIsOpen(newObj);
+    },
+    [dropDownIsOpen]
+  );
 
   return (
     <Wrapper selected={sortByViews}>
       <div className="dropdown-column">
         <DropDown
-          name="region"
-          value="지역"
           width="100%"
           list={REGION_LIST}
+          name="region"
           isOpen={dropDownIsOpen}
+          value={dropDownValue.region}
+          setValue={setDropDownValue}
           handleClick={handleClick}
         />
         <DropDown
-          name="mountain"
-          value="산 이름"
           width="100%"
           list={MOUNTAIN_LIST}
+          name="mountain"
           isOpen={dropDownIsOpen}
+          value={dropDownValue.mountain}
+          setValue={setDropDownValue}
           handleClick={handleClick}
         />
       </div>
       <div className="dropdown-column">
         <DropDown
-          name="hikingTrail"
-          value="등산로"
           width="100%"
           list={HIKING_TRAIL_LIST}
+          name="hikingTrail"
           isOpen={dropDownIsOpen}
+          value={dropDownValue.hikingTrail}
+          setValue={setDropDownValue}
           handleClick={handleClick}
         />
       </div>
