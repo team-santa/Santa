@@ -19,7 +19,9 @@ public class ApiService {
 
     public HashMap<String, Object> getData(String geomFilter) {
 
-        String url = "http://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_L_FRSTCLIMB&key=33B6086E-F431-3BD3-87D5-CA94D9A2EED8&domain=localhost:8080&"+geomFilter;
+        String key = "";
+        String domain = "&domain=localhost:8080";
+        String url = "";
 
         HashMap<String, Object> result = new HashMap<String, Object>();
 
@@ -42,7 +44,9 @@ public class ApiService {
     //todo dependencies
     public void getData2(String geomFilter) {
 
-        String url = "http://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_L_FRSTCLIMB&key=33B6086E-F431-3BD3-87D5-CA94D9A2EED8&domain=localhost:8080&"+geomFilter;
+        String key = "";
+        String domain = "&domain=localhost:8080";
+        String url = "";
 
         WebClient client = WebClient.builder()
                 .baseUrl("http://localhost:8080")
@@ -65,8 +69,6 @@ public class ApiService {
                 .build();
 
     }
-
-
 
 
 }
