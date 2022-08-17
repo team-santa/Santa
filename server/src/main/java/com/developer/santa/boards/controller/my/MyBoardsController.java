@@ -1,11 +1,10 @@
-package com.developer.santa.boards.my.controller;
+package com.developer.santa.boards.controller.my;
 
 import com.developer.santa.boards.entity.ReviewBoard;
-import com.developer.santa.boards.my.service.MyBoardService;
+import com.developer.santa.boards.service.my.MyBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

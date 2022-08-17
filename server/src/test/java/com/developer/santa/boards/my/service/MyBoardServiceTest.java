@@ -2,7 +2,7 @@ package com.developer.santa.boards.my.service;
 
 import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.boards.repository.ReviewBoardRepository;
-import org.assertj.core.api.Assertions;
+import com.developer.santa.boards.service.my.MyBoardService;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,15 +12,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
 class MyBoardServiceTest {

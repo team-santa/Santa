@@ -1,4 +1,4 @@
-package com.developer.santa.boards.my.service;
+package com.developer.santa.boards.service.my;
 
 import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.boards.repository.ReviewBoardRepository;
