@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import styled from "styled-components";
 import { SocialIcons } from "src/assets/images/SocialIcons";
+import { ButtonHTMLAttributes } from "react";
 
-interface Props {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   width?: number;
   height?: number;
