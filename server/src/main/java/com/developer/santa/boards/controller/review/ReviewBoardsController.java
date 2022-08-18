@@ -15,7 +15,7 @@ public class ReviewBoardsController {
     @GetMapping("/{cityId}")
     public HttpEntity<?> cityReview(){
         return null;
-    }
+    } //조회 기능
 
     @GetMapping("/{cityId}/{mountainId}")
     public HttpEntity<?> mountainReview(){
@@ -27,6 +27,7 @@ public class ReviewBoardsController {
         return null;
     }
 
-
+    // 최신순
+    // 조회순
 
 }

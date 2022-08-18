@@ -1,8 +1,7 @@
-package com.developer.santa.boards.my.service;
+package com.developer.santa.boards.service.my;
 
 import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.boards.repository.ReviewBoardRepository;
-import com.developer.santa.boards.service.my.MyBoardService;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ class MyBoardServiceTest {
         ReviewBoard saveBoard = myBoardService.createMyBoard(reviewBoard);
 
         //then
-        assertThat(saveBoard.getId()).isEqualTo(reviewBoard.getId());
+        assertThat(saveBoard.getReviewBoardId()).isEqualTo(reviewBoard.getReviewBoardId());
     }
 
     @Test
