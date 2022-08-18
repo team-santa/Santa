@@ -1,47 +1,93 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import {
+  IoSearch,
+  IoHome,
+  IoLocationSharp,
+  IoChatboxEllipses,
+  IoPersonSharp,
+} from "react-icons/io5";
+import { useEffect, useState } from "react";
+import Logo from "src/assets/images/santa_log.svg";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   font-size: 2rem;
+  margin: 0;
+  padding: 0;
 
   header {
-    flex-basis: 7.5%;
+    width: 100%;
+    height: 7rem;
+    position: sticky;
+    top: 0;
+    box-sizing: border-box;
+    background-color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    border: 2px solid red;
-    font-size: 3rem;
+    padding: 0 3rem;
+    font-size: 4rem;
+    color: #666;
+
+    &.shadow {
+      box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px;
+    }
   }
 
   section {
     flex-basis: 85%;
-    overflow: auto;
   }
 
   nav {
-    flex-basis: 7.5%;
+    width: 100%;
+    height: 6rem;
+    position: fixed;
+    box-sizing: border-box;
+    bottom: 0;
+    background-color: #f5f5f5;
     display: flex;
     justify-content: space-between;
-    border: 2px solid red;
-
+    padding: 0 10%;
+    align-items: center;
+    border-top: 1px solid lightgray;
     button {
-      flex-basis: 20%;
+      border: none;
+      background: transparent;
+      font-size: 3rem;
+      margin-bottom: -7px;
+      color: #666;
+
+      &:hover {
+        color: #016483;
+        transition: all 0.3s;
+      }
     }
   }
 `;
 
 const Main = () => {
   const navigate = useNavigate();
+  const [show, setShow] = useState<boolean>(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      console.log(window.scrollY);
+      if (window.scrollY > 50) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
+    });
+  }, []);
+
   return (
     <Wrapper>
-      <header>
-        <h1>ㅅㅌ</h1>
-        <AiOutlinePlusCircle onClick={() => navigate("/main/write")} />
+      <header className={`${show && "shadow"}`}>
+        <img src={Logo} alt="Logo" />
+        <IoSearch onClick={() => navigate("/main/write")} />
       </header>
 
       <section>
@@ -50,16 +96,16 @@ const Main = () => {
 
       <nav>
         <button type="button" onClick={() => navigate("/main")}>
-          home
+          <IoHome />
         </button>
         <button type="button" onClick={() => navigate("/main/map")}>
-          map
+          <IoLocationSharp />
         </button>
         <button type="button" onClick={() => navigate("/main/review")}>
-          review
+          <IoChatboxEllipses />
         </button>
         <button type="button" onClick={() => navigate("/main/profile")}>
-          profile
+          <IoPersonSharp />
         </button>
       </nav>
     </Wrapper>
