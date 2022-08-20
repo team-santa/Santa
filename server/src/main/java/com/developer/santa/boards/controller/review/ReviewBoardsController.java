@@ -1,33 +1,64 @@
 package com.developer.santa.boards.controller.review;
 
+import com.developer.santa.boards.entity.ReviewBoard;
+import com.developer.santa.boards.service.review.ReviewBoardService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("review/boards")
+@RequiredArgsConstructor
 public class ReviewBoardsController {
+    // 최신순조회
+    private final ReviewBoardService reviewBoardService;
 
     @GetMapping
-    public HttpEntity<?> allReview(){
-        return null;
+    public ResponseEntity<?> allReview( @RequestParam int page,
+                                        @RequestParam int size){
+        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findReviewBoards(page - 1, size);
+        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
+        return new ResponseEntity<>(reviewBoards, HttpStatus.OK);
     }
 
-    @GetMapping("/{cityId}")
-    public HttpEntity<?> cityReview(){
-        return null;
-    } //조회 기능
+    @GetMapping("/city")
+    public HttpEntity<?> cityReview(@RequestParam String city,
+                                    @RequestParam int page,
+                                    @RequestParam int size){
+        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findCityReviewBoards(page - 1, size, city);
+        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
+        return new ResponseEntity<>(reviewBoards, HttpStatus.OK);
 
-    @GetMapping("/{cityId}/{mountainId}")
-    public HttpEntity<?> mountainReview(){
-        return null;
     }
 
-    @GetMapping("/{cityId}/{mountainId}/{courseId}")
-    public HttpEntity<?> courseReview(){
-        return null;
+    @GetMapping("/mountain")
+    public HttpEntity<?> mountainReview(@RequestParam String mountain,
+                                    @RequestParam int page,
+                                    @RequestParam int size){
+        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findMountainReviewBoards(page - 1, size, mountain);
+        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
+        return new ResponseEntity<>(reviewBoards, HttpStatus.OK);
+
     }
 
-    // 최신순
+
+    @GetMapping("/course")
+    public HttpEntity<?> courseReview(@RequestParam String course,
+                                        @RequestParam int page,
+                                        @RequestParam int size){
+        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findCourseReviewBoards(page - 1, size, course);
+        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
+        return new ResponseEntity<>(reviewBoards, HttpStatus.OK);
+
+    }
+
+
+
     // 조회순
 
 }
