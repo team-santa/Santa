@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dialog from "src/components/Dialog/Dialog";
 import "react-quill/dist/quill.snow.css";
@@ -56,12 +56,36 @@ const Write = () => {
   ];
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<string>("");
+  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const handleText = (value: any) => {
-    console.log(value);
     setContent(value);
   };
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    setTitle(e.currentTarget.value);
+  };
+  const handleTag = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTag(e.currentTarget.value);
+  };
+  const handleAddTags = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (tags.indexOf(tag) !== -1) {
+      window.alert("중복된 태그 입니다.");
+      return;
+    }
+    if (tag.length >= 15) {
+      window.alert("태그가 너무 깁니다.");
+      return;
+    }
+    if (tags.length >= 5) {
+      window.alert("태그는 최대 5개 까지 입력이 가능합니다.");
+      return;
+    }
+    setTags([...tags, tag]);
+    setTag("");
+  };
+  const handleRemoveTag = () => {
+    // TODO
+    // 태그 삭제 기능 만들기
   };
 
   const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,8 +95,8 @@ const Write = () => {
       userProfile: "/images/CC",
       title,
       content,
+      tags,
     };
-    console.log(requestForm);
     console.log("I'm Handle Submit ~");
   };
   return (
@@ -101,10 +125,29 @@ const Write = () => {
             placeholder="소중한 당신의 후기를 공유해 주세요."
           />
         </div>
+
+        <TagContainer>
+          <div>
+            {tags.map((tag) => (
+              <span key={tag}># {tag}</span>
+            ))}
+            <input
+              type="text"
+              placeholder="# Tag"
+              className="inputTag"
+              value={tag}
+              onChange={handleTag}
+              size={tag.length}
+            />
+          </div>
+          <button type="button" onClick={handleAddTags}>
+            + 추가
+          </button>
+        </TagContainer>
         <BaseButton
           text="글쓰기"
           bgColor={colors.mainColor}
-          width={34}
+          width={35}
           disabled={content === "" || title === "" || content === "<p><br></p>"}
         />
       </Form>
@@ -117,6 +160,7 @@ export default Write;
 const Container = styled.div``;
 
 const Form = styled.form`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,11 +173,13 @@ const Form = styled.form`
     height: 2rem;
     padding: 1rem 1rem;
     border: solid 1px lightgray;
+
+    &:focus {
+      outline: none;
+      border-color: ${colors.mainColor};
+    }
   }
-  .title:focus {
-    outline: none;
-    border-color: ${colors.mainColor};
-  }
+
   .text-editor {
     width: 90%;
     margin-top: 0.5rem;
@@ -141,7 +187,7 @@ const Form = styled.form`
 
   .ql-container {
     /* min-height: 30rem; */
-    height: 60vh;
+    height: 50vh;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -152,5 +198,46 @@ const Form = styled.form`
     flex: 1;
     overflow-y: hidden;
     width: 100%;
+  }
+`;
+
+const TagContainer = styled.div`
+  /* background-color: red; */
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  width: 80%;
+  bottom: 60px;
+
+  div {
+    flex: 9;
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+
+    span {
+      margin-top: 0.3rem;
+      padding: 0.4rem;
+      font-size: 1.4rem;
+      color: #444;
+    }
+
+    .inputTag {
+      min-width: 3.5rem;
+      border: none;
+      font-size: 1.3rem;
+      padding: 0.5rem 0rem;
+      &:focus {
+        outline: none;
+        border-color: ${colors.mainColor};
+      }
+    }
+  }
+
+  button {
+    flex: 1.2;
+    border: none;
+    background-color: transparent;
   }
 `;
