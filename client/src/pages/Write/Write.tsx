@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dialog from "src/components/Dialog/Dialog";
 import "react-quill/dist/quill.snow.css";
@@ -64,10 +64,14 @@ const Write = () => {
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
   };
+
   const handleTag = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTag(e.currentTarget.value);
   };
+
   const handleAddTags = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    // TODO
+    // Tag Validation Check !!
     if (tags.indexOf(tag) !== -1) {
       window.alert("중복된 태그 입니다.");
       return;
@@ -83,9 +87,12 @@ const Write = () => {
     setTags([...tags, tag]);
     setTag("");
   };
-  const handleRemoveTag = () => {
-    // TODO
-    // 태그 삭제 기능 만들기
+  const handleRemoveTag = (tag: string) => {
+    const findIndex = tags.indexOf(tag);
+    if (findIndex !== -1) {
+      const tagFilter = tags.filter((tagItem) => tagItem !== tag);
+      setTags(tagFilter);
+    }
   };
 
   const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -129,7 +136,13 @@ const Write = () => {
         <TagContainer>
           <div>
             {tags.map((tag) => (
-              <span key={tag}># {tag}</span>
+              <span
+                key={tag}
+                onClick={(e) => handleRemoveTag(tag)}
+                aria-hidden="true"
+              >
+                # {tag}
+              </span>
             ))}
             <input
               type="text"
@@ -186,7 +199,7 @@ const Form = styled.form`
   }
 
   .ql-container {
-    /* min-height: 30rem; */
+    min-height: 50rem;
     height: 50vh;
     flex: 1;
     display: flex;
@@ -202,13 +215,13 @@ const Form = styled.form`
 `;
 
 const TagContainer = styled.div`
-  /* background-color: red; */
+  background-color: white;
   position: absolute;
   display: flex;
   justify-content: space-between;
   margin-top: 0.5rem;
-  width: 80%;
-  bottom: 60px;
+  width: 89%;
+  bottom: 57px;
 
   div {
     flex: 9;
@@ -228,6 +241,7 @@ const TagContainer = styled.div`
       border: none;
       font-size: 1.3rem;
       padding: 0.5rem 0rem;
+      padding-left: 1rem;
       &:focus {
         outline: none;
         border-color: ${colors.mainColor};
