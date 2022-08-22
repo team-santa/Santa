@@ -1,16 +1,15 @@
 package com.developer.santa.api.domain.course;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 
-@Entity
 @Getter
 @Setter
+@ToString
+@Entity
+@AllArgsConstructor
 @NoArgsConstructor
 public class Course {
     @Id

@@ -116,9 +116,7 @@ public class ApiService {
                     return response.bodyToMono(String.class);
                 });
 
-        JSONObject jsonObject = new JSONObject(mono.block());
-
-        JSONArray parsingval = jsonObject
+        JSONArray parsingval = new JSONObject(mono.block())
                 .getJSONObject("response")
                 .getJSONObject("result")
                 .getJSONObject("featureCollection")
