@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Mountain {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
@@ -22,6 +23,12 @@ public class Mountain {
 //    //local
 //    @ManyToOne
 //
-//    //load
+//    //course
 //    @OneToMany
+
+    @Builder
+    public Mountain(String MountainName){
+        this.mountainName = MountainName;
+    }
+
 }
