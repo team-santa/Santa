@@ -1,5 +1,7 @@
 package com.developer.santa.api.service;
 
+import com.developer.santa.api.domain.batchdata.BatchData;
+import com.developer.santa.api.domain.batchdata.BatchRepository;
 import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseDTO;
 import com.developer.santa.api.domain.course.CourseRepository;
@@ -42,6 +44,7 @@ public class ApiService {
     private final MountainRepository mountainRepository;
     private final LocalRepository localRepository;
     private final CourseRepository courseRepository;
+    private final BatchRepository batchRepository;
 
 
     public String connectApi(String geomFilter, String crs, int page, int size) {
@@ -71,17 +74,12 @@ public class ApiService {
                 .exchangeToMono(response -> {
                     return response.bodyToMono(String.class);
                 });
-//        for (Object o: parsingval){
-//            JSONObject obj = (JSONObject) o;
-//            Object location = obj
-//                    .getJSONObject("geometry")
-//                    .getJSONArray("coordinates")
-//                    .getJSONArray(0)
-//                    .getJSONArray(0);
-//            System.out.println(location);
-//            String mountain = obj.getJSONObject("properties").getString("mntn_nm");
-//            System.out.println(mountain);
-//        }
+
+        String reqUrl = "/req/data?service=data&request=GetFeature&data=LT_L_FRSTCLIMB"+"&geomFilter="+geomFilter+"&crs="+crs+"&size="+size+"&page="+page;
+        if(!batchRepository.existsByReqUrl(reqUrl)) {
+            batchRepository.save(new BatchData(reqUrl));
+        }
+
 
     return String.valueOf(
             new JSONObject(mono.block())
@@ -138,17 +136,17 @@ public class ApiService {
                             obj.getJSONObject("properties").getString("sec_len")
                     );
                 });
-    }
-
-
-    public LocalDTO getLocal() {
-        LocalDTO localDTO = new LocalDTO();
-        return localDTO;
-    }
-
-    public CourseDTO getCourse() {
-        CourseDTO courseDTO = new CourseDTO();
-        return courseDTO;
+        //        for (Object o: parsingval){
+//            JSONObject obj = (JSONObject) o;
+//            Object location = obj
+//                    .getJSONObject("geometry")
+//                    .getJSONArray("coordinates")
+//                    .getJSONArray(0)
+//                    .getJSONArray(0);
+//            System.out.println(location);
+//            String mountain = obj.getJSONObject("properties").getString("mntn_nm");
+//            System.out.println(mountain);
+//        }
     }
 
     public void saveLocationAndMountain(String location, String mountain, String level, String courseDistance) {
