@@ -13,6 +13,6 @@ import java.awt.print.Pageable;
 public interface ReviewBoardRepository extends JpaRepository<ReviewBoard,Long> {
     Page<ReviewBoard> findByLocalName(String localName, PageRequest pageRequest);
     Page<ReviewBoard> findByMountainName(String mountainName, PageRequest pageRequest);
-    Page<ReviewBoard> findByCourseName(String courseName, PageRequest pageRequest);
+    Page<ReviewBoard> findBycourseName(String mountainCourseName, PageRequest pageRequest);
 
 }
