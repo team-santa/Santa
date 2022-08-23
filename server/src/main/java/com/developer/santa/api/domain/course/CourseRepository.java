@@ -4,4 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
     Boolean existsByCourseLocation(String courseLocation);
+    Boolean existsByCourseName(String courseName);
 }

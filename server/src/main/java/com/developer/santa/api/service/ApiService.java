@@ -149,7 +149,13 @@ public class ApiService {
 
     public void saveLocationAndMountain(String location, String mountain, String level, String courseDistance) {
         if(!courseRepository.existsByCourseLocation(location)) {
-            courseRepository.save(new Course(mountain+" 등산로", location, level, courseDistance));
+            for (char i=65; i<117; i++){
+                if (i == 91) i+=6;
+                if (!courseRepository.existsByCourseName(mountain+" 등산로 "+i)){
+                    courseRepository.save(new Course(mountain+" 등산로 "+i, location, level, courseDistance));
+                    break;
+                }
+            }
         }
         if(!mountainRepository.existsByMountainName(mountain)) {
             mountainRepository.save(new Mountain(mountain));
