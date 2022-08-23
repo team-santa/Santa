@@ -2,13 +2,11 @@ package com.developer.santa.api.controller;
 
 import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseDTO;
+import com.developer.santa.api.domain.mountain.Mountain;
 import com.developer.santa.api.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,4 +22,10 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCourse());
     }
 
+    @GetMapping("/selection")
+    public ResponseEntity<List<Course>> getSelectCourse(
+            @RequestParam String mountainName
+    ){
+        return ResponseEntity.ok(courseService.getMountainSelectCourse(mountainName));
+    }
 }

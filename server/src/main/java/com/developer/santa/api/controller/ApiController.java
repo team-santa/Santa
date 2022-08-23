@@ -20,8 +20,8 @@ public class ApiController {
 
 
     @GetMapping("/connect")
-    public ResponseEntity<String> connect(@RequestParam String geomFilter, String crs, int page, int size) {
-        return ResponseEntity.ok(apiService.connectApi(geomFilter, crs, page, size));
+    public ResponseEntity<String> connect(@RequestParam String geomFilter, String crs, int page, int size, String localName) {
+        return ResponseEntity.ok(apiService.connectApi(geomFilter, crs, page, size, localName));
     }
 
     @GetMapping("/datacrawling")

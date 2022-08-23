@@ -48,7 +48,7 @@ public class ApiService {
     private final BatchRepository batchRepository;
 
 
-    public String connectApi(String geomFilter, String crs, int page, int size) {
+    public String connectApi(String geomFilter, String crs, int page, int size, String localName) {
 
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
