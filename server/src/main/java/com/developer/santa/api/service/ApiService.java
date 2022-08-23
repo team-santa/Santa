@@ -158,7 +158,7 @@ public class ApiService {
 
         //mountain
         if(!mountainRepository.existsByMountainName(mountain)) {
-            mountainRepository.save(new Mountain(mountain));
+            mountainRepository.save(new Mountain(mountain, localRepository.findByLocalName(localName)));
         }
 
         //course
@@ -166,7 +166,7 @@ public class ApiService {
             for (char i=65; i<117; i++){
                 if (i == 91) i+=6;
                 if (!courseRepository.existsByCourseName(mountain+" 등산로 "+i)){
-                    courseRepository.save(new Course(mountain+" 등산로 "+i, location, level, courseDistance));
+                    courseRepository.save(new Course(mountain+" 등산로 "+i, location, level, courseDistance, mountainRepository.findByMountainName(mountain)));
                     break;
                 }
             }

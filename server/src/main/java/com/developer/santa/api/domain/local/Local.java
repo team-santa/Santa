@@ -2,10 +2,7 @@ package com.developer.santa.api.domain.local;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 
 @Getter
@@ -16,13 +13,13 @@ import javax.persistence.OneToMany;
 @NoArgsConstructor
 public class Local {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "local_id")
+    private Long id;
 
     @Column
     private String localName;
 
-//    //mountain
-//    @OneToMany
     @Builder
     public Local(String localName){
         this.localName = localName;

@@ -1,5 +1,7 @@
 package com.developer.santa.api.domain.course;
 
+import com.developer.santa.api.domain.local.Local;
+import com.developer.santa.api.domain.mountain.Mountain;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,17 +30,18 @@ public class Course {
     @Column
     private String courseDistance;
 
-//    //mountain
-//    @ManyToOne
-//
-//    //review
-//    @OneToMany
+    //mountain
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mountain_id")
+    private Mountain mountain;
+
 
     @Builder
-    public Course(String courseName, String courseLocation, String courseLevel, String courseDistance){
+    public Course(String courseName, String courseLocation, String courseLevel, String courseDistance, Mountain mountain){
         this.courseName = courseName;
         this.courseLocation = courseLocation;
         this.courseLevel = courseLevel;
         this.courseDistance = courseDistance;
+        this.mountain = mountain;
     }
 }

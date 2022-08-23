@@ -1,5 +1,6 @@
 package com.developer.santa.api.domain.mountain;
 
+import com.developer.santa.api.domain.local.Local;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,20 +15,21 @@ public class Mountain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "mountain_id")
+    private Long id;
 
     @Column
     private String mountainName;
 
-//    //local
-//    @ManyToOne
-//
-//    //course
-//    @OneToMany
+    //local
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "local_id")
+    private Local local;
 
     @Builder
-    public Mountain(String MountainName){
+    public Mountain(String MountainName, Local local){
         this.mountainName = MountainName;
+        this.local = local;
     }
 
 }

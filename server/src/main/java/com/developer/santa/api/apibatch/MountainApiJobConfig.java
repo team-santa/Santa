@@ -3,6 +3,8 @@ package com.developer.santa.api.apibatch;
 
 import com.developer.santa.api.domain.batchdata.BatchData;
 import com.developer.santa.api.domain.course.CourseRepository;
+import com.developer.santa.api.domain.local.Local;
+import com.developer.santa.api.domain.local.LocalRepository;
 import com.developer.santa.api.domain.mountain.Mountain;
 import com.developer.santa.api.domain.mountain.MountainRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class MountainApiJobConfig {
     private final EntityManagerFactory entityManagerFactory;
     private final MountainRepository mountainRepository;
     private final CourseRepository courseRepository;
+    private final LocalRepository localRepository;
 
     private static final int chunkSize = 5;
 
@@ -43,7 +46,7 @@ public class MountainApiJobConfig {
 
     @Bean
     public MountainApiProcessor processor(){
-        return new MountainApiProcessor(mountainRepository, courseRepository);
+        return new MountainApiProcessor(mountainRepository, courseRepository, localRepository);
     }
 
     @Bean
@@ -83,7 +86,7 @@ public class MountainApiJobConfig {
 
     private ItemProcessor<BatchData, Mountain> jpaJob_processor(){
         return BatchData -> {
-            return new Mountain("1");
+            return new Mountain();
         };
     }
 

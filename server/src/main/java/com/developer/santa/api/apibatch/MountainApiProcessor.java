@@ -3,13 +3,14 @@ package com.developer.santa.api.apibatch;
 import com.developer.santa.api.domain.batchdata.BatchData;
 import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseRepository;
+import com.developer.santa.api.domain.local.Local;
+import com.developer.santa.api.domain.local.LocalRepository;
 import com.developer.santa.api.domain.mountain.Mountain;
 import com.developer.santa.api.domain.mountain.MountainRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
@@ -26,6 +27,7 @@ public class MountainApiProcessor  implements ItemProcessor<BatchData, List<Moun
 
     private final MountainRepository mountainRepository;
     private final CourseRepository courseRepository;
+    private final LocalRepository localRepository;
 
     @Value("${mapi.key}")
     String key;
@@ -36,9 +38,10 @@ public class MountainApiProcessor  implements ItemProcessor<BatchData, List<Moun
     @Value("${mapi.baseUrl}")
     String baseUrl;
 
-    public MountainApiProcessor(MountainRepository mountainRepository, CourseRepository courseRepository) {
+    public MountainApiProcessor(MountainRepository mountainRepository, CourseRepository courseRepository, LocalRepository localRepository) {
         this.mountainRepository = mountainRepository;
         this.courseRepository = courseRepository;
+        this.localRepository = localRepository;
     }
 
     @Override
@@ -90,10 +93,10 @@ public class MountainApiProcessor  implements ItemProcessor<BatchData, List<Moun
     }
     public void saveLocationAndMountain(String location, String mountain, String level, String courseDistance) {
         if(!courseRepository.existsByCourseLocation(location)) {
-            courseRepository.save(new Course(mountain+" 등산로", location, level, courseDistance));
+            courseRepository.save(new Course(mountain+" 등산로", location, level, courseDistance,new Mountain()));
         }
         if(!mountainRepository.existsByMountainName(mountain)) {
-            mountainRepository.save(new Mountain(mountain));
+            mountainRepository.save(new Mountain(mountain,new Local()));
         }
     }
 }

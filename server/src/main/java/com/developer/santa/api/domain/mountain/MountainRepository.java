@@ -4,4 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MountainRepository extends JpaRepository<Mountain, Long> {
     Boolean existsByMountainName(String mountainName);
+    Mountain findByMountainName(String mountainName);
 }
