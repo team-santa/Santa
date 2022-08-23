@@ -23,4 +23,8 @@ public class Local {
 
 //    //mountain
 //    @OneToMany
+    @Builder
+    public Local(String localName){
+        this.localName = localName;
+    }
 }

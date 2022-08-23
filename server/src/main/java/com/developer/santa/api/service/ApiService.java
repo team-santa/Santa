@@ -5,6 +5,7 @@ import com.developer.santa.api.domain.batchdata.BatchRepository;
 import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseDTO;
 import com.developer.santa.api.domain.course.CourseRepository;
+import com.developer.santa.api.domain.local.Local;
 import com.developer.santa.api.domain.local.LocalDTO;
 import com.developer.santa.api.domain.local.LocalRepository;
 import com.developer.santa.api.domain.mountain.Mountain;
@@ -88,7 +89,7 @@ public class ApiService {
             .getJSONObject("featureCollection"));
     }
 
-    public void dataCrawling(String geomFilter, String crs, int page, int size){
+    public void dataCrawling(String geomFilter, String crs, int page, int size, String localName){
 
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
@@ -131,7 +132,8 @@ public class ApiService {
                                     .getJSONArray(0).getJSONArray(0)),
                             obj.getJSONObject("properties").getString("mntn_nm"),
                             obj.getJSONObject("properties").getString("cat_nam"),
-                            obj.getJSONObject("properties").getString("sec_len")
+                            obj.getJSONObject("properties").getString("sec_len"),
+                            localName
                     );
                 });
         //        for (Object o: parsingval){
@@ -147,7 +149,19 @@ public class ApiService {
 //        }
     }
 
-    public void saveLocationAndMountain(String location, String mountain, String level, String courseDistance) {
+    public void saveLocationAndMountain(String location, String mountain, String level, String courseDistance, String localName) {
+
+        //local
+        if(!localRepository.existsByLocalName(localName)){
+            localRepository.save(new Local(localName));
+        }
+
+        //mountain
+        if(!mountainRepository.existsByMountainName(mountain)) {
+            mountainRepository.save(new Mountain(mountain));
+        }
+
+        //course
         if(!courseRepository.existsByCourseLocation(location)) {
             for (char i=65; i<117; i++){
                 if (i == 91) i+=6;
@@ -156,9 +170,6 @@ public class ApiService {
                     break;
                 }
             }
-        }
-        if(!mountainRepository.existsByMountainName(mountain)) {
-            mountainRepository.save(new Mountain(mountain));
         }
     }
 

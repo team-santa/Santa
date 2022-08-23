@@ -25,8 +25,8 @@ public class ApiController {
     }
 
     @GetMapping("/datacrawling")
-    public void dataCrawling(@RequestParam String geomFilter, String crs, int page, int size) {
-        apiService.dataCrawling(geomFilter, crs, page, size);
+    public void dataCrawling(@RequestParam String geomFilter, String crs, int page, int size, String localName) {
+        apiService.dataCrawling(geomFilter, crs, page, size, localName);
     }
 
 
