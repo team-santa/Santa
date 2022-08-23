@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
 /* eslint-disable react/button-has-type */
+import "react-quill/dist/quill.snow.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dialog from "src/components/Dialog/Dialog";
-import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 import BaseButton from "src/components/BaseButton/BaseButton";
@@ -34,7 +36,6 @@ const CustomToolbar = () => (
 );
 
 const Write = () => {
-  const navigate = useNavigate();
   const modules = {
     toolbar: {
       container: "#toolbar",
@@ -54,38 +55,31 @@ const Write = () => {
     "background",
     "image",
   ];
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<string>("");
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const handleText = (value: any) => {
-    setContent(value);
-  };
-  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value);
-  };
 
-  const handleTag = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleContent = (value: any) => setContent(value);
+
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTitle(e.currentTarget.value);
+
+  const handleTag = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTag(e.currentTarget.value);
-  };
 
   const handleAddTags = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    // TODO
-    // Tag Validation Check !!
-    if (tags.indexOf(tag) !== -1) {
-      window.alert("중복된 태그 입니다.");
-      return;
-    }
-    if (tag.length >= 15) {
-      window.alert("태그가 너무 깁니다.");
-      return;
-    }
-    if (tags.length >= 5) {
-      window.alert("태그는 최대 5개 까지 입력이 가능합니다.");
-      return;
-    }
+    if (tags.indexOf(tag) !== -1) return window.alert("중복된 태그 입니다.");
+    if (tag.length >= 15)
+      return window.alert("태그는 최대 15자 까지 입력해주세요.");
+    if (tags.length >= 5)
+      return window.alert("태그는 최대 5개 까지 입력이 가능합니다.");
+    if (tag.trim().length === 0)
+      return window.alert("공백태그는 입력할 수 없습니다.");
     setTags([...tags, tag]);
     setTag("");
+    return "";
   };
   const handleRemoveTag = (tag: string) => {
     const findIndex = tags.indexOf(tag);
@@ -128,7 +122,7 @@ const Write = () => {
             modules={modules}
             formats={formats}
             value={content}
-            onChange={handleText}
+            onChange={handleContent}
             placeholder="소중한 당신의 후기를 공유해 주세요."
           />
         </div>
