@@ -1,10 +1,27 @@
 package com.developer.santa.api.domain.local;
 
-import javax.persistence.OneToMany;
+import lombok.*;
 
+import javax.persistence.*;
+
+
+@Getter
+@Setter
+@ToString
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Local {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "local_id")
+    private Long id;
+
+    @Column
     private String localName;
-//
-//    //mountain
-//    @OneToMany
+
+    @Builder
+    public Local(String localName){
+        this.localName = localName;
+    }
 }
