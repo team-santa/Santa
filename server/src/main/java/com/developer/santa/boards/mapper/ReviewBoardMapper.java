@@ -9,7 +9,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring")
 public interface ReviewBoardMapper {
 
-
     ReviewBoard reviewBoardPostToReviewBoard(ReviewBoardDto.Post requestBody);
+    ReviewBoard reviewBoardPatchToReviewBoard(ReviewBoardDto.Patch requestBody);
 
 }
