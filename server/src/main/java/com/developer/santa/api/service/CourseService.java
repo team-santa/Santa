@@ -2,6 +2,7 @@ package com.developer.santa.api.service;
 
 import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseDTO;
+import com.developer.santa.api.domain.course.CourseMapper;
 import com.developer.santa.api.domain.course.CourseRepository;
 import com.developer.santa.api.domain.mountain.Mountain;
 import com.developer.santa.api.domain.mountain.MountainRepository;
@@ -16,12 +17,16 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final MountainRepository mountainRepository;
+    private final CourseMapper courseMapper;
 
-    public List<Course> getCourse() {
-        return courseRepository.findAll();
+    public List<CourseDTO> getCourse() {
+        return courseMapper.CourseListToCourseDTOList(courseRepository.findAll());
     }
 
-    public List<Course> getMountainSelectCourse(String mountainName) {
-        return courseRepository.findByMountain(mountainRepository.findByMountainName(mountainName));
+    public List<CourseDTO> getMountainSelectCourse(String mountainName) {
+        return courseMapper.CourseListToCourseDTOList(
+                courseRepository.findByMountain(
+                        mountainRepository.findByMountainName(mountainName)
+                ));
     }
 }
