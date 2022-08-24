@@ -60,7 +60,8 @@ public class SecurityConfig{
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/h2/**").permitAll()
+                .anyRequest().permitAll() // 모든 페이지 접근허용
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint()

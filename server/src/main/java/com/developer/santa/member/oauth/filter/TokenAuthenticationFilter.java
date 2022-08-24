@@ -29,6 +29,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String tokenStr = HeaderUtils.getAccessToken(request);
         AuthToken token = tokenProvider.convertAuthToken(tokenStr);
 
+        log.info("Request: " + request.getPathInfo());
         if (token.validate()) {
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);

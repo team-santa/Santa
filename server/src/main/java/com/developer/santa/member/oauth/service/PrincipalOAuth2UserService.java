@@ -40,7 +40,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-        Member savedUser = memberRepository.findByUserId(userInfo.getId());
+        Member savedUser = memberRepository.findByMemberId(userInfo.getId()).orElse(null);
 
         if (savedUser != null) {
             if (providerType != savedUser.getProviderType()) {
