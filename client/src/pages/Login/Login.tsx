@@ -7,14 +7,7 @@ import styled from "styled-components";
 const url = `http://localhost:8080/oauth2/authorization/{provider-id}?redirect_uri=http://localhost:3000/oauth/redirect`;
 const Login = () => {
   const HandleClick = async (mode: string) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/oauth2/authorization/${mode}?redirect_uri=http://localhost:3000/oauth/redirect`
-      );
-      console.log(response);
-    } catch (err) {
-      throw new Error("Socail Login Access Errors");
-    }
+    window.location.href = `http://localhost:8080/oauth2/authorization/${mode}?redirect_uri=http://localhost:3000/oauth/redirect`;
   };
   return (
     <Container>
