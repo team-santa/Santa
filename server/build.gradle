@@ -19,9 +19,14 @@ repositories {
 }
 
 dependencies {
-	//
+
+	//webClient
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+	//batch
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
+	//json
+	implementation 'org.json:json:20220320'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
