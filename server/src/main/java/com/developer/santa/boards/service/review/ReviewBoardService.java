@@ -28,12 +28,16 @@ public class ReviewBoardService {
         return reviewBoardRepository.findByLocalName(city , PageRequest.of(page,size,
                 Sort.by("reviewBoardId").descending()));
     }
-    public Page<ReviewBoard> findMountainReviewBoards(int page, int size, String city){ // enum으로 전환
-        return reviewBoardRepository.findByMountainName(city , PageRequest.of(page,size,
+    public Page<ReviewBoard> findMountainReviewBoards(int page, int size, String mountain){ // enum으로 전환
+        return reviewBoardRepository.findByMountainName(mountain , PageRequest.of(page,size,
                 Sort.by("reviewBoardId").descending()));
     }
-    public Page<ReviewBoard> findCourseReviewBoards(int page, int size, String city){ // enum으로 전환
-        return reviewBoardRepository.findByCourseName(city , PageRequest.of(page,size,
+    public Page<ReviewBoard> findCourseReviewBoards(int page, int size, String course){ // enum으로 전환
+        return reviewBoardRepository.findByCourseName(course , PageRequest.of(page,size,
+                Sort.by("reviewBoardId").descending()));
+    }
+    public Page<ReviewBoard> findReviewBoards(int page, int size,String city,String mountain, String course){
+        return reviewBoardRepository.findByLocalNameAndMountainNameAndCourseName(city,mountain,course,PageRequest.of(page,size,
                 Sort.by("reviewBoardId").descending()));
     }
 

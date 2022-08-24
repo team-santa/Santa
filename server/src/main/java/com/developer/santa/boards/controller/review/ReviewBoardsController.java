@@ -57,6 +57,18 @@ public class ReviewBoardsController {
 
     }
 
+    @GetMapping("/search")
+    public HttpEntity<?> courseReview(@RequestParam String city,
+                                      @RequestParam String mountain,
+                                      @RequestParam String course,
+                                      @RequestParam int page,
+                                      @RequestParam int size){
+        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findReviewBoards(page - 1, size, city, mountain, course);
+        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
+        return new ResponseEntity<>(reviewBoards, HttpStatus.OK);
+
+    }
+
 
 
     // 조회순
