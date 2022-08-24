@@ -51,78 +51,18 @@ public class ApiService {
 
     public String connectApi(String geomFilter, String crs, int page, int size, String localName) {
 
-        HttpClient httpClient = HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
-                .responseTimeout(Duration.ofMillis(3000))
-                .doOnConnected(conn ->
-                        conn.addHandlerLast(new ReadTimeoutHandler(3000, TimeUnit.MILLISECONDS))
-                                .addHandlerLast(new WriteTimeoutHandler(3000, TimeUnit.MILLISECONDS)));
-
-        Mono<String> mono = WebClient.builder().baseUrl(baseUrl)
-                .clientConnector(new ReactorClientHttpConnector(httpClient))
-                .build().get()
-                .uri(builder -> builder.path("/req/data")
-                        .queryParam("service", "data")
-                        .queryParam("request", "GetFeature")
-                        .queryParam("data", "LT_L_FRSTCLIMB")
-                        .queryParam("key",key)
-                        .queryParam("domain", domain)
-                        .queryParam("geomFilter", geomFilter)
-                        .queryParam("crs", crs)
-                        .queryParam("size", size)
-                        .queryParam("page", page)
-                        .build()
-                )
-                .exchangeToMono(response -> {
-                    return response.bodyToMono(String.class);
-                });
-
         String reqUrl = "/req/data?service=data&request=GetFeature&data=LT_L_FRSTCLIMB"+"&geomFilter="+geomFilter+"&crs="+crs+"&size="+size+"&page="+page;
+
         if(!batchRepository.existsByReqUrl(reqUrl)) {
             batchRepository.save(new BatchData(reqUrl));
         }
 
-
-    return String.valueOf(
-            new JSONObject(mono.block())
-            .getJSONObject("response")
-            .getJSONObject("result")
-            .getJSONObject("featureCollection"));
+    return String.valueOf(webClientApi(geomFilter, crs, page, size, localName));
     }
 
     public void dataCrawling(String geomFilter, String crs, int page, int size, String localName){
 
-        HttpClient httpClient = HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
-                .responseTimeout(Duration.ofMillis(3000))
-                .doOnConnected(conn ->
-                        conn.addHandlerLast(new ReadTimeoutHandler(3000, TimeUnit.MILLISECONDS))
-                                .addHandlerLast(new WriteTimeoutHandler(3000, TimeUnit.MILLISECONDS)));
-
-        Mono<String> mono = WebClient.builder().baseUrl(baseUrl)
-                .clientConnector(new ReactorClientHttpConnector(httpClient))
-                .build().get()
-                .uri(builder -> builder.path("/req/data")
-                        .queryParam("service", "data")
-                        .queryParam("request", "GetFeature")
-                        .queryParam("data", "LT_L_FRSTCLIMB")
-                        .queryParam("key",key)
-                        .queryParam("domain", domain)
-                        .queryParam("geomFilter", geomFilter)
-                        .queryParam("crs", crs)
-                        .queryParam("size", size)
-                        .queryParam("page", page)
-                        .build()
-                )
-                .exchangeToMono(response -> {
-                    return response.bodyToMono(String.class);
-                });
-
-        JSONArray parsingval = new JSONObject(mono.block())
-                .getJSONObject("response")
-                .getJSONObject("result")
-                .getJSONObject("featureCollection")
-                .getJSONArray("features");
+        JSONArray parsingval = webClientApi(geomFilter, crs, page, size, localName).getJSONArray("features");
 
         IntStream.range(0, parsingval.length())
                 .mapToObj(index -> (JSONObject) parsingval.get(index))
@@ -172,6 +112,39 @@ public class ApiService {
                 }
             }
         }
+    }
+
+    public JSONObject webClientApi(String geomFilter, String crs, int page, int size, String localName){
+        HttpClient httpClient = HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
+                .responseTimeout(Duration.ofMillis(3000))
+                .doOnConnected(conn ->
+                        conn.addHandlerLast(new ReadTimeoutHandler(3000, TimeUnit.MILLISECONDS))
+                                .addHandlerLast(new WriteTimeoutHandler(3000, TimeUnit.MILLISECONDS)));
+
+        Mono<String> mono = WebClient.builder().baseUrl(baseUrl)
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
+                .build().get()
+                .uri(builder -> builder.path("/req/data")
+                        .queryParam("service", "data")
+                        .queryParam("request", "GetFeature")
+                        .queryParam("data", "LT_L_FRSTCLIMB")
+                        .queryParam("key",key)
+                        .queryParam("domain", domain)
+                        .queryParam("geomFilter", geomFilter)
+                        .queryParam("crs", crs)
+                        .queryParam("size", size)
+                        .queryParam("page", page)
+                        .build()
+                )
+                .exchangeToMono(response -> {
+                    return response.bodyToMono(String.class);
+                });
+
+        return new JSONObject(mono.block())
+                .getJSONObject("response")
+                .getJSONObject("result")
+                .getJSONObject("featureCollection");
     }
 
 
