@@ -76,7 +76,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User, OidcUser {
 
     public static PrincipalDetails create(Member user) {
         return new PrincipalDetails(
-                user.getUserId(),
+                user.getMemberId(),
                 user.getPassword(),
                 user.getProviderType(),
                 RoleType.USER,
