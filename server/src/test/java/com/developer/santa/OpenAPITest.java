@@ -1,7 +1,7 @@
 package com.developer.santa;
 
 
-import com.developer.santa.api.apiService.ApiService;
+import com.developer.santa.api.service.ApiService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
