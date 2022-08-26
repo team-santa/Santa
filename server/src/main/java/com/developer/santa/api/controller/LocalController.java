@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/local")
 @RequiredArgsConstructor
@@ -16,9 +18,9 @@ public class LocalController {
 
     private final LocalService localService;
 
+    //todo page
     @GetMapping("")
-    public ResponseEntity<LocalDTO> getLocal(){
-        LocalDTO local = localService.getLocal();
-        return ResponseEntity.ok(local);
+    public ResponseEntity<List<LocalDTO>> getLocal(){
+        return ResponseEntity.ok(localService.getLocal());
     }
 }

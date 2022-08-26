@@ -17,6 +17,7 @@ public class CourseController {
 
     private final CourseService courseService;
 
+    //todo page
     @GetMapping("")
     public ResponseEntity<List<CourseDTO>> getCourse(){
         return ResponseEntity.ok(courseService.getCourse());

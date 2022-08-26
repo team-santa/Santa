@@ -6,5 +6,5 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CourseMapper {
-    List<CourseDTO> CourseListToCourseDTOList(List<Course> course);
+    List<CourseDTO> CourseListToCourseDTOList(List<Course> courses);
 }

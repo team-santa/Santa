@@ -4,7 +4,9 @@ import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseDTO;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface MountainMapper {
-    MountainDTO MountainToMountainDTO(Mountain mountain);
+    List<MountainDTO> MountainListToMountainDTOList(List<Mountain> mountains);
 }
