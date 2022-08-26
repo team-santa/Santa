@@ -29,4 +29,9 @@ public class CourseController {
     ){
         return ResponseEntity.ok(courseService.getMountainSelectCourse(mountainName));
     }
+
+    @GetMapping("/{course}")
+    public ResponseEntity<Course> getDetailCourse(@PathVariable String course){
+        return ResponseEntity.ok(courseService.getDetailCourse(course));
+    }
 }

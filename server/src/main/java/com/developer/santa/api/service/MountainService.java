@@ -30,4 +30,8 @@ public class MountainService {
                 mountainRepository.findByLocal(
                         localRepository.findByLocalName(localName)));
     }
+
+    public Mountain getDetailMountain(String mountain) {
+        return mountainRepository.findByMountainName(mountain);
+    }
 }

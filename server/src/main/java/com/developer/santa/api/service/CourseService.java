@@ -19,14 +19,20 @@ public class CourseService {
     private final MountainRepository mountainRepository;
     private final CourseMapper courseMapper;
 
+
     public List<CourseDTO> getCourse() {
         return courseMapper.CourseListToCourseDTOList(courseRepository.findAll());
     }
+
 
     public List<CourseDTO> getMountainSelectCourse(String mountainName) {
         return courseMapper.CourseListToCourseDTOList(
                 courseRepository.findByMountain(
                         mountainRepository.findByMountainName(mountainName)
                 ));
+    }
+
+    public Course getDetailCourse(String courseName){
+        return courseRepository.findByCourseName(courseName);
     }
 }
