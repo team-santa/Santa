@@ -72,8 +72,8 @@ const Write = () => {
 
   useEffect(() => {
     // TODO!
-    // tag가 바뀔때 마다 서버에서 데이터를 받아와서 setTag로 데이터 바꿔주기
-    // setTimeOut 걸어서 서버 과부하 줄여주기
+    // 1.tag가 바뀔때 마다 서버에서 데이터를 받아와서 setTag로 데이터 바꿔주기
+    // 2.setTimeOut 걸어서 서버 과부하 줄여주기
   }, [tag]);
   return (
     <Container>
