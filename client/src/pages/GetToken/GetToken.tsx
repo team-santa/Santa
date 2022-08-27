@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { setCookie } from "src/utils/cookie";
 
 /*
 - Oauth 로그인시 토큰이 url에 담겨서 오기 때문에 url에 있는 token을 빼서 저장하고 
@@ -7,13 +8,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
   // TODO : 저장을 어디에 해야할까 ?? 쿠키 ? 
 */
 const GetToken = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(searchParams, searchParams.get("token"));
-    if (searchParams.get("token")) {
-      navigate("/main");
-    }
+    // Token을 빼서 쿠키에 저장 하는 로직 추가해야함
+    const token = searchParams.get("token");
+    if (token) setCookie("token", token);
+    navigate("/main");
   });
   return <div>GetToken</div>;
 };
