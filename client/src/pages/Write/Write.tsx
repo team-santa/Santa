@@ -1,65 +1,32 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 /* eslint-disable react/button-has-type */
 import "react-quill/dist/quill.snow.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dialog from "src/components/Dialog/Dialog";
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 import BaseButton from "src/components/BaseButton/BaseButton";
 import { colors } from "src/utils/colors";
-
-const CustomToolbar = () => (
-  <div id="toolbar">
-    <select className="ql-size">
-      <option value="small">Size 1</option>
-      <option value="extra-small">Size 2</option>
-      <option value="medium">Size 3</option>
-      <option value="large">Size 4</option>
-    </select>
-    <button className="ql-bold" />
-    <button className="ql-italic" />
-    <select className="ql-color">
-      <option value="red" />
-      <option value="green" />
-      <option value="blue" />
-      <option value="orange" />
-      <option value="violet" />
-      <option value="#d0d1d2" />
-      <option value="black" />
-    </select>
-    <select className="ql-background" />
-    <button className="ql-link" />
-    <button className="ql-image" />
-  </div>
-);
+import CustomToolbar, { formats, modules } from "./CustomToolbar";
 
 const Write = () => {
-  const modules = {
-    toolbar: {
-      container: "#toolbar",
-    },
-  };
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "list",
-    "bullet",
-    "align",
-    "color",
-    "background",
-    "image",
-  ];
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<string>("");
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [options, setOption] = useState([
+    "무등산",
+    "광릉산",
+    "화덕산",
+    "계룡산",
+    "마찰산",
+  ]);
 
   const handleContent = (value: any) => setContent(value);
 
@@ -67,9 +34,10 @@ const Write = () => {
     setTitle(e.currentTarget.value);
 
   const handleTag = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTag(e.currentTarget.value);
+    setTag(e.target.value);
 
-  const handleAddTags = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddTags = async (tag: string) => {
+    console.log(tag);
     if (tags.indexOf(tag) !== -1) return window.alert("중복된 태그 입니다.");
     if (tag.length >= 15)
       return window.alert("태그는 최대 15자 까지 입력해주세요.");
@@ -81,6 +49,7 @@ const Write = () => {
     setTag("");
     return "";
   };
+
   const handleRemoveTag = (tag: string) => {
     const findIndex = tags.indexOf(tag);
     if (findIndex !== -1) {
@@ -100,6 +69,12 @@ const Write = () => {
     };
     console.log("I'm Handle Submit ~");
   };
+
+  useEffect(() => {
+    // TODO!
+    // tag가 바뀔때 마다 서버에서 데이터를 받아와서 setTag로 데이터 바꿔주기
+    // setTimeOut 걸어서 서버 과부하 줄여주기
+  }, [tag]);
   return (
     <Container>
       {true || (
@@ -116,17 +91,6 @@ const Write = () => {
           value={title}
           onChange={handleTitle}
         />
-        <div className="text-editor">
-          <CustomToolbar />
-          <ReactQuill
-            modules={modules}
-            formats={formats}
-            value={content}
-            onChange={handleContent}
-            placeholder="소중한 당신의 후기를 공유해 주세요."
-          />
-        </div>
-
         <TagContainer>
           <div>
             {tags.map((tag) => (
@@ -144,13 +108,36 @@ const Write = () => {
               className="inputTag"
               value={tag}
               onChange={handleTag}
-              size={tag.length}
+              // size={tag.length}
+              onClick={() => setIsOpen(true)}
             />
           </div>
-          <button type="button" onClick={handleAddTags}>
-            + 추가
-          </button>
         </TagContainer>
+        {isOpen ? (
+          <DropBox>
+            {options.map((option) => (
+              <span
+                key={option}
+                onClick={() => {
+                  handleAddTags(option);
+                  setIsOpen(false);
+                }}
+              >
+                {option}
+              </span>
+            ))}
+          </DropBox>
+        ) : null}
+        <div className="text-editor">
+          <CustomToolbar />
+          <ReactQuill
+            modules={modules}
+            formats={formats}
+            value={content}
+            onChange={handleContent}
+            placeholder="소중한 당신의 후기를 공유해 주세요."
+          />
+        </div>
         <BaseButton
           text="글쓰기"
           bgColor={colors.mainColor}
@@ -164,7 +151,9 @@ const Write = () => {
 
 export default Write;
 
-const Container = styled.div``;
+const Container = styled.div`
+  overflow-y: scroll;
+`;
 
 const Form = styled.form`
   position: relative;
@@ -209,8 +198,7 @@ const Form = styled.form`
 `;
 
 const TagContainer = styled.div`
-  background-color: white;
-  position: absolute;
+  border: solid 1px grey;
   display: flex;
   justify-content: space-between;
   margin-top: 0.5rem;
@@ -218,7 +206,6 @@ const TagContainer = styled.div`
   bottom: 57px;
 
   div {
-    flex: 9;
     display: flex;
     text-align: center;
     flex-wrap: wrap;
@@ -231,7 +218,6 @@ const TagContainer = styled.div`
     }
 
     .inputTag {
-      min-width: 3.5rem;
       border: none;
       font-size: 1.3rem;
       padding: 0.5rem 0rem;
@@ -242,10 +228,25 @@ const TagContainer = styled.div`
       }
     }
   }
+`;
 
-  button {
-    flex: 1.2;
-    border: none;
-    background-color: transparent;
+const DropBox = styled.div`
+  position: absolute;
+  background-color: red;
+  width: 90%;
+  height: 20rem;
+  z-index: 2;
+  top: 80px;
+  background-color: white;
+  border: solid 1px lightgray;
+  overflow: scroll;
+
+  span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    border-bottom: solid 1px lightgray;
   }
 `;
