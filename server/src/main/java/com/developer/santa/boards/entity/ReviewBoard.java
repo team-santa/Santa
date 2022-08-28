@@ -20,7 +20,7 @@ public class ReviewBoard {
     private Long reviewBoardId;
 
     @ManyToOne
-    @JoinColumn(name ="user_name")
+    @JoinColumn(name ="username")
     private Member nickName;
 
     @Column(length = 20, nullable = false)// 추후 enum으로 표현

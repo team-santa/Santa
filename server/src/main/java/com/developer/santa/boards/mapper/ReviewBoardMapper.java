@@ -13,7 +13,14 @@ public interface ReviewBoardMapper {
     ReviewBoard reviewBoardPostToReviewBoard(ReviewBoardRequestDto.Post requestBody);
     ReviewBoard reviewBoardPatchToReviewBoard(ReviewBoardRequestDto.Patch requestBody);
 
-    ReviewBoardResponseDto.Page reviewBoardToPage(ReviewBoard reviewBoard);
+    default ReviewBoardResponseDto.Page reviewBoardToPage(ReviewBoard reviewBoard){
+        ReviewBoardResponseDto.Page reviewPage =new ReviewBoardResponseDto.Page();
+        reviewPage.setReviewBoardId(reviewBoard.getReviewBoardId());
+        reviewPage.setNickName(reviewBoard.getNickName());
+        reviewPage.setTitle(reviewBoard.getTitle());
+        reviewPage.setPhoto(reviewBoard.getPhoto());
+        return reviewPage;
+    };
     List<ReviewBoardResponseDto.Page> reviewBoardListToPages(List<ReviewBoard> reviewBoards);
 
 

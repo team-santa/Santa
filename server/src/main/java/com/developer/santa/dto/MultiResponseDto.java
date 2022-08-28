@@ -1,10 +1,12 @@
 package com.developer.santa.dto;
 
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
 
+@Getter
 public class MultiResponseDto {
     private List<?> data;
 
