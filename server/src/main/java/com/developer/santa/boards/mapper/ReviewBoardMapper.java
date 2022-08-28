@@ -1,15 +1,20 @@
 package com.developer.santa.boards.mapper;
 
-import com.developer.santa.boards.dto.ReviewBoardDto;
+import com.developer.santa.boards.dto.ReviewBoardRequestDto;
+import com.developer.santa.boards.dto.ReviewBoardResponseDto;
 import com.developer.santa.boards.entity.ReviewBoard;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ReviewBoardMapper {
 
-    ReviewBoard reviewBoardPostToReviewBoard(ReviewBoardDto.Post requestBody);
-    ReviewBoard reviewBoardPatchToReviewBoard(ReviewBoardDto.Patch requestBody);
+    ReviewBoard reviewBoardPostToReviewBoard(ReviewBoardRequestDto.Post requestBody);
+    ReviewBoard reviewBoardPatchToReviewBoard(ReviewBoardRequestDto.Patch requestBody);
+
+    ReviewBoardResponseDto.Page reviewBoardToPage(ReviewBoard reviewBoard);
+    List<ReviewBoardResponseDto.Page> reviewBoardListToPages(List<ReviewBoard> reviewBoards);
+
 
 }
