@@ -2,7 +2,6 @@ package com.developer.santa.tag.entity;
 
 
 import com.developer.santa.boards.entity.ReviewBoard;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,6 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class TagSelect {
 
     @Id
@@ -22,11 +20,11 @@ public class TagSelect {
     private Long tagSelectId;
 
     @ManyToOne
-    @JoinColumn(name = "review_board_id")
+    @JoinColumn(name = "REVIEW_BOARD_ID")
     private ReviewBoard reviewBoard;
 
     @ManyToOne
-    @JoinColumn(name = "tag_id")
+    @JoinColumn(name = "TAG_ID")
     private Tag tag;
 
     public void addReviewBoard(ReviewBoard reviewBoard){

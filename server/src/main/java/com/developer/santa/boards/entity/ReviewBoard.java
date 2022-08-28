@@ -1,7 +1,7 @@
 package com.developer.santa.boards.entity;
 
 import com.developer.santa.member.entity.Member;
-import com.developer.santa.tag.dto.TagSelectDto;
+
 import com.developer.santa.tag.entity.TagSelect;
 import lombok.*;
 
@@ -40,7 +40,7 @@ public class ReviewBoard {
     @Column(length = 100)
     private String photo; //BLob
 
-    @OneToMany(mappedBy = "TagSelect")
+    @OneToMany(mappedBy = "reviewBoard")
     private List<TagSelect> tagSelects;
 
     @Builder

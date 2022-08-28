@@ -1,15 +1,13 @@
 package com.developer.santa.tag.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.List;
 
 
@@ -26,7 +24,7 @@ public class Tag {
     @Column(length = 100, nullable = false)
     private String tagName;
 
-    @OneToMany(mappedBy = "TagSelect")
+    @OneToMany(mappedBy = "tag")
     private List<TagSelect> tagSelects;
 
 
