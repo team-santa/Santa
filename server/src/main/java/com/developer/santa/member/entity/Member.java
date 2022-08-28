@@ -1,17 +1,19 @@
 package com.developer.santa.member.entity;
 
+import com.developer.santa.audit.Auditable;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-public class Member {
+public class Member extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +31,6 @@ public class Member {
     @Column(length = 50, nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
     @Column(nullable = true)
     private String profileImageUrl;
 
@@ -43,12 +42,11 @@ public class Member {
     @Column(nullable = false)
     private RoleType roleType;
 
-    public Member(String memberId, String username, String email, LocalDateTime createdAt, String profileImageUrl, ProviderType providerType, RoleType roleType) {
+    public Member(String memberId, String username, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;
         this.username = username;
         this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
-        this.createdAt = createdAt;
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;
         this.roleType = roleType;
