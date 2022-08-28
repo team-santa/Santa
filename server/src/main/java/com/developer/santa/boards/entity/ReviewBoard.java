@@ -59,4 +59,8 @@ public class ReviewBoard {
             tagSelect.addReviewBoard(this);
         }
     }
+
+    public void setNickName(Member nickName) {
+        this.nickName = nickName;
+    }
 }
