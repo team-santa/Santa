@@ -26,11 +26,16 @@ public class Tag {
     @Column(length = 100, nullable = false)
     private String tagName;
 
-    @OneToMany(mappedBy = "tag")
-    @JsonBackReference //순환참조 방지
+    @OneToMany(mappedBy = "TagSelect")
+    private List<TagSelect> tagSelects;
 
-    private List<TagSelect> tagSelects = new ArrayList<>();
 
+    public void addTagSelect(TagSelect tagSelect){
+        this.tagSelects.add(tagSelect);
+        if(tagSelect.getTag() != this){
+            tagSelect.addTag(this);
+        }
+    }
 }
 
 

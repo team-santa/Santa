@@ -22,14 +22,24 @@ public class TagSelect {
     private Long tagSelectId;
 
     @ManyToOne
-    @JsonManagedReference // 순환참조 방지
     @JoinColumn(name = "review_board_id")
     private ReviewBoard reviewBoard;
 
     @ManyToOne
-    @JsonManagedReference // 순환참조 방지
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
+    public void addReviewBoard(ReviewBoard reviewBoard){
+        this.reviewBoard = reviewBoard;
+        if(!this.reviewBoard.getTagSelect().contains(this)){
+            this.reviewBoard.getTagSelect().add(this);
+        }
+    }
+    public void addTag(Tag tag){
+        this.tag =tag;
+        if(this.tag.getTagSelects().contains(this)){
+            this.tag.getTagSelects().add(this);
+        }
+    }
 
 }

@@ -20,6 +20,7 @@ public class Member {
     @Column(length = 100, unique = true, nullable = false)
     private String memberId;
 
+    @OneToMany(mappedBy = "ReviewBoard")
     @Column(length = 30, unique = true, nullable = false)
     private String username;
 
