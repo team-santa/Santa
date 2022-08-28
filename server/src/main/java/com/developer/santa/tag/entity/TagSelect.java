@@ -31,8 +31,8 @@ public class TagSelect {
 
     public void addReviewBoard(ReviewBoard reviewBoard){
         this.reviewBoard = reviewBoard;
-        if(!this.reviewBoard.getTagSelect().contains(this)){
-            this.reviewBoard.getTagSelect().add(this);
+        if(!this.reviewBoard.getTagSelects().contains(this)){
+            this.reviewBoard.getTagSelects().add(this);
         }
     }
     public void addTag(Tag tag){
