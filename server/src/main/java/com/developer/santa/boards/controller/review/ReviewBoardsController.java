@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,23 +69,24 @@ public class ReviewBoardsController {
     }
 
     @GetMapping("/search")
-    public HttpEntity<?> courseReview(@RequestParam String city,
-                                      @RequestParam String mountain,
-                                      @RequestParam String course,
+    public HttpEntity<?> courseReview(@RequestParam(required = false) String city,
+                                      @RequestParam(required = false) String mountain,
+                                      @RequestParam(required = false) String course,
                                       @RequestParam int page,
                                       @RequestParam int size) {
-        Specification<ReviewBoard> spec = (root, query, criteriaBuilder) -> null;
-        spec.and(ReviewBoardSpecification.equalLocalName(city));
-        spec.and(ReviewBoardSpecification.equalMountainName(mountain));
-        spec.and(ReviewBoardSpecification.equalCourseName(course));
-        List<ReviewBoard> all = reviewBoardRepository.findAll(spec);
 
-//        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findReviewBoards(page - 1, size, city, mountain, course);
-//        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
+        Map<String, Object> spec = new HashMap<>();
+        if (city != null)
+            spec.put("localName" , city);
+        if (mountain != null)
+            spec.put("mountainName", mountain);
+        if (course != null)
+            spec.put("courseName", course);
+
+        Specification<ReviewBoard> search = ReviewBoardSpecification.search(spec);
+        List<ReviewBoard> all = reviewBoardRepository.findAll(search);
         return new ResponseEntity<>(all, HttpStatus.OK);
     }
-
-
 
 
 }
