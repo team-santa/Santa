@@ -24,13 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("review/boards")
+@RequestMapping("/v1/reviewBoards")
 @RequiredArgsConstructor
 public class ReviewBoardsController {
     // 최신순조회
     private final ReviewBoardService reviewBoardService;
     private final ReviewBoardMapper mapper;
-
 
     @GetMapping
     public HttpEntity<?> courseReview(@RequestParam(required = false) String city,
