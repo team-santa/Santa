@@ -22,7 +22,7 @@ public class Member extends Auditable {
     @Column(length = 100, unique = true, nullable = false)
     private String memberId;
 
-    @Column(length = 30, unique = true, nullable = false)
+    @Column(length = 30, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -42,9 +42,8 @@ public class Member extends Auditable {
     @Column(nullable = false)
     private RoleType roleType;
 
-    public Member(String memberId, String username, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
+    public Member(String memberId, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;
-        this.username = username;
         this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";

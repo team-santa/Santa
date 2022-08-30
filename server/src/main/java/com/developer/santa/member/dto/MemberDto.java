@@ -20,4 +20,17 @@ public class MemberDto {
 
         private String profileImageUrl;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Put {
+
+        @NotBlank
+        private String username;
+
+        @Email
+        private String email;
+
+        private String profileImageUrl;
+    }
 }

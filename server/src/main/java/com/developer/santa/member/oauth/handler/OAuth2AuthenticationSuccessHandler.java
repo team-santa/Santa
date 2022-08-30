@@ -1,6 +1,7 @@
 package com.developer.santa.member.oauth.handler;
 
 import com.developer.santa.member.config.properties.AppProperties;
+import com.developer.santa.member.entity.Member;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
 import com.developer.santa.member.oauth.info.OAuth2UserInfo;
@@ -8,6 +9,7 @@ import com.developer.santa.member.oauth.info.OAuth2UserInfoFactory;
 import com.developer.santa.member.oauth.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.developer.santa.member.oauth.token.AuthToken;
 import com.developer.santa.member.oauth.token.AuthTokenProvider;
+import com.developer.santa.member.repository.MemberRepository;
 import com.developer.santa.utils.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -38,6 +40,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final HttpCookieOAuth2AuthorizationRequestRepository authorizationRequestRepository;
     private final AuthTokenProvider tokenProvider;
 
+    private final MemberRepository memberRepository;
 
 
     @Override
@@ -73,6 +76,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         RoleType roleType = hasAuthority(authorities, RoleType.ADMIN.getCode()) ? RoleType.ADMIN : RoleType.USER;
 
+        Member member = memberRepository.findByMemberId(userInfo.getId()).orElse(null);
+
         Date now = new Date();
         AuthToken accessToken = tokenProvider.createAuthToken(
                 userInfo.getId(),
@@ -82,6 +87,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", accessToken.getToken())
+                .queryParam("signup", member.getUsername() == null)
                 .build().toUriString();
     }
 
