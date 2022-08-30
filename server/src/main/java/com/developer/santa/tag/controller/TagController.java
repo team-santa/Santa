@@ -1,6 +1,7 @@
 package com.developer.santa.tag.controller;
 
 import com.developer.santa.tag.entity.Tag;
+import com.developer.santa.tag.mapper.TagMapper;
 import com.developer.santa.tag.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TagController {
     private final TagService tagService;
-
+    private final TagMapper mapper;
     @GetMapping
     public ResponseEntity<?> tagSearch(@RequestParam String text){
         Map<String, Object> spec = new HashMap<>();
@@ -31,7 +32,7 @@ public class TagController {
         Page<Tag> tagPage = tagService.findTags(0, spec);
         List<Tag> tags = tagPage.getContent();
 
-        return new ResponseEntity<>(tags, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.tagListToRecommendList(tags), HttpStatus.OK);
 
 
     }
