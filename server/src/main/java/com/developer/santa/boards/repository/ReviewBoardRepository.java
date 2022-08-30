@@ -9,10 +9,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 
 public interface ReviewBoardRepository extends JpaRepository<ReviewBoard,Long> , JpaSpecificationExecutor<ReviewBoard> {
-    Page<ReviewBoard> findByLocalName(String localName, PageRequest pageRequest);
-    Page<ReviewBoard> findByMountainName(String mountainName, PageRequest pageRequest);
-    Page<ReviewBoard> findByCourseName(String courseName, PageRequest pageRequest);
-
-    Page<ReviewBoard> findByLocalNameAndMountainNameAndCourseName(String localName,String mountainName,String courseName, PageRequest pageRequest);
 
 }

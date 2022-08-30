@@ -39,7 +39,6 @@ public class ReviewBoardsController {
                                       @RequestParam int page) {
 
 
-
         Map<String, Object> spec = new HashMap<>();
         if (city != null)
             spec.put("localName" , city);
