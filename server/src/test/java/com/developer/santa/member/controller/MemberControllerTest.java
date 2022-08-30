@@ -71,7 +71,7 @@ class MemberControllerTest {
     void getMember() throws Exception {
 
         String memberId = "1";
-        Member member = new Member(memberId, "testUser", "testEmail@email.com", "profileImageUrl", ProviderType.KAKAO, RoleType.USER);
+        Member member = new Member(memberId, "testEmail@email.com", "profileImageUrl", ProviderType.KAKAO, RoleType.USER);
         MemberDto.Response response = new MemberDto.Response("testUser", "testEmail@email.com", "profileImageUrl");
 
         given(memberService.findMember(Mockito.anyString())).willReturn(new Member());
