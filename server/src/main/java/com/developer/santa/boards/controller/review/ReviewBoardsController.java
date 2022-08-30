@@ -1,9 +1,11 @@
 package com.developer.santa.boards.controller.review;
 
 import com.developer.santa.boards.entity.ReviewBoard;
+import com.developer.santa.boards.mapper.ReviewBoardMapper;
 import com.developer.santa.boards.repository.ReviewBoardRepository;
 import com.developer.santa.boards.service.review.ReviewBoardService;
 import com.developer.santa.boards.specification.ReviewBoardSpecification;
+import com.developer.santa.dto.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,57 +30,15 @@ public class ReviewBoardsController {
     // 최신순조회
     private final ReviewBoardService reviewBoardService;
     private final ReviewBoardMapper mapper;
-    private final ReviewBoardRepository reviewBoardRepository;
+
 
     @GetMapping
-    public ResponseEntity<?> allReview( @RequestParam int page,
-                                        @RequestParam int size){
-        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findReviewBoards(page - 1, size);
-        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
-        return new ResponseEntity<>(
-                new MultiResponseDto(
-                        mapper.reviewBoardListToPages(reviewBoards),
-                        reviewBoardPage),
-                HttpStatus.OK);
-    }
-
-    @GetMapping("/city")
-    public HttpEntity<?> cityReview(@RequestParam String city,
-                                    @RequestParam int page,
-                                    @RequestParam int size){
-        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findCityReviewBoards(page - 1, size, city);
-        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
-        return new ResponseEntity<>(reviewBoards, HttpStatus.OK);
-
-    }
-
-    @GetMapping("/mountain")
-    public HttpEntity<?> mountainReview(@RequestParam String mountain,
-                                    @RequestParam int page,
-                                    @RequestParam int size){
-        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findMountainReviewBoards(page - 1, size, mountain);
-        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
-        return new ResponseEntity<>(reviewBoards, HttpStatus.OK);
-
-    }
-
-
-    @GetMapping("/course")
-    public HttpEntity<?> courseReview(@RequestParam String course,
-                                        @RequestParam int page,
-                                        @RequestParam int size){
-        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findCourseReviewBoards(page - 1, size, course);
-        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
-        return new ResponseEntity<>(reviewBoards, HttpStatus.OK);
-
-    }
-
-    @GetMapping("/search")
     public HttpEntity<?> courseReview(@RequestParam(required = false) String city,
                                       @RequestParam(required = false) String mountain,
                                       @RequestParam(required = false) String course,
-                                      @RequestParam int page,
-                                      @RequestParam int size) {
+                                      @RequestParam int page) {
+
+
 
         Map<String, Object> spec = new HashMap<>();
         if (city != null)
@@ -88,9 +48,14 @@ public class ReviewBoardsController {
         if (course != null)
             spec.put("courseName", course);
 
-        Specification<ReviewBoard> search = ReviewBoardSpecification.search(spec); // 서비스로 옮기기
-        List<ReviewBoard> all = reviewBoardRepository.findAll(search);
-        return new ResponseEntity<>(all, HttpStatus.OK);
+        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findReviewBoards(page-1, spec);
+        List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto(
+                        mapper.reviewBoardListToPages(reviewBoards),
+                        reviewBoardPage),
+                HttpStatus.OK);
     }
 
 
