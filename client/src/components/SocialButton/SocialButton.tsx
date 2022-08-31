@@ -10,77 +10,60 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   bgColor?: string;
   color?: string;
   borderRadius?: number;
-  mode?: "kakao" | "google" | "naver" | "github" | "facebook";
+  mode: "kakao" | "google" | "naver" | "github" | "facebook";
   onClick?: () => void;
 }
 
-const SocialLoginOption = {
-  kakao: {},
-  google: {},
-  naver: {},
-  facebook: {},
-  github: {},
+interface SocialType {
+  bgColor: string;
+  color: string;
+  logoIcon: string;
+}
+
+interface SocialIconsOptionType {
+  [key: string]: SocialType;
+}
+
+const SocialLoginOption: SocialIconsOptionType = {
+  kakao: {
+    bgColor: "#F8DF02",
+    color: "black",
+    logoIcon: SocialIcons.kakaoLogo,
+  },
+  naver: {
+    bgColor: "#39B35D",
+    color: "white",
+    logoIcon: SocialIcons.naverLogo,
+  },
+  google: {
+    bgColor: "#EAEDEF",
+    color: "black",
+    logoIcon: SocialIcons.googleLogo,
+  },
+  facebook: {
+    bgColor: "#4267B2",
+    color: "white",
+    logoIcon: SocialIcons.facebookLogo,
+  },
+  github: {
+    bgColor: "#222222",
+    color: "white",
+    logoIcon: SocialIcons.githubLogo,
+  },
 };
 
 const SocialLoginButton = ({ mode, children, ...props }: Props) => {
-  if (mode === "kakao") {
-    return (
-      <Button {...props} bgColor="#F8DF02" onClick={props.onClick}>
-        <img src={SocialIcons.kakaoLogo} alt="kakaoLogoIcons" />
-        <span>{children}</span>
-      </Button>
-    );
-  }
-  if (mode === "naver") {
-    return (
-      <Button
-        {...props}
-        bgColor="#39B35D"
-        color="white"
-        onClick={props.onClick}
-      >
-        <img src={SocialIcons.naverLogo} alt="kakaoLogoIcons" />
-        <span>{children}</span>
-      </Button>
-    );
-  }
-  if (mode === "google") {
-    return (
-      <Button {...props} bgColor="#EAEDEF" onClick={props.onClick}>
-        <img src={SocialIcons.googleLogo} alt="kakaoLogoIcons" />
-        <span>{children}</span>
-      </Button>
-    );
-  }
-  if (mode === "facebook") {
-    return (
-      <Button
-        {...props}
-        bgColor="#4267B2"
-        color="white"
-        onClick={props.onClick}
-      >
-        <img src={SocialIcons.facebookLogo} alt="kakaoLogoIcons" />
-        <span>{children}</span>
-      </Button>
-    );
-  }
-  if (mode === "github") {
-    return (
-      <Button
-        {...props}
-        bgColor="#222222"
-        color="white"
-        onClick={props.onClick}
-      >
-        <img src={SocialIcons.githubLogo} alt="kakaoLogoIcons" />
-        <span>{children}</span>
-      </Button>
-    );
-  }
+  const { bgColor, color, logoIcon } = SocialLoginOption[mode];
   return (
-    <Button {...props} bgColor="black" color="white">
-      <span>{children ?? "Login"}</span>
+    <Button
+      {...props}
+      bgColor={bgColor}
+      color={color}
+      onClick={props.onClick}
+      mode={mode}
+    >
+      <img src={logoIcon} alt="kakaoLogoIcons" />
+      <span>{children}</span>
     </Button>
   );
 };
