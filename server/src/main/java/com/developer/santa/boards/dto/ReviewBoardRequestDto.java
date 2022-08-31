@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
-public class ReviewBoardDto {
+public class ReviewBoardRequestDto {
 
     @Getter
     @AllArgsConstructor
@@ -45,16 +45,6 @@ public class ReviewBoardDto {
         public void setReviewBoardId(long reviewBoardId) {
             this.reviewBoardId = reviewBoardId;
         }
-    }
-    @Getter
-    @AllArgsConstructor
-    public static class Response{
-        private long reviewBoardId;
-        private String courseName;
-        private String title;
-        public String body;
-        public String photo;
-        //회원 정보 + 회원 권한
     }
 
 }
