@@ -108,7 +108,6 @@ const Write = () => {
               className="inputTag"
               value={tag}
               onChange={handleTag}
-              // size={tag.length}
               onClick={() => setIsOpen(true)}
             />
           </div>
