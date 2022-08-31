@@ -38,11 +38,11 @@ public class MyBoardsController {
     }
 
 
-    @GetMapping("/{reviewBoardId}")
-    public HttpEntity<ReviewBoard> findMyReview(@PathVariable Long reviewBoardId) {
-        ReviewBoard selectMyBoard = myBoardService.selectMyBoard(reviewBoardId);
+    @GetMapping("/{boardId}")
+    public HttpEntity<ReviewBoard> findMyReview(@PathVariable Long boardId) {
+        ReviewBoard selectMyBoard = myBoardService.selectMyBoard(boardId);
 
-        return new HttpEntity<>(selectMyBoard); // (필요한 정보만)mapper로 변경 필요
+        return new HttpEntity<>(selectMyBoard);
     }
 
 
