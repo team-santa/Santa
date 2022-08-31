@@ -9,4 +9,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     Boolean existsByCourseLocation(String courseLocation);
     Boolean existsByCourseName(String courseName);
     List<Course> findByMountain(Mountain mountain);
+    Course findByCourseName(String courseName);
 }

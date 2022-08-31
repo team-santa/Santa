@@ -10,6 +10,7 @@ import com.developer.santa.member.oauth.handler.TokenAccessDeniedHandler;
 import com.developer.santa.member.oauth.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.developer.santa.member.oauth.service.PrincipalOAuth2UserService;
 import com.developer.santa.member.oauth.token.AuthTokenProvider;
+import com.developer.santa.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +40,8 @@ public class SecurityConfig{
     private final AuthTokenProvider tokenProvider;
     private final PrincipalOAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler accessDeniedHandler;
+
+    private final MemberRepository memberRepository;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -98,7 +101,7 @@ public class SecurityConfig{
 
     @Bean
     public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-        return new OAuth2AuthenticationSuccessHandler(appProperties, authorizationRequestRepository(), tokenProvider);
+        return new OAuth2AuthenticationSuccessHandler(appProperties, authorizationRequestRepository(), tokenProvider, memberRepository);
     }
 
     @Bean

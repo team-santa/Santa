@@ -1,6 +1,5 @@
 package com.developer.santa.member.entity;
 
-import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
 import lombok.Data;
@@ -8,13 +7,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-public class Member {
+public class Member extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +21,7 @@ public class Member {
     @Column(length = 100, unique = true, nullable = false)
     private String memberId;
 
-    @Column(length = 30, unique = true, nullable = false)
+    @Column(length = 30, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -31,9 +29,6 @@ public class Member {
 
     @Column(length = 50, nullable = false)
     private String email;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(nullable = true)
     private String profileImageUrl;
@@ -46,26 +41,12 @@ public class Member {
     @Column(nullable = false)
     private RoleType roleType;
 
-
-    @OneToMany(mappedBy = "nickName")
-    private List<ReviewBoard> reviewBoards = new ArrayList<>();;
-
-
-    public Member(String memberId, String username, String email, LocalDateTime createdAt, String profileImageUrl, ProviderType providerType, RoleType roleType) {
+    public Member(String memberId, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;
-        this.username = username;
         this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
-        this.createdAt = createdAt;
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;
         this.roleType = roleType;
-    }
-
-    public void setReviewBoard(ReviewBoard reviewBoard) {
-        reviewBoards.add(reviewBoard);
-        if (reviewBoard.getNickName() != this) {
-            reviewBoard.setNickName(this);
-        }
     }
 }
