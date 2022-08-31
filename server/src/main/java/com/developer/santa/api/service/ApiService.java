@@ -41,6 +41,7 @@ public class ApiService {
     private final BatchRepository batchRepository;
     private final ApplicationEventPublisher eventPublisher;
 
+
     public String connectApi(String geomFilter, String crs, int page, int size, String localName) {
         if (size > 20) return String.valueOf(webClientApi(geomFilter, crs, page, size));
 
