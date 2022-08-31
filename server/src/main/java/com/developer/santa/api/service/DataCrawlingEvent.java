@@ -7,7 +7,8 @@ import org.json.JSONArray;
 import org.springframework.context.ApplicationEvent;
 
 @Getter
-class DataCrawlingEvent extends ApplicationEvent {
+class DataCrawlingEvent{
+    private Object source;
     private final String localName;
     private final JSONArray parsingval;
     private final MountainRepository mountainRepository;
@@ -18,7 +19,6 @@ class DataCrawlingEvent extends ApplicationEvent {
             JSONArray parsingval,
             MountainRepository mountainRepository,
             LocalRepository localRepository) {
-        super(source);
         this.localName=localName;
         this.parsingval=parsingval;
         this.mountainRepository=mountainRepository;
