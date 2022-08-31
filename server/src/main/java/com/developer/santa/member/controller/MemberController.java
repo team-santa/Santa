@@ -29,4 +29,9 @@ public class MemberController {
         Member member = memberService.putMember(memberId, mapper.memberPutDtoToMember(memberPutDto));
         return new ResponseEntity<>(mapper.memberToMemberDtoResponse(member), HttpStatus.CREATED);
     }
+
+    @GetMapping("/{username}/check")
+    public ResponseEntity<Boolean> checkDuplicateUsername(@PathVariable String username) {
+        return new ResponseEntity<>(!memberService.checkDuplicateUsername(username), HttpStatus.OK);
+    }
 }
