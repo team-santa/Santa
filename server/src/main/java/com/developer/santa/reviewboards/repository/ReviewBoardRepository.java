@@ -1,9 +1,7 @@
-package com.developer.santa.boards.repository;
+package com.developer.santa.reviewboards.repository;
 
 
-import com.developer.santa.boards.entity.ReviewBoard;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import com.developer.santa.reviewboards.entity.ReviewBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

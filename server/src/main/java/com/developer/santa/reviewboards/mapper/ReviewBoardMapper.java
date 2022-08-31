@@ -1,8 +1,8 @@
-package com.developer.santa.boards.mapper;
+package com.developer.santa.reviewboards.mapper;
 
-import com.developer.santa.boards.dto.ReviewBoardRequestDto;
-import com.developer.santa.boards.dto.ReviewBoardResponseDto;
-import com.developer.santa.boards.entity.ReviewBoard;
+import com.developer.santa.reviewboards.dto.ReviewBoardRequestDto;
+import com.developer.santa.reviewboards.dto.ReviewBoardResponseDto;
+import com.developer.santa.reviewboards.entity.ReviewBoard;
 import org.mapstruct.Mapper;
 
 import java.util.List;

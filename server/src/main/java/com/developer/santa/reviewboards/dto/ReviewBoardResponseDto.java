@@ -1,4 +1,4 @@
-package com.developer.santa.boards.dto;
+package com.developer.santa.reviewboards.dto;
 
 import com.developer.santa.member.entity.Member;
 import lombok.*;
