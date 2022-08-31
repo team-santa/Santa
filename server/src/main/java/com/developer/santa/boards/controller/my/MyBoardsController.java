@@ -1,11 +1,10 @@
 package com.developer.santa.boards.controller.my;
 
-import com.developer.santa.boards.dto.ReviewBoardDto;
+import com.developer.santa.boards.dto.ReviewBoardRequestDto;
 import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.boards.mapper.ReviewBoardMapper;
 import com.developer.santa.boards.service.my.MyBoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,7 @@ public class MyBoardsController {
 
 
     @PostMapping
-    public ResponseEntity<?> createMyReview(@Valid @RequestBody ReviewBoardDto.Post requestBody){
+    public ResponseEntity<?> createMyReview(@Valid @RequestBody ReviewBoardRequestDto.Post requestBody){
         ReviewBoard reviewBoard = mapper.reviewBoardPostToReviewBoard(requestBody);
         ReviewBoard createBoard = myBoardService.createMyBoard(reviewBoard);
         return new ResponseEntity<>(createBoard, HttpStatus.CREATED);
@@ -32,7 +31,7 @@ public class MyBoardsController {
 
     @PutMapping("/{boardId}")
     public ResponseEntity<?> editMyReview(@PathVariable Long boardId,
-                                      @Valid @RequestBody ReviewBoardDto.Patch requestBody){
+                                      @Valid @RequestBody ReviewBoardRequestDto.Patch requestBody){
         ReviewBoard reviewBoard = mapper.reviewBoardPatchToReviewBoard(requestBody);
         ReviewBoard updateBoard = myBoardService.updateMyBoard(boardId, reviewBoard);
         return new ResponseEntity<>(updateBoard, HttpStatus.OK);

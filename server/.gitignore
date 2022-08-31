@@ -38,3 +38,7 @@ out/
 
 ### 설정파일 예외 ###
 **/application*.*
+
+## 구현 파일 예외 ###
+/src/main/generated/com/developer/santa/**/*Impl.java
+

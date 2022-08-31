@@ -1,9 +1,14 @@
 package com.developer.santa.api.service;
 
+import com.developer.santa.api.domain.local.Local;
 import com.developer.santa.api.domain.local.LocalDTO;
+import com.developer.santa.api.domain.local.LocalMapper;
 import com.developer.santa.api.domain.local.LocalRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -11,9 +16,15 @@ import org.springframework.stereotype.Service;
 public class LocalService {
 
     private final LocalRepository localRepository;
+    private final LocalMapper localMapper;
 
-    public LocalDTO getLocal() {
-        LocalDTO localDTO = new LocalDTO();
-        return localDTO;
+    public List<LocalDTO> getLocal() {
+        return localMapper.LocalListToLocalDTOList(
+                localRepository.findAll()
+        );
+    }
+
+    public Local getDetailLocal(String local) {
+        return localRepository.findByLocalName(local);
     }
 }
