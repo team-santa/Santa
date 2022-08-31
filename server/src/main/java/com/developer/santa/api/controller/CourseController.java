@@ -17,15 +17,21 @@ public class CourseController {
 
     private final CourseService courseService;
 
+    //todo page
     @GetMapping("")
-    public ResponseEntity<List<Course>> getCourse(){
+    public ResponseEntity<List<CourseDTO>> getCourse(){
         return ResponseEntity.ok(courseService.getCourse());
     }
 
     @GetMapping("/selection")
-    public ResponseEntity<List<Course>> getSelectCourse(
+    public ResponseEntity<List<CourseDTO>> getSelectCourse(
             @RequestParam String mountainName
     ){
         return ResponseEntity.ok(courseService.getMountainSelectCourse(mountainName));
+    }
+
+    @GetMapping("/{course}")
+    public ResponseEntity<Course> getDetailCourse(@PathVariable String course){
+        return ResponseEntity.ok(courseService.getDetailCourse(course));
     }
 }
