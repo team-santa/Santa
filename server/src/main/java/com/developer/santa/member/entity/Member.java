@@ -4,7 +4,6 @@ import com.developer.santa.audit.Auditable;
 import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
-import com.developer.santa.tag.entity.TagSelect;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

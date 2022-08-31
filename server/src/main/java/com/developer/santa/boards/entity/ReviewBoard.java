@@ -32,6 +32,7 @@ public class ReviewBoard {
 
     @Column(length = 100, nullable = false)
     private String courseName;
+
     @Column(length = 100, nullable = false)
     private String title;
 
@@ -67,7 +68,4 @@ public class ReviewBoard {
     public void setNickName(Member nickName) {
         this.nickName = nickName;
     }
-
-
-
 }
