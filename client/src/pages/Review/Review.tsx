@@ -2,7 +2,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DropDown, ReviewList } from "src/components";
+import { testAsyncAction, useAppDispatch } from "src/redux";
 import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
 import { Wrapper } from "./ReviewWrapper";
 
@@ -32,6 +34,8 @@ const Review = () => {
     },
     [dropDownIsOpen]
   );
+
+  const dispatch = useAppDispatch();
 
   return (
     <Wrapper selected={sortByViews}>

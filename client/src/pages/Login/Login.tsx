@@ -1,8 +1,14 @@
+import axios from "axios";
 import React from "react";
 import SocialButton from "src/components/SocialButton/SocialButton";
 import styled from "styled-components";
 
+// 소셜 로그인 양식 주소 !!
+const url = `http://localhost:8080/oauth2/authorization/{provider-id}?redirect_uri=http://localhost:3000/oauth/redirect`;
 const Login = () => {
+  const HandleClick = async (mode: string) => {
+    window.location.href = `http://localhost:8080/oauth2/authorization/${mode}?redirect_uri=http://localhost:3000/oauth/redirect`;
+  };
   return (
     <Container>
       <Logo>ㅅㅌ</Logo>
@@ -12,7 +18,7 @@ const Login = () => {
           width={25}
           height={5}
           borderRadius={0.5}
-          onClick={() => window.alert("카카오 로그인")}
+          onClick={() => HandleClick("kakao")}
         >
           카카오 로그인
         </SocialButton>
@@ -21,7 +27,7 @@ const Login = () => {
           width={25}
           height={5}
           borderRadius={0.5}
-          onClick={() => window.alert("네이버 로그인")}
+          onClick={() => HandleClick("naver")}
         >
           네이버 로그인
         </SocialButton>
@@ -30,7 +36,7 @@ const Login = () => {
           width={25}
           height={5}
           borderRadius={0.5}
-          onClick={() => window.alert("네이버 로그인")}
+          onClick={() => HandleClick("google")}
         >
           구글 로그인
         </SocialButton>
@@ -46,7 +52,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 80vh;
 `;
 
 const Logo = styled.div``;
