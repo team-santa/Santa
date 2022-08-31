@@ -49,7 +49,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
                 );
             }
 
-            updateUser(savedUser, userInfo);
+//            updateUser(savedUser, userInfo);
         } else {
             savedUser = createUser(userInfo, providerType);
         }

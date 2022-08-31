@@ -1,12 +1,13 @@
 package com.developer.santa.member.entity;
 
+import com.developer.santa.audit.Auditable;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
