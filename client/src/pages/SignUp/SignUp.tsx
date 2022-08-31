@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { colors } from "src/utils/colors";
 import styled from "styled-components";
@@ -7,14 +8,19 @@ const SignUp = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // TODO
-    // username을 서버로 보내서 중복된 유저네임인지 아닌지 확인하기
-    // 중복된 유저네임이면 error 띄우기
-    // 유효성 검사
-  }, []);
+    // setTimeout(() => {
+    //   axios
+    //     .post(`http://localhost:8080/members/${username}/check`)
+    //     .then((res) => {
+    //       setError(!res);
+    //     });
+    // }, 500);
+  }, [username]);
 
+  // eslint-disable-next-line consistent-return
   const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // axios.post(`http://localhost:8080/members/${memberid}` , {username})
     console.log(username);
   };
 
@@ -31,7 +37,7 @@ const SignUp = () => {
             error={error}
             required
           />
-          {error ? <Error>- 중복된 아이디 입니다.</Error> : null}
+          {error ? <Error>* 중복된 아이디 입니다.</Error> : null}
           <button type="submit">닉네임 설정 완료</button>
         </Form>
       </AuthBox>
