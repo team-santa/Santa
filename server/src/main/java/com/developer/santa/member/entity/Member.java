@@ -1,19 +1,12 @@
 package com.developer.santa.member.entity;
 
-import com.developer.santa.audit.Auditable;
-import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
-import com.developer.santa.tag.entity.TagSelect;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -48,9 +41,6 @@ public class Member extends Auditable {
     @Column(nullable = false)
     private RoleType roleType;
 
-    @OneToMany(mappedBy = "nickName")
-    private List<ReviewBoard> reviewBoards = new ArrayList<>();
-
     public Member(String memberId, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;
         this.password = "NO_PASS";
@@ -58,12 +48,5 @@ public class Member extends Auditable {
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;
         this.roleType = roleType;
-    }
-
-    public void addReviewBoard(ReviewBoard reviewBoard){
-        this.reviewBoards.add(reviewBoard);
-        if(reviewBoard.getNickName() != this){
-            reviewBoard.setNickName(this);
-        }
     }
 }
