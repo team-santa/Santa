@@ -1,8 +1,7 @@
 package com.developer.santa.tag.entity;
 
 
-import com.developer.santa.boards.entity.ReviewBoard;
-import lombok.AllArgsConstructor;
+import com.developer.santa.reviewboards.entity.ReviewBoard;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
