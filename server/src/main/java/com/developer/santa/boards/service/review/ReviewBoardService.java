@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.awt.print.Pageable;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ReviewBoardService {
@@ -26,5 +27,20 @@ public class ReviewBoardService {
         return reviewBoardRepository.findAll(search,PageRequest.of(page,10, Sort.by("reviewBoardId").descending()));
     }
 
+    public ReviewBoard findReviewBoard(Long reviewBoardId){
+        return findVerifiedReviewBoard(reviewBoardId);
+    }
 
+    public void deleteReviewBoard(Long reviewBoardId){
+        ReviewBoard findReviewBoard = findVerifiedReviewBoard(reviewBoardId);
+        reviewBoardRepository.delete(findReviewBoard);
+    }
+
+
+    public ReviewBoard findVerifiedReviewBoard(Long reviewBoardId){
+        Optional<ReviewBoard> optionalReviewBoard = reviewBoardRepository.findById(reviewBoardId);
+        return optionalReviewBoard.orElseThrow(
+                ()-> new IllegalArgumentException("존재하지않는 게시판입니다. 게시판번호 :" + reviewBoardId)
+        );
+    }
 }
