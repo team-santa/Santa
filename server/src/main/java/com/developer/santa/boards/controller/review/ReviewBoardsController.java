@@ -1,11 +1,13 @@
 package com.developer.santa.boards.controller.review;
 
+import com.developer.santa.boards.dto.ReviewBoardRequestDto;
 import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.boards.mapper.ReviewBoardMapper;
 import com.developer.santa.boards.repository.ReviewBoardRepository;
 import com.developer.santa.boards.service.review.ReviewBoardService;
 import com.developer.santa.boards.specification.ReviewBoardSpecification;
 import com.developer.santa.dto.MultiResponseDto;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,6 +20,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +35,7 @@ public class ReviewBoardsController {
     private final ReviewBoardMapper mapper;
 
     @GetMapping
-    public HttpEntity<?> courseReview(@RequestParam(required = false) String city,
+    public ResponseEntity<?> courseReview(@RequestParam(required = false) String city,
                                       @RequestParam(required = false) String mountain,
                                       @RequestParam(required = false) String course,
                                       @RequestParam int page) {
@@ -57,6 +60,25 @@ public class ReviewBoardsController {
     }
 
 
-    // 조회순
+//    @GetMapping("/{reviewBoardId}")
+//    public ResponseEntity<ReviewBoard> findReviewBoard(@PathVariable Long reviewBoardId) {
+//        ReviewBoard selectMyBoard = reviewBoardService.findReviewBoard(reviewBoardId);
+//
+//        return new ResponseEntity<>(selectMyBoard, HttpStatus.OK);
+//    }
+
+//    @PatchMapping("/{reviewBoardId}")
+//    public ResponseEntity<?> editReviewBoard(@PathVariable Long reviewBoardId,
+//                                          @Valid @RequestBody ReviewBoardRequestDto.Patch requestBody){
+//        ReviewBoard reviewBoard = mapper.reviewBoardPatchToReviewBoard(requestBody);
+//        ReviewBoard updateBoard = reviewBoardService.updateMyBoard(reviewBoardId, reviewBoard);
+//        return new ResponseEntity<>(updateBoard, HttpStatus.OK);
+//    }
+//    @DeleteMapping("/{reviewBoardId}")
+//    public ResponseEntity<?> deleteReviewBoard(@PathVariable Long reviewBoardId){
+//        reviewBoardService.deleteReviewBoard(reviewBoardId);
+//
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
 }

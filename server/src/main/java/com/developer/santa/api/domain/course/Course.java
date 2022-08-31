@@ -36,6 +36,9 @@ public class Course {
     private Mountain mountain;
 
 
+
+
+
     @Builder
     public Course(String courseName, String courseLocation, String courseLevel, String courseDistance, Mountain mountain){
         this.courseName = courseName;

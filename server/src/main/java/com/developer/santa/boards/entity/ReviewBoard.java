@@ -1,5 +1,6 @@
 package com.developer.santa.boards.entity;
 
+import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.member.entity.Member;
 
 import com.developer.santa.tag.entity.TagSelect;
@@ -31,7 +32,6 @@ public class ReviewBoard {
 
     @Column(length = 100, nullable = false)
     private String courseName;
-
     @Column(length = 100, nullable = false)
     private String title;
 
@@ -42,6 +42,10 @@ public class ReviewBoard {
 
     @OneToMany(mappedBy = "reviewBoard")
     private List<TagSelect> tagSelects;
+
+    @ManyToOne
+    @JoinColumn(name="courseId")
+    private Course course;
 
     @Builder
     public ReviewBoard(String localName, String mountainName, String courseName, String title, String body, String photo) {
@@ -63,4 +67,7 @@ public class ReviewBoard {
     public void setNickName(Member nickName) {
         this.nickName = nickName;
     }
+
+
+
 }

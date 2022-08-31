@@ -1,7 +1,10 @@
 package com.developer.santa.boards.dto;
 
 import com.developer.santa.member.entity.Member;
+import com.developer.santa.tag.entity.TagSelect;
 import lombok.*;
+
+import java.util.List;
 
 public class ReviewBoardResponseDto {
     @Getter
@@ -25,14 +28,19 @@ public class ReviewBoardResponseDto {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Detail{
         private long reviewBoardId;
         private String nickName;
+        private String localName;
+        private String mountainName;
         private String courseName;
         private String title;
         private String body;
         private String photo;
+        private List<TagSelect> tagSelects;
         // 태그 리스트
         //회원 정보 + 회원 권한
     }

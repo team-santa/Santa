@@ -32,6 +32,7 @@ public class ReviewBoardRequestDto {
         public String localName;
         @NotBlank
         public String mountainName;
+
         @NotBlank(message = "방문한 코스는 필수로 있어야 합니다.")
         private String courseName;
 
