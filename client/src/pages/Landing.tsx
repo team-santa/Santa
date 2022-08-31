@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Logo from "src/assets/images/santa_log.svg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,12 +9,9 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100vh;
-  background-color: #e0ece2;
-
-  h1 {
-    color: #295349;
-    font-size: 5rem;
-  }
+  background-color: #d4effe;
+  flex-direction: column;
+  color: #016483;
 `;
 
 const Landing = () => {
@@ -27,7 +25,8 @@ const Landing = () => {
 
   return (
     <Wrapper>
-      <h1>ㅅㅌ</h1>
+      <span>메세지 메세지</span>
+      <img src={Logo} alt="Logo" />
     </Wrapper>
   );
 };
