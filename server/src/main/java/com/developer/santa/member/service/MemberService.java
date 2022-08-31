@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -19,6 +20,17 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findMember(String memberId) {
         return verifyMember(memberId);
+    }
+
+    public Member putMember(String memberId, Member newMember) {
+        Member savedMember = verifyMember(memberId);
+
+        Optional.ofNullable(newMember.getProfileImageUrl())
+                .ifPresent(profileImageUrl -> savedMember.setProfileImageUrl(profileImageUrl));
+        Optional.ofNullable(newMember.getUsername())
+                .ifPresent(username -> savedMember.setUsername(username));
+
+        return savedMember;
     }
 
     @Transactional(readOnly = true)
