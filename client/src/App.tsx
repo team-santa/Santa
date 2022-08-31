@@ -1,5 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main, Landing, Review, ReviewDetail, NotFound } from "src/pages";
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
+import { Profile } from "./pages/Profile";
+import { Write } from "./pages/Write";
 
 const App = () => {
   return (
@@ -7,13 +11,13 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="main" element={<Main />}>
-          <Route index element={<div>home</div>} />
+          <Route index element={<Home />} />
           <Route path="map" element={<div>map</div>} />
-          <Route path="profile" element={<div>profile</div>} />
-          <Route path="login" element={<div>login</div>} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="login" element={<Login />} />
           <Route path="review" element={<Review />} />
           <Route path="review/:id" element={<ReviewDetail />} />
-          <Route path="write" element={<div>write</div>} />
+          <Route path="write" element={<Write />} />
           <Route path="write/:id" element={<div>edit</div>} />
         </Route>
         <Route path="*" element={<NotFound />} />
