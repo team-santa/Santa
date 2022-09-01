@@ -19,6 +19,9 @@ import java.util.List;
 public class Tag {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long tagId;
+
     @Column(length = 100, nullable = false)
     private String tagName;
 
