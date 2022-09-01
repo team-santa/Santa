@@ -7,7 +7,6 @@ import com.developer.santa.api.domain.mountain.MountainDTO;
 import com.developer.santa.api.domain.mountain.MountainMapper;
 import com.developer.santa.api.domain.mountain.MountainRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

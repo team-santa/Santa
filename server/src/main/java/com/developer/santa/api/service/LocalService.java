@@ -5,7 +5,6 @@ import com.developer.santa.api.domain.local.LocalDTO;
 import com.developer.santa.api.domain.local.LocalMapper;
 import com.developer.santa.api.domain.local.LocalRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

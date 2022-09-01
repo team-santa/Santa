@@ -1,8 +1,7 @@
 package com.developer.santa.api.controller;
 
 import com.developer.santa.api.service.ApiService;
-import com.developer.santa.api.domain.course.CourseDTO;
-import com.developer.santa.api.domain.local.LocalDTO;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
