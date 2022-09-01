@@ -1,6 +1,7 @@
 package com.developer.santa.reviewboards.entity;
 
 import com.developer.santa.audit.Auditable;
+import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.member.entity.Member;
 
 import com.developer.santa.tag.entity.TagSelect;
@@ -47,11 +48,17 @@ public class ReviewBoard extends Auditable {
     @OneToMany(mappedBy = "reviewBoard", cascade = CascadeType.ALL)
     private List<TagSelect> tagSelects;
 
+    @ManyToOne
+    @JoinColumn(name="courseId")
+    private Course course;
+
     @ElementCollection
     private List<String> viewers;
 
     @ElementCollection
     private List<String> tags;
+
+
 
     @Builder
     public ReviewBoard(Member nickName, String localName, String mountainName, String courseName,  String title, String body, String photo, List<String> tags) {

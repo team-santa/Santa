@@ -39,4 +39,11 @@ public class MemberService {
 
         return optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
+
+    @Transactional(readOnly = true)
+    public Boolean checkDuplicateUsername(String username) {
+        return memberRepository.existsByUsername(username);
+    }
+
+
 }
