@@ -67,13 +67,13 @@ public class ReviewBoardsController {
 
 
     @GetMapping("/{reviewBoardId}")
-    public ResponseEntity<ReviewBoard> findReviewBoard(@PathVariable Long reviewBoardId,
+    public ResponseEntity<?> findReviewBoard(@PathVariable Long reviewBoardId,
                                                        HttpServletRequest request) {
 
         String clientIp = getClientIp(request);
         ReviewBoard selectMyBoard = reviewBoardService.findReviewBoard(reviewBoardId, clientIp);
 
-        return new ResponseEntity<>(selectMyBoard, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.reviewBoardToDetail(selectMyBoard), HttpStatus.OK);
     }
 
     @PatchMapping("/{reviewBoardId}")

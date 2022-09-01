@@ -8,6 +8,7 @@ import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.tag.entity.Tag;
 import com.developer.santa.tag.entity.TagSelect;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,4 +61,19 @@ public interface ReviewBoardMapper {
     List<ReviewBoardResponseDto.Page> reviewBoardListToPages(List<ReviewBoard> reviewBoards);
 
 
+   default ReviewBoardResponseDto.Detail reviewBoardToDetail(ReviewBoard reviewBoard){
+       ReviewBoardResponseDto.Detail reviewDetail =new ReviewBoardResponseDto.Detail();
+       reviewDetail.setReviewBoardId(reviewBoard.getReviewBoardId());
+       reviewDetail.setNickName(reviewBoard.getNickName());
+       reviewDetail.setTitle(reviewBoard.getTitle());
+       reviewDetail.setBody(reviewBoard.getBody());
+       reviewDetail.setPhoto(reviewBoard.getPhoto());
+       reviewDetail.setLocalName(reviewBoard.getLocalName());
+       reviewDetail.setMountainName(reviewBoard.getMountainName());
+       reviewDetail.setCourseName(reviewBoard.getCourseName());
+       reviewDetail.setViews(reviewBoard.getViews());
+       reviewDetail.setTagList(reviewBoard.getTags());
+
+       return reviewDetail;
+   };
 }

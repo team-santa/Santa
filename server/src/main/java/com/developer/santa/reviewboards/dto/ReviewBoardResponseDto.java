@@ -3,6 +3,9 @@ package com.developer.santa.reviewboards.dto;
 import com.developer.santa.member.entity.Member;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import java.util.List;
+
 public class ReviewBoardResponseDto {
     @Getter
     @Setter
@@ -25,15 +28,36 @@ public class ReviewBoardResponseDto {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Detail{
         private long reviewBoardId;
+
         private String nickName;
-        private String courseName;
+        @NotBlank(message = "제목은 공백이 아니어야 합니다.")
         private String title;
+        @NotBlank
         private String body;
+
         private String photo;
-        // 태그 리스트
-        //회원 정보 + 회원 권한
+        @NotBlank
+        public String localName;
+        @NotBlank
+        public String mountainName;
+        @NotBlank
+        private String courseName;
+
+        @NotBlank
+        private Long views;
+
+        private List<String> tagList;
+
+        public void setNickName(Member member){
+            String nick = "unknown";
+            if(member != null)
+                nick = member.getUsername();
+            this.nickName = nick;
+        }
     }
 }
