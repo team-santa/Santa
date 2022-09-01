@@ -25,9 +25,9 @@ public class SaveCrawlingData {
     private final CourseRepository courseRepository;
 
     @EventListener()
-    @Transactional(timeout = 10)
+    @Transactional(timeout = 3)
     public void saveLocalMountainCourse(DataCrawlingEvent dataSaveRamda) throws InterruptedException {
-        ExecutorService executor = new ThreadPoolExecutor(1, 1, 1L, TimeUnit.HOURS, new LinkedBlockingQueue());
+        ExecutorService executor = new ThreadPoolExecutor(1, 1, 3L, TimeUnit.SECONDS, new LinkedBlockingQueue());
         executor.execute(()->{
             if (!localRepository.existsByLocalName(dataSaveRamda.getLocalName())) {
                 localRepository.save(new Local(dataSaveRamda.getLocalName()));
@@ -59,6 +59,7 @@ public class SaveCrawlingData {
                                 }
                     });
         });
+        executor.shutdown();
         System.out.println("end");
     }
 }
