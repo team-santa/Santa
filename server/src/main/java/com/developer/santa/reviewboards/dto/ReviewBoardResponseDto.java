@@ -4,6 +4,7 @@ import com.developer.santa.member.entity.Member;
 import com.developer.santa.tag.entity.TagSelect;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class ReviewBoardResponseDto {
