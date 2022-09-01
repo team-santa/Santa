@@ -24,6 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/v1/reviewBoards")
 @RequiredArgsConstructor
+@CrossOrigin(origins="*", allowedHeaders = "*")
 public class ReviewBoardsController {
     // 최신순조회
     private final ReviewBoardService reviewBoardService;
