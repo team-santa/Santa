@@ -3,13 +3,13 @@ package com.developer.santa.member.entity;
 import com.developer.santa.audit.Auditable;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.developer.santa.reviewboards.entity.ReviewBoard;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -44,6 +44,15 @@ public class Member extends Auditable {
     @Column(nullable = false)
     private RoleType roleType;
 
+    @OneToMany(mappedBy = "nickName", cascade = CascadeType.ALL)
+    private List<ReviewBoard> reviewBoards = new ArrayList<>();
+
+    public void addReviewBoard(ReviewBoard reviewBoard){
+        this.reviewBoards.add(reviewBoard);
+        if(reviewBoard.getNickName() != this){
+            reviewBoard.setNickName(this);
+        }
+    }
     public Member(String memberId, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;
         this.password = "NO_PASS";

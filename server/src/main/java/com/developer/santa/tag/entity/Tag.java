@@ -17,14 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tagId;
 
+    @Id
     @Column(length = 100, nullable = false)
     private String tagName;
 
-    @OneToMany(mappedBy = "tag")
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     private List<TagSelect> tagSelects;
 
 

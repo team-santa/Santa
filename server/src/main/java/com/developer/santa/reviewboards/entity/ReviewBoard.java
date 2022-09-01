@@ -21,7 +21,7 @@ public class ReviewBoard extends Auditable {
     private Long reviewBoardId;
 
     @ManyToOne
-    @JoinColumn(name ="username")
+    @JoinColumn(name ="username", referencedColumnName = "username")
     private Member nickName;
 
     @Column(length = 20, nullable = false)// 추후 enum으로 표현
@@ -44,14 +44,17 @@ public class ReviewBoard extends Auditable {
     @Column(length = 100)
     private String photo; //BLob
 
-    @OneToMany(mappedBy = "reviewBoard")
+    @OneToMany(mappedBy = "reviewBoard", cascade = CascadeType.ALL)
     private List<TagSelect> tagSelects;
 
     @ElementCollection
     private List<String> viewers;
 
+    @ElementCollection
+    private List<String> tags;
+
     @Builder
-    public ReviewBoard(Member nickName, String localName, String mountainName, String courseName,  String title, String body, String photo, List<TagSelect> tagSelects) {
+    public ReviewBoard(Member nickName, String localName, String mountainName, String courseName,  String title, String body, String photo, List<String> tags) {
         this.nickName = nickName;
         this.localName = localName;
         this.mountainName = mountainName;
@@ -60,7 +63,7 @@ public class ReviewBoard extends Auditable {
         this.title = title;
         this.body = body;
         this.photo = photo;
-        this.tagSelects = tagSelects;
+        this.tags = tags;
     }
 
 
