@@ -44,15 +44,15 @@ public class Member extends Auditable {
     @Column(nullable = false)
     private RoleType roleType;
 
-    @OneToMany(mappedBy = "nickName", cascade = CascadeType.ALL)
-    private List<ReviewBoard> reviewBoards = new ArrayList<>();
+//    @OneToMany(mappedBy = "nickName", cascade = CascadeType.ALL) // 코드가 추가되서, 기존 로그인링크가 작동을 못함
+//    private List<ReviewBoard> reviewBoards = new ArrayList<>();
 
-    public void addReviewBoard(ReviewBoard reviewBoard){
-        this.reviewBoards.add(reviewBoard);
-        if(reviewBoard.getNickName() != this){
-            reviewBoard.setNickName(this);
-        }
-    }
+//    public void addReviewBoard(ReviewBoard reviewBoard){
+//        this.reviewBoards.add(reviewBoard);
+//        if(reviewBoard.getNickName() != this){
+//            reviewBoard.setNickName(this);
+//        }
+//    }
     public Member(String memberId, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;
         this.password = "NO_PASS";
