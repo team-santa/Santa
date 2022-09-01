@@ -46,7 +46,7 @@ public class ApiService {
         if (size > 20) return String.valueOf(webClientApi(geomFilter, crs, page, size));
 
 //        JSONObject connectApiData = webClientApi(geomFilter, crs, page, size);
-//        isExistsUrl(geomFilter, crs, page, size, localName);
+        isExistsUrl(geomFilter, crs, page, size, localName);
         return String.valueOf(webClientApi(geomFilter, crs, page, size));
     }
 
