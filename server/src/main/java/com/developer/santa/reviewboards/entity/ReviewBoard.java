@@ -51,12 +51,12 @@ public class ReviewBoard extends Auditable {
     private List<String> viewers;
 
     @Builder
-    public ReviewBoard(Member nickName, String localName, String mountainName, String courseName, Long views, String title, String body, String photo, List<TagSelect> tagSelects) {
+    public ReviewBoard(Member nickName, String localName, String mountainName, String courseName,  String title, String body, String photo, List<TagSelect> tagSelects) {
         this.nickName = nickName;
         this.localName = localName;
         this.mountainName = mountainName;
         this.courseName = courseName;
-        this.views = views;
+        this.views = 0L;
         this.title = title;
         this.body = body;
         this.photo = photo;

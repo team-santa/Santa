@@ -1,12 +1,9 @@
 package com.developer.santa.reviewboards.service;
 
 import com.developer.santa.reviewboards.entity.ReviewBoard;
-import com.developer.santa.reviewboards.event.ViewEvent;
 import com.developer.santa.reviewboards.repository.ReviewBoardRepository;
 import com.developer.santa.reviewboards.specification.ReviewBoardSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,7 +18,6 @@ import java.util.Optional;
 public class ReviewBoardService {
 
     public final ReviewBoardRepository reviewBoardRepository;
-    private final ApplicationEventPublisher eventPublisher;
 
     public ReviewBoard createMyBoard(ReviewBoard reviewBoard){
         return reviewBoardRepository.save(reviewBoard);
@@ -47,9 +43,12 @@ public class ReviewBoardService {
     }
 
     public ReviewBoard findReviewBoard(Long reviewBoardId, String clientIp) {
-        eventPublisher.publishEvent(new ViewEvent(eventPublisher, reviewBoardId, clientIp));
+
         ReviewBoard reviewBoard = findVerifiedReviewBoard(reviewBoardId);
-        reviewBoard.getViewers().add(clientIp);
+        if(!reviewBoard.getViewers().contains(clientIp)) {
+            reviewBoard.addViewCount();
+            reviewBoard.addViewer(clientIp);
+        }
         return findVerifiedReviewBoard(reviewBoardId);
     }
 
@@ -65,13 +64,6 @@ public class ReviewBoardService {
         return optionalReviewBoard.orElseThrow(
                 () -> new IllegalArgumentException("존재하지않는 게시판입니다. 게시판번호 :" + reviewBoardId)
         );
-    }
-    private Long getReviewBoardViews(ReviewBoard reviewBoard) {
-        Long views = 0L;
-        for(String ip: reviewBoard.getViewers()){
-            if (!ip.isEmpty()) views++;
-        }
-        return views;
     }
 
 }
