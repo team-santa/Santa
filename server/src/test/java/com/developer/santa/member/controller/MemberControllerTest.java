@@ -50,13 +50,14 @@ class MemberControllerTest {
     void register() throws Exception {
 
         String providerId = "google";
+        String verifyUri = "https://accounts.google.com/o/oauth2/v2/auth*/**" + providerId;
 
         ResultActions actions = mock.perform(get("/oauth2/authorization/{providerId}", providerId)
                 .param("redirect_uri", "http://localhost:3000/oauth/redirect")
         );
 
         actions.andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("https://accounts.google.com/o/oauth2/v2/**"))
+                .andExpect(redirectedUrlPattern(verifyUri))
                 .andDo(document("oauth2-login",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -72,6 +73,7 @@ class MemberControllerTest {
 
         String memberId = "1";
         Member member = new Member(memberId, "testEmail@email.com", "profileImageUrl", ProviderType.KAKAO, RoleType.USER);
+        member.setUsername("testUser");
         MemberDto.Response response = new MemberDto.Response("testUser", "testEmail@email.com", "profileImageUrl");
 
         given(memberService.findMember(Mockito.anyString())).willReturn(new Member());
@@ -104,6 +106,5 @@ class MemberControllerTest {
                                 )
                         )
                 ));
-
     }
 }
