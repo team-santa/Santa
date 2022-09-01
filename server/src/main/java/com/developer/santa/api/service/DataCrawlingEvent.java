@@ -11,17 +11,11 @@ class DataCrawlingEvent{
     private Object source;
     private final String localName;
     private final JSONArray parsingval;
-    private final MountainRepository mountainRepository;
-    private final LocalRepository localRepository;
     public DataCrawlingEvent(
             Object source,
             String localName,
-            JSONArray parsingval,
-            MountainRepository mountainRepository,
-            LocalRepository localRepository) {
+            JSONArray parsingval) {
         this.localName=localName;
         this.parsingval=parsingval;
-        this.mountainRepository=mountainRepository;
-        this.localRepository=localRepository;
     }
 }

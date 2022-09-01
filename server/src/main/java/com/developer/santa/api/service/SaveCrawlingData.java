@@ -7,13 +7,14 @@ import com.developer.santa.api.domain.local.LocalRepository;
 import com.developer.santa.api.domain.mountain.Mountain;
 import com.developer.santa.api.domain.mountain.MountainRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 import org.json.JSONObject;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.IntStream;
 
 @Component
@@ -24,41 +25,25 @@ public class SaveCrawlingData {
     private final CourseRepository courseRepository;
 
     @EventListener()
-    public void saveLocalMountainCourse(DataCrawlingEvent dataSaveRamda) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.submit(() -> {
+    @Transactional(timeout = 10)
+    public void saveLocalMountainCourse(DataCrawlingEvent dataSaveRamda) throws InterruptedException {
+        ExecutorService executor = new ThreadPoolExecutor(1, 1, 1L, TimeUnit.HOURS, new LinkedBlockingQueue());
+        executor.execute(()->{
+            if (!localRepository.existsByLocalName(dataSaveRamda.getLocalName())) {
+                localRepository.save(new Local(dataSaveRamda.getLocalName()));
+            }
             IntStream.range(0, dataSaveRamda.getParsingval().length())
                     .mapToObj(index -> (JSONObject) dataSaveRamda.getParsingval().get(index))
                     .forEach(obj -> {
-                        if (!localRepository.existsByLocalName(dataSaveRamda.getLocalName())) {
-                            localRepository.save(new Local(dataSaveRamda.getLocalName()));
-                        }
-                    });
-            System.out.println("job1");
-                }
-        );
-        executor.submit(() -> {
-                    IntStream.range(0, dataSaveRamda.getParsingval().length())
-                            .mapToObj(index -> (JSONObject) dataSaveRamda.getParsingval().get(index))
-                            .forEach(obj -> {
-                                String mountain = obj.getJSONObject("properties").getString("mntn_nm");
-                                if (!mountainRepository.existsByMountainName(mountain)) {
-                                    mountainRepository.save(new Mountain(mountain, localRepository.findByLocalName(dataSaveRamda.getLocalName())));
-                                }
-                            });
-            System.out.println("job2");
-                }
-        );
-        executor.submit(() -> {
-                    IntStream.range(0, dataSaveRamda.getParsingval().length())
-                            .mapToObj(index -> (JSONObject) dataSaveRamda.getParsingval().get(index))
-                            .forEach(obj -> {
                                 String location = String.valueOf(obj
                                         .getJSONObject("geometry").getJSONArray("coordinates")
                                         .getJSONArray(0).getJSONArray(0));
                                 String mountain = obj.getJSONObject("properties").getString("mntn_nm");
                                 String level = obj.getJSONObject("properties").getString("cat_nam");
                                 String distance = obj.getJSONObject("properties").getString("sec_len");
+                                if (!mountainRepository.existsByMountainName(mountain)) {
+                                    mountainRepository.save(new Mountain(mountain, localRepository.findByLocalName(dataSaveRamda.getLocalName())));
+                                }
                                 if (!courseRepository.existsByCourseLocation(location)) {
                                     for (char i = 65; i < 117; i++) {
                                         if (i == 91) i += 6;
@@ -72,12 +57,8 @@ public class SaveCrawlingData {
                                         }
                                     }
                                 }
-                            });
-            System.out.println("job3");
-                }
-        );
-        executor.shutdown();
-//        executor.awaitTermination(20, TimeUnit.SECONDS);
+                    });
+        });
         System.out.println("end");
     }
 }

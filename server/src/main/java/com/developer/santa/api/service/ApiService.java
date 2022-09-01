@@ -3,12 +3,15 @@ package com.developer.santa.api.service;
 import com.developer.santa.api.domain.batchdata.BatchData;
 import com.developer.santa.api.domain.batchdata.BatchRepository;
 import com.developer.santa.api.domain.course.CourseRepository;
+import com.developer.santa.api.domain.local.Local;
 import com.developer.santa.api.domain.local.LocalRepository;
+import com.developer.santa.api.domain.mountain.Mountain;
 import com.developer.santa.api.domain.mountain.MountainRepository;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,7 +23,7 @@ import reactor.netty.http.client.HttpClient;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-
+import java.util.stream.IntStream;
 
 
 @Service
@@ -36,38 +39,37 @@ public class ApiService {
     @Value("${mapi.baseUrl}")
     String baseUrl;
 
-    private final MountainRepository mountainRepository;
-    private final LocalRepository localRepository;
+
     private final BatchRepository batchRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final LocalRepository localRepository;
 
 
     public String connectApi(String geomFilter, String crs, int page, int size, String localName) {
+
         if (size > 20) return String.valueOf(webClientApi(geomFilter, crs, page, size));
 
-//        JSONObject connectApiData = webClientApi(geomFilter, crs, page, size);
-        isExistsUrl(geomFilter, crs, page, size, localName);
-        return String.valueOf(webClientApi(geomFilter, crs, page, size));
+        return String.valueOf(isExistsUrl(geomFilter, crs, page, size, localName));
     }
 
 
     public void dataCrawling(String geomFilter, String crs, int page, int size, String localName){
+
         isExistsUrl(geomFilter, crs, page, size, localName);
     }
 
 
-    private void isExistsUrl(String geomFilter, String crs, int page, int size, String localName) {
+    private JSONObject isExistsUrl(String geomFilter, String crs, int page, int size, String localName) {
         String reqUrl = "/req/data?service=data&request=GetFeature&data=LT_L_FRSTCLIMB"+"&geomFilter="+ geomFilter +"&crs="+ crs +"&size="+ size +"&page="+ page;
 
         if(batchRepository.existsByReqUrl(reqUrl)) {
-            return;
+            return new JSONObject();
         }
         batchRepository.save(new BatchData(reqUrl));
-        eventPublisher.publishEvent(new DataCrawlingEvent(eventPublisher,
-                localName,
-                webClientApi(geomFilter, crs, page, size).getJSONArray("features"),
-                mountainRepository,
-                localRepository));
+        JSONObject connectApiData = webClientApi(geomFilter, crs, page, size);
+        eventPublisher.publishEvent(new DataCrawlingEvent(eventPublisher, localName,
+                connectApiData.getJSONArray("features")));
+        return connectApiData;
     }
 
 
