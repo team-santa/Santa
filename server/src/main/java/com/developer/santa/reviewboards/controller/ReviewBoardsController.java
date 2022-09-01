@@ -81,7 +81,7 @@ public class ReviewBoardsController {
                                              @Valid @RequestBody ReviewBoardRequestDto.Patch requestBody) {
         ReviewBoard reviewBoard = mapper.reviewBoardPatchToReviewBoard(requestBody);
         ReviewBoard updateBoard = reviewBoardService.updateMyBoard(reviewBoardId, reviewBoard);
-        return new ResponseEntity<>(updateBoard, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.reviewBoardToDetail(updateBoard), HttpStatus.OK);
     }
 
     @DeleteMapping("/{reviewBoardId}")
