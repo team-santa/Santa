@@ -1,46 +1,57 @@
 package com.developer.santa.reviewboards.dto;
 
+import com.developer.santa.member.entity.Member;
+import com.developer.santa.member.service.MemberService;
+import com.developer.santa.tag.entity.Tag;
+import com.developer.santa.tag.entity.TagSelect;
 import lombok.*;
+import org.springframework.context.annotation.Bean;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
+
+
 
 public class ReviewBoardRequestDto {
+
 
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post{
+
+        private String memberId;
+        @NotBlank(message = "제목은 공백이 아니어야 합니다.")
+        private String title;
+        @NotBlank
+        private String body;
         @NotBlank
         public String localName;
         @NotBlank
         public String mountainName;
         @NotBlank
         private String courseName;
-        @NotBlank(message = "제목은 공백이 아니어야 합니다.")
-        private String title;
 
-        @NotBlank
-        private String body;
+        private List<String> tagList;
 
-        private String photo;
     }
     @Getter
     public static class Patch{
         private long reviewBoardId;
 
+        private String nickName;
+        @NotBlank(message = "제목은 공백이 아니어야 합니다.")
+        private String title;
+        @NotBlank
+        private String body;
         @NotBlank
         public String localName;
         @NotBlank
         public String mountainName;
-        @NotBlank(message = "방문한 코스는 필수로 있어야 합니다.")
+        @NotBlank
         private String courseName;
 
-        @NotBlank(message = "제목은 공백이 아니어야 합니다.")
-        private String title;
-        @NotBlank
-        public String body;
-
-        public String photo;
+        private List<String> tagList;
 
         public void setReviewBoardId(long reviewBoardId) {
             this.reviewBoardId = reviewBoardId;

@@ -1,8 +1,10 @@
 package com.developer.santa.reviewboards.service;
 
+import com.developer.santa.member.service.MemberService;
 import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.reviewboards.repository.ReviewBoardRepository;
 import com.developer.santa.reviewboards.specification.ReviewBoardSpecification;
+import com.developer.santa.tag.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,8 +20,11 @@ import java.util.Optional;
 public class ReviewBoardService {
 
     public final ReviewBoardRepository reviewBoardRepository;
-
-    public ReviewBoard createMyBoard(ReviewBoard reviewBoard){
+    private final MemberService memberService;
+    private final TagService tagService;
+    public ReviewBoard createMyBoard(ReviewBoard reviewBoard)
+    {
+        //
         return reviewBoardRepository.save(reviewBoard);
     }
 
@@ -59,6 +64,15 @@ public class ReviewBoardService {
     }
 
 
+//    private void verifyTag(ReviewBoard reviewBoard) {
+//        // 회원이 존재하는지 확인
+////        memberService.verifyMember(reviewBoard.getNickName().getMemberId());
+//
+//        // 태드가 존재하는지 확인
+//        reviewBoard.getTagSelects().stream()
+////                .forEach(tagSelect ->tagService.
+//                        findVerifiedCoffee(orderCoffee.getCoffee().getCoffeeId()));
+//    }
     public ReviewBoard findVerifiedReviewBoard(Long reviewBoardId) {
         Optional<ReviewBoard> optionalReviewBoard = reviewBoardRepository.findById(reviewBoardId);
         return optionalReviewBoard.orElseThrow(
