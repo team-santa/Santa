@@ -36,7 +36,7 @@ public class ReviewBoardService {
         Optional.ofNullable(editReviewBoard.getMountainName()).ifPresent(updateBoard::setMountainName);
         Optional.ofNullable(editReviewBoard.getCourseName()).ifPresent(updateBoard::setCourseName);
         Optional.ofNullable(editReviewBoard.getBody()).ifPresent(updateBoard::setBody);
-        Optional.ofNullable(editReviewBoard.getPhoto()).ifPresent(updateBoard::setPhoto);
+        Optional.ofNullable(editReviewBoard.getTags()).ifPresent(updateBoard::setTags);
 
         return reviewBoardRepository.save(updateBoard);
 
