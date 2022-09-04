@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useDebounce from "src/hooks/useDebounce";
 import { colors } from "src/utils/colors";
+import { useUser } from "src/utils/localStorage";
 import styled from "styled-components";
 
 const SignUp = () => {
+  const user = useUser();
+  const navigate = useNavigate();
   const [username, setUserName] = useState("");
   const debouceValue = useDebounce(username);
   const [error, setError] = useState(false);
@@ -13,7 +17,7 @@ const SignUp = () => {
   useEffect(() => {
     const Fetch = async () => {
       return axios
-        .post(`http://localhost:8080/members/${debouceValue}/check`)
+        .get(`http://localhost:8080/members/${debouceValue}/check`)
         .then((res) => {
           console.log(res);
           setError(!res);
@@ -23,14 +27,22 @@ const SignUp = () => {
   }, [debouceValue]);
 
   // eslint-disable-next-line consistent-return
-  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (error) return window.alert("유저네임을 유효하게 입력해 주세요.");
     if (username.trim().length <= 2)
       return window.alert("유저네임을 2글자 이상으로 설정해 주세요.");
 
-    if (!error) {
-      // axios.post(`http://localhost:8080/members/${memberid}`, { username });
+    const result = await axios.put(
+      `http://localhost:8080/members/${user.sub}`,
+      { username }
+    );
+
+    // 토큰을 갈아줘야 함
+
+    if (result.status === 201) {
+      navigate("/main");
     }
   };
 
