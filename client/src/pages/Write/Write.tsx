@@ -11,6 +11,8 @@ import ReactQuill from "react-quill";
 import styled from "styled-components";
 import BaseButton from "src/components/BaseButton/BaseButton";
 import { colors } from "src/utils/colors";
+import axios from "axios";
+import useDebounce from "src/hooks/useDebounce";
 import CustomToolbar, { formats, modules } from "./CustomToolbar";
 
 const Write = () => {
@@ -18,23 +20,30 @@ const Write = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<string>("");
   const [tag, setTag] = useState("");
+  const debouceValue = useDebounce(tag);
   const [tags, setTags] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [options, setOption] = useState([
-    "무등산",
-    "광릉산",
-    "화덕산",
-    "계룡산",
-    "마찰산",
-  ]);
+  const [options, setOption] = useState([]);
 
-  const handleContent = (value: any) => setContent(value);
+  useEffect(() => {
+    axios
+      .get(
+        `https://olive-shrimps-go-222-117-186-4.loca.lt/v1/tag?text=${debouceValue}`
+      )
+      .then((res) => {
+        console.log(res);
+        const tagNames = res.data.map((data: any) => data.tagName);
+        setOption(tagNames);
+      });
+  }, [debouceValue]);
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTitle(e.currentTarget.value);
 
   const handleTag = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTag(e.target.value);
+
+  const handleContent = (value: any) => setContent(value);
 
   const handleAddTags = async (tag: string) => {
     console.log(tag);
@@ -60,6 +69,7 @@ const Write = () => {
 
   const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const requestForm = {
       usename: "CuteHwanMin",
       userProfile: "/images/CC",
@@ -67,14 +77,10 @@ const Write = () => {
       content,
       tags,
     };
+    console.log(requestForm);
     console.log("I'm Handle Submit ~");
   };
 
-  useEffect(() => {
-    // TODO!
-    // 1.tag가 바뀔때 마다 서버에서 데이터를 받아와서 setTag로 데이터 바꿔주기
-    // 2.setTimeOut 걸어서 서버 과부하 줄여주기
-  }, [tag]);
   return (
     <Container>
       {true || (
@@ -93,7 +99,7 @@ const Write = () => {
         />
         <TagContainer>
           <div>
-            {tags.map((tag) => (
+            {tags?.map((tag) => (
               <span
                 key={tag}
                 onClick={(e) => handleRemoveTag(tag)}
@@ -114,7 +120,7 @@ const Write = () => {
         </TagContainer>
         {isOpen ? (
           <DropBox>
-            {options.map((option) => (
+            {options?.map((option) => (
               <span
                 key={option}
                 onClick={() => {
