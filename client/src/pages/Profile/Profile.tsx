@@ -4,6 +4,7 @@ import Dialog from "src/components/Dialog/Dialog";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { useUser } from "src/utils/localStorage";
 
 const MyReviews = [
   "A산 리뷰",
@@ -16,10 +17,11 @@ const MyReviews = [
 
 const Profile = () => {
   const navigate = useNavigate();
-
+  const user = useUser();
+  console.log(user);
   return (
     <Container>
-      {true || (
+      {user ? null : (
         <Dialog
           confirm={() => navigate("/main/login")}
           close={() => navigate("/main/")}
