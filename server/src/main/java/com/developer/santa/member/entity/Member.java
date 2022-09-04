@@ -4,14 +4,12 @@ import com.developer.santa.audit.Auditable;
 import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
-import com.developer.santa.tag.entity.TagSelect;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Member extends Auditable {
+public class Member extends Auditable implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,8 +46,11 @@ public class Member extends Auditable {
     @Column(nullable = false)
     private RoleType roleType;
 
-    @OneToMany(mappedBy = "nickName")
+    @OneToMany(mappedBy = "nickName", cascade = CascadeType.ALL)
     private List<ReviewBoard> reviewBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    List<FavoriteMountain> favoriteMountains = new ArrayList<>();
 
     public Member(String memberId, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;
@@ -58,6 +59,11 @@ public class Member extends Auditable {
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;
         this.roleType = roleType;
+    }
+
+    public void addFavoriteMountain(FavoriteMountain favoriteMountain) {
+        this.favoriteMountains.add(favoriteMountain);
+        favoriteMountain.setMember(this);
     }
 
     public void addReviewBoard(ReviewBoard reviewBoard){
