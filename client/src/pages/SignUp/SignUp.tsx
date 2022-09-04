@@ -1,27 +1,37 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import useDebounce from "src/hooks/useDebounce";
 import { colors } from "src/utils/colors";
 import styled from "styled-components";
 
 const SignUp = () => {
   const [username, setUserName] = useState("");
+  const debouceValue = useDebounce(username);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   axios
-    //     .post(`http://localhost:8080/members/${username}/check`)
-    //     .then((res) => {
-    //       setError(!res);
-    //     });
-    // }, 500);
-  }, [username]);
+    const Fetch = async () => {
+      return axios
+        .post(`http://localhost:8080/members/${debouceValue}/check`)
+        .then((res) => {
+          console.log(res);
+          setError(!res);
+        });
+    };
+    if (username) Fetch();
+  }, [debouceValue]);
 
   // eslint-disable-next-line consistent-return
   const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // axios.post(`http://localhost:8080/members/${memberid}` , {username})
-    console.log(username);
+
+    if (username.trim().length <= 2)
+      return window.alert("유저네임을 2글자 이상으로 설정해 주세요.");
+
+    if (!error) {
+      // axios.post(`http://localhost:8080/members/${memberid}`, { username });
+    }
   };
 
   return (
