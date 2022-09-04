@@ -64,7 +64,8 @@ public class SecurityConfig{
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/h2/**").permitAll()
-                .anyRequest().permitAll() // 모든 페이지 접근허용
+                .antMatchers("/members/login").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint()

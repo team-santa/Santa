@@ -2,7 +2,6 @@ package com.developer.santa.member.oauth.entity;
 
 import com.developer.santa.member.entity.Member;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,18 +14,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-@RequiredArgsConstructor
 @Data
 public class PrincipalDetails implements UserDetails, OAuth2User, OidcUser {
 
-    private final String userId;
+    private String userId;
 
-    private final String password;
+    private String password;
 
-    private final ProviderType providerType;
+    private ProviderType providerType;
 
-    private final RoleType roleType;
-    private final Collection<GrantedAuthority> authorities;
+    private RoleType roleType;
+    private Collection<GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
     @Override
@@ -72,6 +70,20 @@ public class PrincipalDetails implements UserDetails, OAuth2User, OidcUser {
     @Override
     public OidcIdToken getIdToken() {
         return null;
+    }
+
+    public PrincipalDetails(String userId, String password, ProviderType providerType, RoleType roleType, Collection<GrantedAuthority> authorities) {
+        this.userId = userId;
+        this.password = password;
+        this.providerType = providerType;
+        this.roleType = roleType;
+        this.authorities = authorities;
+    }
+
+    public PrincipalDetails(String userId, RoleType roleType, Collection<GrantedAuthority> authorities) {
+        this.userId = userId;
+        this.roleType = roleType;
+        this.authorities = authorities;
     }
 
     public static PrincipalDetails create(Member user) {
