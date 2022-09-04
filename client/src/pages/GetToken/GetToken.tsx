@@ -9,17 +9,18 @@ const GetToken = () => {
   useEffect(() => {
     const token = searchParams.get("token");
     if (token) {
-      setCookie("token", token, { path: "/", maxAge: 40000 });
+      setCookie("token", token, { path: "/" });
       const decoded = jwt_decode(token);
       localStorage.setItem("user", JSON.stringify(decoded));
     }
 
-    if (searchParams.get("signup")) {
+    if (searchParams.get("signup") === "true") {
       window.location.replace("/main/signup");
     } else {
       window.location.replace("/main");
     }
   });
+
   return <div>GetToken</div>;
 };
 
