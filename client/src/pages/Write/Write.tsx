@@ -13,17 +13,21 @@ import BaseButton from "src/components/BaseButton/BaseButton";
 import { colors } from "src/utils/colors";
 import axios from "axios";
 import useDebounce from "src/hooks/useDebounce";
+import { useUser } from "src/utils/localStorage";
 import CustomToolbar, { formats, modules } from "./CustomToolbar";
 
 const Write = () => {
   const navigate = useNavigate();
+  const user = useUser();
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<string>("");
   const [tag, setTag] = useState("");
-  const debouceValue = useDebounce(tag);
   const [tags, setTags] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOption] = useState([]);
+
+  const debouceValue = useDebounce(tag);
 
   useEffect(() => {
     axios
@@ -83,10 +87,10 @@ const Write = () => {
 
   return (
     <Container>
-      {true || (
+      {user ? null : (
         <Dialog
           confirm={() => navigate("/main/login")}
-          close={() => navigate(-1)}
+          close={() => navigate("/main/")}
         />
       )}
       <Form onSubmit={HandleSubmit}>
