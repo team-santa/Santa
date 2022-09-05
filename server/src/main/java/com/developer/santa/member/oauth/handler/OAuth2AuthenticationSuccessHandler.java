@@ -39,7 +39,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final AppProperties appProperties;
     private final HttpCookieOAuth2AuthorizationRequestRepository authorizationRequestRepository;
     private final AuthTokenProvider tokenProvider;
-
     private final MemberRepository memberRepository;
 
 
@@ -81,6 +80,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Date now = new Date();
         AuthToken accessToken = tokenProvider.createAuthToken(
                 userInfo.getId(),
+                member.getUsername()==null ? "" : member.getUsername(),
                 roleType.getCode(),
                 new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
         );
