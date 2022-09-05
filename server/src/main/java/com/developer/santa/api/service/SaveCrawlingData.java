@@ -1,5 +1,7 @@
 package com.developer.santa.api.service;
 
+import com.developer.santa.api.domain.batchdata.BatchData;
+import com.developer.santa.api.domain.batchdata.BatchRepository;
 import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseRepository;
 import com.developer.santa.api.domain.local.Local;
@@ -21,11 +23,12 @@ public class SaveCrawlingData {
     private final MountainRepository mountainRepository;
     private final LocalRepository localRepository;
     private final CourseRepository courseRepository;
+    private final BatchRepository batchRepository;
 
     @EventListener()
     @Transactional(timeout = 3)
     public void saveLocalMountainCourse(DataCrawlingEvent dataSaveRamda) throws InterruptedException {
-        ExecutorService executor = new ThreadPoolExecutor(1, 1, 3L, TimeUnit.SECONDS, new LinkedBlockingQueue());
+        ExecutorService executor = new ThreadPoolExecutor(1, 1, 3L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
         executor.execute(()->{
             if (!localRepository.existsByLocalName(dataSaveRamda.getLocalName())) {
                 localRepository.save(new Local(dataSaveRamda.getLocalName()));
@@ -56,8 +59,8 @@ public class SaveCrawlingData {
                                     }
                                 }
                     });
+            batchRepository.save(new BatchData(dataSaveRamda.getReqUrl()));
         });
         executor.shutdown();
-        System.out.println("end");
     }
 }

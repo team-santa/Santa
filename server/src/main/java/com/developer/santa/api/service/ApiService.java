@@ -7,6 +7,7 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import lombok.RequiredArgsConstructor;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;;
 import org.springframework.context.ApplicationEventPublisher;
@@ -39,35 +40,39 @@ public class ApiService {
     private final ApplicationEventPublisher eventPublisher;
 
 
-    public String connectApi(String geomFilter, String crs, int page, int size, String localName) {
+    public Mono<String> connectApi(String geomFilter, String crs, int page, int size, String localName) {
 
-        if (size > 20) return String.valueOf(webClientApi(geomFilter, crs, page, size));
-
-        return String.valueOf(isExistsUrl(geomFilter, crs, page, size, localName));
+        if (size > 20) return webClientApi(geomFilter, crs, page, size);
+        Mono<String> mono = webClientApi(geomFilter, crs, page, size);
+        isExistsUrl(geomFilter, crs, page, size, localName, mono);
+        return mono;
     }
 
 
     public void dataCrawling(String geomFilter, String crs, int page, int size, String localName){
 
-        isExistsUrl(geomFilter, crs, page, size, localName);
+        isExistsUrl(geomFilter, crs, page, size, localName, webClientApi(geomFilter, crs, page, size));
     }
 
 
-    private JSONObject isExistsUrl(String geomFilter, String crs, int page, int size, String localName) {
+    private void isExistsUrl(String geomFilter, String crs, int page, int size, String localName, Mono<String> mono) {
         String reqUrl = "/req/data?service=data&request=GetFeature&data=LT_L_FRSTCLIMB"+"&geomFilter="+ geomFilter +"&crs="+ crs +"&size="+ size +"&page="+ page;
 
         if(batchRepository.existsByReqUrl(reqUrl)) {
-            return new JSONObject();
+            new JSONObject();
+            return;
         }
-        batchRepository.save(new BatchData(reqUrl));
-        JSONObject connectApiData = webClientApi(geomFilter, crs, page, size);
-        eventPublisher.publishEvent(new DataCrawlingEvent(eventPublisher, localName,
-                connectApiData.getJSONArray("features")));
-        return connectApiData;
+        JSONArray connectApiData = new JSONObject(mono.block())
+                .getJSONObject("response")
+                .getJSONObject("result")
+                .getJSONObject("featureCollection")
+                .getJSONArray("features");
+
+        eventPublisher.publishEvent(new DataCrawlingEvent(eventPublisher, localName, connectApiData, reqUrl));
     }
 
 
-    public JSONObject webClientApi(String geomFilter, String crs, int page, int size){
+    public Mono<String> webClientApi(String geomFilter, String crs, int page, int size){
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
                 .responseTimeout(Duration.ofMillis(3000))
@@ -75,7 +80,7 @@ public class ApiService {
                         conn.addHandlerLast(new ReadTimeoutHandler(3000, TimeUnit.MILLISECONDS))
                                 .addHandlerLast(new WriteTimeoutHandler(3000, TimeUnit.MILLISECONDS)));
 
-        Mono<String> mono = WebClient.builder().baseUrl(baseUrl)
+        return WebClient.builder().baseUrl(baseUrl)
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build().get()
                 .uri(builder -> builder.path("/req/data")
@@ -93,10 +98,5 @@ public class ApiService {
                 .exchangeToMono(response -> {
                     return response.bodyToMono(String.class);
                 });
-
-        return new JSONObject(mono.block())
-                .getJSONObject("response")
-                .getJSONObject("result")
-                .getJSONObject("featureCollection");
     }
 }
