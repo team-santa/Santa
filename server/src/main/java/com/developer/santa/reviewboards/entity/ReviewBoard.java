@@ -42,9 +42,9 @@ public class ReviewBoard extends Auditable{
     private String title;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String body;  //CLob
+    private String body;
     @Column(length = 100)
-    private String photo; //BLob
+    private String mainImageUrl;
 
     @OneToMany(mappedBy = "reviewBoard", cascade = CascadeType.ALL)
     private List<TagSelect> tagSelects = new ArrayList<>();
@@ -57,9 +57,9 @@ public class ReviewBoard extends Auditable{
     @JoinColumn(name ="memberId")
     private Member memberId;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name ="imageId")
-    private List<Images> images = new ArrayList<>();
+//    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+//    @JoinColumn(name ="imageId")
+//    private List<Images> images = new ArrayList<>();
 
     @ElementCollection
     private List<String> viewers;
@@ -67,21 +67,17 @@ public class ReviewBoard extends Auditable{
     @ElementCollection
     private List<String> tags;
 
-
-
     @Builder
-    public ReviewBoard( String localName, String mountainName, String courseName,  String title, String body, String photo, List<String> tags) {
+    public ReviewBoard( String localName, String mountainName, String courseName,  String title, String body, String mainImageUrl, List<String> tags) {
         this.localName = localName;
         this.mountainName = mountainName;
         this.courseName = courseName;
         this.views = 0L;
         this.title = title;
         this.body = body;
-        this.photo = photo;
+        this.mainImageUrl = mainImageUrl;
         this.tags = tags;
     }
-
-
 
     public void addTagSelect(TagSelect tagSelect){
         this.tagSelects.add(tagSelect);
@@ -90,18 +86,14 @@ public class ReviewBoard extends Auditable{
         }
     }
 
-
     public void addViewCount(){
         this.views++;
     }
-
     public void addViewer(String viewer){
         this.viewers.add(viewer);
     }
 
-
-
-    public void deleteImage() {
-        this.images.clear();
-    }
+//    public void deleteImage() {
+//        this.images.clear();
+//    }
 }

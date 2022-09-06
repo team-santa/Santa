@@ -59,7 +59,7 @@ public interface ReviewBoardMapper {
         reviewPage.setReviewBoardId(reviewBoard.getReviewBoardId());
         reviewPage.setNickName(reviewBoard.getMemberId());
         reviewPage.setTitle(reviewBoard.getTitle());
-        reviewPage.setPhoto(reviewBoard.getPhoto());
+        reviewPage.setPhoto(reviewBoard.getMainImageUrl());
         return reviewPage;
     };
     List<ReviewBoardResponseDto.Page> reviewBoardListToPages(List<ReviewBoard> reviewBoards);
@@ -71,7 +71,7 @@ public interface ReviewBoardMapper {
        reviewDetail.setNickName(reviewBoard.getMemberId());
        reviewDetail.setTitle(reviewBoard.getTitle());
        reviewDetail.setBody(reviewBoard.getBody());
-       reviewDetail.setPhoto(reviewBoard.getPhoto());
+       reviewDetail.setPhoto(reviewBoard.getMainImageUrl());
        reviewDetail.setLocalName(reviewBoard.getLocalName());
        reviewDetail.setMountainName(reviewBoard.getMountainName());
        reviewDetail.setCourseName(reviewBoard.getCourseName());
