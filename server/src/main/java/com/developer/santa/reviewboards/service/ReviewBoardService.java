@@ -21,10 +21,9 @@ public class ReviewBoardService {
 
     public final ReviewBoardRepository reviewBoardRepository;
     private final MemberService memberService;
-    private final TagService tagService;
     public ReviewBoard createMyBoard(ReviewBoard reviewBoard)
     {
-        //
+        reviewBoard.setMemberId(memberService.findMember(reviewBoard.getMemberId().getMemberId()));
         return reviewBoardRepository.save(reviewBoard);
     }
 

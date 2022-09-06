@@ -6,6 +6,8 @@ import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.reviewboards.mapper.ReviewBoardMapper;
 import com.developer.santa.reviewboards.service.ReviewBoardService;
 import com.developer.santa.dto.MultiResponseDto;
+import com.developer.santa.tag.entity.Tag;
+import com.developer.santa.tag.entity.TagSelect;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/reviewBoards")
@@ -28,13 +31,11 @@ import java.util.Map;
 public class ReviewBoardsController {
     // 최신순조회
     private final ReviewBoardService reviewBoardService;
-    private final MemberService memberService;
     private final ReviewBoardMapper mapper;
 
     @PostMapping
     public ResponseEntity<?> postReview(@Valid @RequestBody ReviewBoardRequestDto.Post requestBody){
         ReviewBoard reviewBoard = mapper.reviewBoardPostToReviewBoard(requestBody);
-        reviewBoard.setNickName(memberService.findMember(requestBody.getMemberId()));
         ReviewBoard createBoard = reviewBoardService.createMyBoard(reviewBoard);
         return new ResponseEntity<>(createBoard, HttpStatus.CREATED);
     }
