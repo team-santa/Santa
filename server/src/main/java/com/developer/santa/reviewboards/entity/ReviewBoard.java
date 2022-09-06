@@ -55,7 +55,7 @@ public class ReviewBoard extends Auditable{
 
     @ManyToOne
     @JoinColumn(name ="memberId")
-    private Member memberId;
+    private Member member;
 
 //    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
 //    @JoinColumn(name ="imageId")

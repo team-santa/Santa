@@ -4,7 +4,6 @@ import com.developer.santa.member.service.MemberService;
 import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.reviewboards.repository.ReviewBoardRepository;
 import com.developer.santa.reviewboards.specification.ReviewBoardSpecification;
-import com.developer.santa.tag.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +22,7 @@ public class ReviewBoardService {
     private final MemberService memberService;
     public ReviewBoard createMyBoard(ReviewBoard reviewBoard)
     {
-        reviewBoard.setMemberId(memberService.findMember(reviewBoard.getMemberId().getMemberId()));
+        reviewBoard.setMember(memberService.findMember(reviewBoard.getMember().getMemberId()));
         return reviewBoardRepository.save(reviewBoard);
     }
 
@@ -53,7 +52,8 @@ public class ReviewBoardService {
             reviewBoard.addViewCount();
             reviewBoard.addViewer(clientIp);
         }
-        return findVerifiedReviewBoard(reviewBoardId);
+
+        return reviewBoardRepository.save(reviewBoard);
     }
 
 

@@ -39,7 +39,7 @@ public interface ReviewBoardMapper {
                    tagSelect.addReviewBoard(reviewBoard);
                    return tagSelect;
                 }).collect(Collectors.toList());
-        reviewBoard.setMemberId(member);
+        reviewBoard.setMember(member);
         reviewBoard.setTagSelects(tagSelects);
         return reviewBoard;
     };
@@ -57,7 +57,7 @@ public interface ReviewBoardMapper {
     default ReviewBoardResponseDto.Page reviewBoardToPage(ReviewBoard reviewBoard){
         ReviewBoardResponseDto.Page reviewPage =new ReviewBoardResponseDto.Page();
         reviewPage.setReviewBoardId(reviewBoard.getReviewBoardId());
-        reviewPage.setNickName(reviewBoard.getMemberId());
+        reviewPage.setWriterAndId(reviewBoard.getMember());
         reviewPage.setTitle(reviewBoard.getTitle());
         reviewPage.setPhoto(reviewBoard.getMainImageUrl());
         return reviewPage;
@@ -68,7 +68,7 @@ public interface ReviewBoardMapper {
    default ReviewBoardResponseDto.Detail reviewBoardToDetail(ReviewBoard reviewBoard){
        ReviewBoardResponseDto.Detail reviewDetail =new ReviewBoardResponseDto.Detail();
        reviewDetail.setReviewBoardId(reviewBoard.getReviewBoardId());
-       reviewDetail.setNickName(reviewBoard.getMemberId());
+       reviewDetail.setWriterAndId(reviewBoard.getMember());
        reviewDetail.setTitle(reviewBoard.getTitle());
        reviewDetail.setBody(reviewBoard.getBody());
        reviewDetail.setPhoto(reviewBoard.getMainImageUrl());
