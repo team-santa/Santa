@@ -8,6 +8,7 @@ import com.developer.santa.tag.entity.TagSelect;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,10 +21,6 @@ public class ReviewBoard extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewBoardId;
-
-    @ManyToOne
-    @JoinColumn(name ="username", referencedColumnName = "username")
-    private Member nickName;
 
     @Column(length = 20, nullable = false)// 추후 enum으로 표현
     private String localName;
@@ -40,7 +37,7 @@ public class ReviewBoard extends Auditable {
     @Column(length = 100, nullable = false)
     private String title;
 
-    @Column(length = 100)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String body;  //CLob
     @Column(length = 100)
     private String photo; //BLob
@@ -52,6 +49,14 @@ public class ReviewBoard extends Auditable {
     @JoinColumn(name="courseId")
     private Course course;
 
+    @ManyToOne
+    @JoinColumn(name ="memberId")
+    private Member memberId;
+
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name ="imageId")
+    private List<Images> images = new ArrayList<>();
+
     @ElementCollection
     private List<String> viewers;
 
@@ -61,8 +66,7 @@ public class ReviewBoard extends Auditable {
 
 
     @Builder
-    public ReviewBoard(Member nickName, String localName, String mountainName, String courseName,  String title, String body, String photo, List<String> tags) {
-        this.nickName = nickName;
+    public ReviewBoard( String localName, String mountainName, String courseName,  String title, String body, String photo, List<String> tags) {
         this.localName = localName;
         this.mountainName = mountainName;
         this.courseName = courseName;
@@ -82,9 +86,6 @@ public class ReviewBoard extends Auditable {
         }
     }
 
-    public void setNickName(Member nickName) {
-        this.nickName = nickName;
-    }
 
     public void addViewCount(){
         this.views++;
@@ -95,4 +96,8 @@ public class ReviewBoard extends Auditable {
     }
 
 
+
+    public void deleteImage() {
+        this.images.clear();
+    }
 }

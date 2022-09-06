@@ -34,6 +34,17 @@ public class ReviewBoardRequestDto {
 
         private List<String> tagList;
 
+
+        public Member getMember() {
+            Member member = new Member();
+            member.setMemberId(memberId);
+            return member;
+        }
+        public Tag getTag(String tagName){
+            Tag tag = new Tag();
+            tag.setTagName(tagName);
+            return tag;
+        }
     }
     @Getter
     public static class Patch{

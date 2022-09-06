@@ -20,6 +20,8 @@ public interface ReviewBoardMapper {
 
     default ReviewBoard reviewBoardPostToReviewBoard(ReviewBoardRequestDto.Post requestBody){
         ReviewBoard reviewBoard = new ReviewBoard();
+        Member member =new Member();
+        member.setMemberId(requestBody.getMemberId());
         reviewBoard.setViews(0L);
         reviewBoard.setTitle(requestBody.getTitle());
         reviewBoard.setBody(requestBody.getBody());
@@ -27,16 +29,16 @@ public interface ReviewBoardMapper {
         reviewBoard.setMountainName(requestBody.getMountainName());
         reviewBoard.setCourseName(requestBody.getCourseName());
         reviewBoard.setTags(requestBody.getTagList());
-//        List<TagSelect> tagSelects = requestBody.getTagList().stream()
-//                .map(tagSelectDto ->{
-//                   TagSelect tagSelect = new TagSelect();
-//                   Tag tag = new Tag();
-//                   tag.setTagName(tagSelectDto);
-//                   tagSelect.addTag(tag);
-//                   tagSelect.addReviewBoard(reviewBoard);
-//                   return tagSelect;
-//                }).collect(Collectors.toList());
-//        reviewBoard.setTagSelects(tagSelects);
+        List<TagSelect> tagSelects = requestBody.getTagList().stream()
+                .map(tagSelectDto ->{
+                   TagSelect tagSelect = new TagSelect();
+                   Tag tag = new Tag(tagSelectDto);
+                   tagSelect.addTag(tag);
+                   tagSelect.addReviewBoard(reviewBoard);
+                   return tagSelect;
+                }).collect(Collectors.toList());
+        reviewBoard.setMemberId(member);
+        reviewBoard.setTagSelects(tagSelects);
         return reviewBoard;
     };
     default ReviewBoard reviewBoardPatchToReviewBoard(ReviewBoardRequestDto.Patch requestBody){
@@ -53,7 +55,7 @@ public interface ReviewBoardMapper {
     default ReviewBoardResponseDto.Page reviewBoardToPage(ReviewBoard reviewBoard){
         ReviewBoardResponseDto.Page reviewPage =new ReviewBoardResponseDto.Page();
         reviewPage.setReviewBoardId(reviewBoard.getReviewBoardId());
-        reviewPage.setNickName(reviewBoard.getNickName());
+        reviewPage.setNickName(reviewBoard.getMemberId());
         reviewPage.setTitle(reviewBoard.getTitle());
         reviewPage.setPhoto(reviewBoard.getPhoto());
         return reviewPage;
@@ -64,7 +66,7 @@ public interface ReviewBoardMapper {
    default ReviewBoardResponseDto.Detail reviewBoardToDetail(ReviewBoard reviewBoard){
        ReviewBoardResponseDto.Detail reviewDetail =new ReviewBoardResponseDto.Detail();
        reviewDetail.setReviewBoardId(reviewBoard.getReviewBoardId());
-       reviewDetail.setNickName(reviewBoard.getNickName());
+       reviewDetail.setNickName(reviewBoard.getMemberId());
        reviewDetail.setTitle(reviewBoard.getTitle());
        reviewDetail.setBody(reviewBoard.getBody());
        reviewDetail.setPhoto(reviewBoard.getPhoto());
