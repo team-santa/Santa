@@ -1,9 +1,9 @@
 package com.developer.santa.member.entity;
 
 import com.developer.santa.audit.Auditable;
-import com.developer.santa.boards.entity.ReviewBoard;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
+import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.tag.entity.TagSelect;
 import lombok.Data;
 import lombok.Getter;
@@ -48,7 +48,7 @@ public class Member extends Auditable implements Serializable {
     @Column(nullable = false)
     private RoleType roleType;
 
-    @OneToMany(mappedBy = "nickName", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
     private List<ReviewBoard> reviewBoards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -70,8 +70,8 @@ public class Member extends Auditable implements Serializable {
 
     public void addReviewBoard(ReviewBoard reviewBoard){
         this.reviewBoards.add(reviewBoard);
-        if(reviewBoard.getNickName() != this){
-            reviewBoard.setNickName(this);
+        if(reviewBoard.getMemberId() != this){
+            reviewBoard.setMemberId(this);
         }
     }
 }
