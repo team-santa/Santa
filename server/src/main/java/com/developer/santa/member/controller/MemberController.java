@@ -47,4 +47,19 @@ public class MemberController {
         Member member = memberService.postMemberFavoriteMountain(memberId, mountainName);
         return new ResponseEntity<>(mapper.memberToMemberDtoResponse(member), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{memberId}/mountains/{mountainName}")
+    public ResponseEntity<Void> deleteMountain(@PathVariable String memberId,
+                                                             @PathVariable String mountainName) {
+        memberService.deleteMemberFavoriteMountain(memberId, mountainName);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{memberId}/mountains")
+    public ResponseEntity<MemberDto.Mountain> getMountains(@PathVariable String memberId) {
+        Member member = memberService.findMember(memberId);
+        return new ResponseEntity<>(mapper.memberToMemberDtoMountain(member), HttpStatus.OK);
+    }
+
+
 }
