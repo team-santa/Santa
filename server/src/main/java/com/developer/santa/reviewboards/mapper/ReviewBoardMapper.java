@@ -5,8 +5,10 @@ import com.developer.santa.member.service.MemberService;
 import com.developer.santa.reviewboards.dto.ReviewBoardRequestDto;
 import com.developer.santa.reviewboards.dto.ReviewBoardResponseDto;
 import com.developer.santa.reviewboards.entity.ReviewBoard;
+import com.developer.santa.reviewboards.repository.ReviewBoardRepository;
 import com.developer.santa.tag.entity.Tag;
 import com.developer.santa.tag.entity.TagSelect;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,7 +18,6 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ReviewBoardMapper {
-
 
     default ReviewBoard reviewBoardPostToReviewBoard(ReviewBoardRequestDto.Post requestBody){
         ReviewBoard reviewBoard = new ReviewBoard();
@@ -32,7 +33,8 @@ public interface ReviewBoardMapper {
         List<TagSelect> tagSelects = requestBody.getTagList().stream()
                 .map(tagSelectDto ->{
                    TagSelect tagSelect = new TagSelect();
-                   Tag tag = new Tag(tagSelectDto);
+                   Tag tag = new Tag();
+                   tag.setTagName(tagSelectDto);
                    tagSelect.addTag(tag);
                    tagSelect.addReviewBoard(reviewBoard);
                    return tagSelect;

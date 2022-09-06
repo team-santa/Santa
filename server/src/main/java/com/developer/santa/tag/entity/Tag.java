@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,16 +19,22 @@ import java.util.List;
 @AllArgsConstructor
 public class Tag {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tagId;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long tagId;
 
-    @Column(length = 100, nullable = false)
+    @Id
+    @Column(length = 100, nullable = false, unique = true)
     private String tagName;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
-    private List<TagSelect> tagSelects;
+    private List<TagSelect> tagSelects = new ArrayList<>();
 
+
+
+//    public Tag(String tagName) {
+//        this.tagName = tagName;
+//    }
 
     public void addTagSelect(TagSelect tagSelect){
         this.tagSelects.add(tagSelect);

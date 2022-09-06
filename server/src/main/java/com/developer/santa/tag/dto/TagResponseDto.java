@@ -10,8 +10,8 @@ public class TagResponseDto {
     @Getter
     @AllArgsConstructor
     public static class Recommend {
-        @NotBlank
-        private long tagId;
+//        @NotBlank
+//        private long tagId;
         @NotBlank
         private String tagName;
     }
