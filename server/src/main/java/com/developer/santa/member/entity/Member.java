@@ -48,7 +48,7 @@ public class Member extends Auditable implements Serializable {
     @Column(nullable = false)
     private RoleType roleType;
 
-    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ReviewBoard> reviewBoards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -70,8 +70,8 @@ public class Member extends Auditable implements Serializable {
 
     public void addReviewBoard(ReviewBoard reviewBoard){
         this.reviewBoards.add(reviewBoard);
-        if(reviewBoard.getMemberId() != this){
-            reviewBoard.setMemberId(this);
+        if(reviewBoard.getMember() != this){
+            reviewBoard.setMember(this);
         }
     }
 }
