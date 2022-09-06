@@ -32,6 +32,9 @@ public class ReviewBoardRequestDto {
         @NotBlank
         private String courseName;
 
+
+        private String thumbnail;
+
         private List<String> tagList;
 
 
@@ -61,6 +64,8 @@ public class ReviewBoardRequestDto {
         public String mountainName;
         @NotBlank
         private String courseName;
+
+        private String thumbnail;
 
         private List<String> tagList;
 

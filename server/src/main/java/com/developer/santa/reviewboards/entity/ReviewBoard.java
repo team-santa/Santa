@@ -43,8 +43,8 @@ public class ReviewBoard extends Auditable{
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String body;
-    @Column(length = 100)
-    private String mainImageUrl;
+    @Column(columnDefinition = "TEXT")
+    private String thumbnail;
 
     @OneToMany(mappedBy = "reviewBoard", cascade = CascadeType.ALL)
     private List<TagSelect> tagSelects = new ArrayList<>();
@@ -68,14 +68,14 @@ public class ReviewBoard extends Auditable{
     private List<String> tags;
 
     @Builder
-    public ReviewBoard( String localName, String mountainName, String courseName,  String title, String body, String mainImageUrl, List<String> tags) {
+    public ReviewBoard( String localName, String mountainName, String courseName,  String title, String body, String thumbnail, List<String> tags) {
         this.localName = localName;
         this.mountainName = mountainName;
         this.courseName = courseName;
         this.views = 0L;
         this.title = title;
         this.body = body;
-        this.mainImageUrl = mainImageUrl;
+        this.thumbnail = thumbnail;
         this.tags = tags;
     }
 

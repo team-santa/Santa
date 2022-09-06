@@ -26,6 +26,7 @@ public interface ReviewBoardMapper {
         reviewBoard.setViews(0L);
         reviewBoard.setTitle(requestBody.getTitle());
         reviewBoard.setBody(requestBody.getBody());
+        reviewBoard.setThumbnail(requestBody.getThumbnail());
         reviewBoard.setLocalName(requestBody.getLocalName());
         reviewBoard.setMountainName(requestBody.getMountainName());
         reviewBoard.setCourseName(requestBody.getCourseName());
@@ -59,7 +60,7 @@ public interface ReviewBoardMapper {
         reviewPage.setReviewBoardId(reviewBoard.getReviewBoardId());
         reviewPage.setWriterAndId(reviewBoard.getMember());
         reviewPage.setTitle(reviewBoard.getTitle());
-        reviewPage.setPhoto(reviewBoard.getMainImageUrl());
+        reviewPage.setThumbnail(reviewBoard.getThumbnail());
         return reviewPage;
     };
     List<ReviewBoardResponseDto.Page> reviewBoardListToPages(List<ReviewBoard> reviewBoards);
@@ -71,7 +72,7 @@ public interface ReviewBoardMapper {
        reviewDetail.setWriterAndId(reviewBoard.getMember());
        reviewDetail.setTitle(reviewBoard.getTitle());
        reviewDetail.setBody(reviewBoard.getBody());
-       reviewDetail.setPhoto(reviewBoard.getMainImageUrl());
+       reviewDetail.setThumbnail(reviewBoard.getThumbnail());
        reviewDetail.setLocalName(reviewBoard.getLocalName());
        reviewDetail.setMountainName(reviewBoard.getMountainName());
        reviewDetail.setCourseName(reviewBoard.getCourseName());

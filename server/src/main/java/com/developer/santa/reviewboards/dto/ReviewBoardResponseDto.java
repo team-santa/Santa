@@ -18,7 +18,7 @@ public class ReviewBoardResponseDto {
         private String memberId;
         private String writer;
         private String title;
-        private String photo;
+        private String thumbnail;
 
 
         public void setWriterAndId(Member member){
@@ -49,7 +49,7 @@ public class ReviewBoardResponseDto {
         @NotBlank
         private String body;
 
-        private String photo;
+        private String thumbnail;
         @NotBlank
         public String localName;
         @NotBlank
