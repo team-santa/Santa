@@ -5,9 +5,12 @@ import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.member.entity.Member;
 
 import com.developer.santa.tag.entity.TagSelect;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewBoard extends Auditable {
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+public class ReviewBoard extends Auditable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +47,7 @@ public class ReviewBoard extends Auditable {
     private String photo; //BLob
 
     @OneToMany(mappedBy = "reviewBoard", cascade = CascadeType.ALL)
-    private List<TagSelect> tagSelects;
+    private List<TagSelect> tagSelects = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="courseId")
