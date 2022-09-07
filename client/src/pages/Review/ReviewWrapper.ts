@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const Wrapper = styled.div<Props>`
-  padding: 1rem;
+  padding: 2rem 1rem 6rem 1rem;
   display: flex;
   flex-direction: column;
 
