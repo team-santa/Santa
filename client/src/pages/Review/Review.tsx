@@ -3,7 +3,7 @@
 
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DropDown, ReviewList } from "src/components";
+import { DropDown, ReviewCard } from "src/components";
 import { testAsyncAction, useAppDispatch } from "src/redux";
 import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
 import { Wrapper } from "./ReviewWrapper";
@@ -82,7 +82,7 @@ const Review = () => {
             </span>
           </div>
         </div>
-        <ReviewList />
+        <ReviewCard />
       </section>
     </Wrapper>
   );

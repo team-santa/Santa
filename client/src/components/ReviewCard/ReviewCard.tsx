@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useNavigate } from "react-router-dom";
 import { REVIEW_LIST } from "src/utils";
-import { Wrapper } from "./ReviewListWrapper";
+import { Wrapper } from "./ReviewCardWrapper";
 
-const ReviewList = () => {
+const ReviewCard = () => {
   const navigate = useNavigate();
 
   return (
@@ -45,4 +45,4 @@ const ReviewList = () => {
   );
 };
 
-export default ReviewList;
+export default ReviewCard;

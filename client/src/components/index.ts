@@ -1,6 +1,6 @@
 import DropDown from "./DropDown/DropDown";
-import ReviewList from "./ReviewList/ReviewList";
+import ReviewCard from "./ReviewCard/ReviewCard";
 import Slider from "./Slider/Slider";
 import Comment from "./Comment/Comment";
 
-export { DropDown, ReviewList, Slider, Comment };
+export { DropDown, ReviewCard, Slider, Comment };
