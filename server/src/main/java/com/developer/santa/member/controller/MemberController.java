@@ -1,5 +1,7 @@
 package com.developer.santa.member.controller;
 
+import com.developer.santa.boards.dto.ReviewBoardResponseDto;
+import com.developer.santa.boards.mapper.ReviewBoardMapper;
 import com.developer.santa.member.dto.MemberDto;
 import com.developer.santa.member.entity.Member;
 import com.developer.santa.member.mapper.MemberMapper;
@@ -12,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,12 +22,13 @@ import javax.servlet.http.HttpServletResponse;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberMapper mapper;
+    private final MemberMapper memberMapper;
+    private final ReviewBoardMapper reviewBoardMapper;
 
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberDto.Response> getMember(@PathVariable String memberId) {
         Member member = memberService.findMember(memberId);
-        return new ResponseEntity<>(mapper.memberToMemberDtoResponse(member), HttpStatus.OK);
+        return new ResponseEntity<>(memberMapper.memberToMemberDtoResponse(member), HttpStatus.OK);
     }
 
     @PutMapping("/{memberId}")
@@ -32,8 +36,8 @@ public class MemberController {
                                                         @RequestBody MemberDto.Put memberPutDto,
                                                         @AuthenticationPrincipal PrincipalDetails principalDetails,
                                                         HttpServletResponse response) {
-        Member member = memberService.putMember(memberId, mapper.memberPutDtoToMember(memberPutDto), principalDetails, response);
-        return new ResponseEntity<>(mapper.memberToMemberDtoResponse(member), HttpStatus.CREATED);
+        Member member = memberService.putMember(memberId, memberMapper.memberPutDtoToMember(memberPutDto), principalDetails, response);
+        return new ResponseEntity<>(memberMapper.memberToMemberDtoResponse(member), HttpStatus.CREATED);
     }
 
     @GetMapping("/{username}/check")
@@ -45,7 +49,7 @@ public class MemberController {
     public ResponseEntity<MemberDto.Response> likeMountain(@PathVariable String memberId,
                                                            @PathVariable String mountainName) {
         Member member = memberService.postMemberFavoriteMountain(memberId, mountainName);
-        return new ResponseEntity<>(mapper.memberToMemberDtoResponse(member), HttpStatus.CREATED);
+        return new ResponseEntity<>(memberMapper.memberToMemberDtoResponse(member), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{memberId}/mountains/{mountainName}")
@@ -58,7 +62,13 @@ public class MemberController {
     @GetMapping("/{memberId}/mountains")
     public ResponseEntity<MemberDto.Mountain> getMountains(@PathVariable String memberId) {
         Member member = memberService.findMember(memberId);
-        return new ResponseEntity<>(mapper.memberToMemberDtoMountain(member), HttpStatus.OK);
+        return new ResponseEntity<>(memberMapper.memberToMemberDtoMountain(member), HttpStatus.OK);
+    }
+
+    @GetMapping("/{memberId}/reviewboards")
+    public ResponseEntity<List<ReviewBoardResponseDto.Page>> getReviewBoards(@PathVariable String memberId) {
+        Member member = memberService.findMember(memberId);
+        return new ResponseEntity<>(reviewBoardMapper.reviewBoardListToPages(member.getReviewBoards()), HttpStatus.OK);
     }
 
 
