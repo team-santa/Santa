@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/v1/reviewBoards")
+@RequestMapping("/v1/reviewboards")
 @RequiredArgsConstructor
 @CrossOrigin(origins="*", allowedHeaders = "*")
 public class ReviewBoardsController {

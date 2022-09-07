@@ -5,6 +5,7 @@ import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.reviewboards.repository.ReviewBoardRepository;
 import com.developer.santa.reviewboards.specification.ReviewBoardSpecification;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,6 +29,10 @@ public class ReviewBoardService {
 
     public ReviewBoard updateMyBoard(Long id, ReviewBoard editReviewBoard) {
         ReviewBoard updateBoard = findVerifiedReviewBoard(id);
+//        checkWriterReviewBoard(updateBoard, editReviewBoard);
+
+        // 태그 있는 태그인지 확인하기
+        // 기존 태그 삭제
 
         Optional.ofNullable(editReviewBoard.getTitle()).ifPresent(updateBoard::setTitle);
         Optional.ofNullable(editReviewBoard.getLocalName()).ifPresent(updateBoard::setLocalName);
@@ -35,6 +40,7 @@ public class ReviewBoardService {
         Optional.ofNullable(editReviewBoard.getCourseName()).ifPresent(updateBoard::setCourseName);
         Optional.ofNullable(editReviewBoard.getBody()).ifPresent(updateBoard::setBody);
         Optional.ofNullable(editReviewBoard.getTags()).ifPresent(updateBoard::setTags);
+        Optional.ofNullable(editReviewBoard.getThumbnail()).ifPresent(updateBoard::setThumbnail);
 
         return reviewBoardRepository.save(updateBoard);
 
@@ -77,6 +83,12 @@ public class ReviewBoardService {
         return optionalReviewBoard.orElseThrow(
                 () -> new IllegalArgumentException("존재하지않는 게시판입니다. 게시판번호 :" + reviewBoardId)
         );
+    }
+    public ReviewBoard checkWriterReviewBoard(ReviewBoard update, ReviewBoard edit){
+        if(update.getMember().getMemberId() != edit.getMember().getMemberId()){
+            throw new IllegalArgumentException("존재하지않는 게시판입니다. 게시판번호 :" + update.getReviewBoardId());
+        }
+        return update;
     }
 
 }

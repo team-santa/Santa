@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
-
+import java.util.Optional;
 
 
 public class ReviewBoardRequestDto {
@@ -32,7 +32,6 @@ public class ReviewBoardRequestDto {
         @NotBlank
         private String courseName;
 
-
         private String thumbnail;
 
         private List<String> tagList;
@@ -51,9 +50,11 @@ public class ReviewBoardRequestDto {
     }
     @Getter
     public static class Patch{
+
         private long reviewBoardId;
 
-        private String nickName;
+        @NotBlank
+        private String memberId;
         @NotBlank(message = "제목은 공백이 아니어야 합니다.")
         private String title;
         @NotBlank
@@ -65,12 +66,16 @@ public class ReviewBoardRequestDto {
         @NotBlank
         private String courseName;
 
-        private String thumbnail;
+        private Optional<String> thumbnail= Optional.empty();
 
         private List<String> tagList;
 
         public void setReviewBoardId(long reviewBoardId) {
             this.reviewBoardId = reviewBoardId;
+        }
+
+        public String getThumbnail() {
+            return thumbnail.orElse(null);
         }
     }
 

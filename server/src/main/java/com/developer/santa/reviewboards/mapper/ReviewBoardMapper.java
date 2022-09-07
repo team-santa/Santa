@@ -51,7 +51,19 @@ public interface ReviewBoardMapper {
         reviewBoard.setLocalName(requestBody.getLocalName());
         reviewBoard.setMountainName(requestBody.getMountainName());
         reviewBoard.setCourseName(requestBody.getCourseName());
+        reviewBoard.setThumbnail(requestBody.getThumbnail());
         reviewBoard.setTags(requestBody.getTagList());
+        List<TagSelect> tagSelects = requestBody.getTagList().stream()
+                .map(tagSelectDto ->{
+                    TagSelect tagSelect = new TagSelect();
+                    Tag tag = new Tag();
+                    tag.setTagName(tagSelectDto);
+                    tagSelect.addTag(tag);
+                    tagSelect.addReviewBoard(reviewBoard);
+                    return tagSelect;
+                }).collect(Collectors.toList());
+        reviewBoard.setTagSelects(tagSelects);
+
         return reviewBoard;
     };
 
