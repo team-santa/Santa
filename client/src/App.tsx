@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Main, Landing, Review, ReviewDetail, NotFound } from "src/pages";
+import { Main, Landing, ReviewList, ReviewDetail, NotFound } from "src/pages";
 import { GetToken } from "./pages/GetToken";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
@@ -19,7 +19,7 @@ const App = () => {
           <Route path="profile" element={<Profile />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
-          <Route path="review" element={<Review />} />
+          <Route path="review" element={<ReviewList />} />
           <Route path="review/:id" element={<ReviewDetail />} />
           <Route path="write" element={<Write />} />
           <Route path="write/:id" element={<div>edit</div>} />

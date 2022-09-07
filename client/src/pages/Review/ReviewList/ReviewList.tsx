@@ -4,11 +4,11 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DropDown, ReviewCard } from "src/components";
-import { testAsyncAction, useAppDispatch } from "src/redux";
+import { useAppDispatch } from "src/redux";
 import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
-import { Wrapper } from "./ReviewWrapper";
+import { Wrapper } from "./ReviewListWrapper";
 
-const Review = () => {
+const ReviewList = () => {
   const [sortByViews, setSortByViews] = useState(false);
   const [dropDownValue, setDropDownValue] = useState({
     region: "지역",
@@ -88,4 +88,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default ReviewList;

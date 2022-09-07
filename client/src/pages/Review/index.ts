@@ -1,4 +1,4 @@
-import Review from "./Review";
+import ReviewList from "./ReviewList/ReviewList";
 import ReviewDetail from "./ReviewDetail";
 
-export { Review, ReviewDetail };
+export { ReviewList, ReviewDetail };
