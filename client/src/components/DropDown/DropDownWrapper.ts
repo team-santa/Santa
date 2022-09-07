@@ -44,7 +44,7 @@ export const Wrapper = styled.div<Props>`
     max-height: 27.2rem;
     cursor: pointer;
     overflow: auto;
-    z-index: 990;
+    z-index: 10;
     animation: growDown 250ms ease-in;
     transform-origin: top center;
   }

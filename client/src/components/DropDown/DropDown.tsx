@@ -29,7 +29,7 @@ const DropDown: React.FC<Props> = ({
       setValue((state: object) => {
         return { ...state, [name]: selected };
       });
-      handleClick(name);
+      handleClick(selected);
     },
     [name, setValue, handleClick]
   );
