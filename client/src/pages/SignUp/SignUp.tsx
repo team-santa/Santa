@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -20,13 +21,12 @@ const SignUp = () => {
         .get(`http://localhost:8080/members/${debouceValue}/check`)
         .then((res) => {
           console.log(res);
-          setError(!res);
+          setError(!res.data);
         });
     };
     if (username) Fetch();
   }, [debouceValue]);
 
-  // eslint-disable-next-line consistent-return
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -35,12 +35,15 @@ const SignUp = () => {
       return window.alert("유저네임을 2글자 이상으로 설정해 주세요.");
 
     const result = await axios.put(
-      `http://localhost:8080/members/${user.sub}`,
+      `http://localhost:8080/members/${user.memberId}`,
       { username }
     );
-
-    // 토큰을 갈아줘야 함
-
+    const userData = result.data;
+    const mergeUser = {
+      ...user,
+      userData,
+    };
+    localStorage.setItem("user", JSON.stringify(mergeUser));
     if (result.status === 201) {
       navigate("/main");
     }
@@ -60,7 +63,7 @@ const SignUp = () => {
             required
           />
           {error ? <Error>* 중복된 아이디 입니다.</Error> : null}
-          <button type="submit">닉네임 설정 완료</button>
+          <button type="submit">설정 완료</button>
         </Form>
       </AuthBox>
     </Container>
