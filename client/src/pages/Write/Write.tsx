@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-useless-escape */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable no-console */
-/* eslint-disable no-alert */
 /* eslint-disable react/button-has-type */
 import "react-quill/dist/quill.snow.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dialog from "src/components/Dialog/Dialog";
 import ReactQuill from "react-quill";
@@ -14,6 +15,8 @@ import { colors } from "src/utils/colors";
 import axios from "axios";
 import useDebounce from "src/hooks/useDebounce";
 import { useUser } from "src/utils/localStorage";
+import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
+import { DropDown } from "src/components";
 import CustomToolbar, { formats, modules } from "./CustomToolbar";
 
 const Write = () => {
@@ -27,18 +30,45 @@ const Write = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOption] = useState([]);
 
+  // DropDown
+  const [dropDownValue, setDropDownValue] = useState({
+    region: "지역",
+    mountain: "산 이름",
+    hikingTrail: "등산로",
+  });
+
+  const [dropDownIsOpen, setDropDownIsOpen] = useState({
+    region: false,
+    mountain: false,
+    hikingTrail: false,
+  });
+
+  const handleClick = useCallback(
+    (name: string) => {
+      const newObj = {
+        region: false,
+        mountain: false,
+        hikingTrail: false,
+      };
+      newObj[name as keyof typeof newObj] =
+        !dropDownIsOpen[name as keyof typeof newObj];
+      setDropDownIsOpen(newObj);
+    },
+    [dropDownIsOpen]
+  );
+
   const debouceValue = useDebounce(tag);
 
+  const fetchTagList = async () => {
+    const result = await axios.get(
+      `https://olive-shrimps-go-222-117-186-4.loca.lt/v1/tag?text=${debouceValue}`
+    );
+    const tagNames = result.data.map((data: any) => data.tagName);
+    setOption(tagNames);
+  };
+
   useEffect(() => {
-    axios
-      .get(
-        `https://olive-shrimps-go-222-117-186-4.loca.lt/v1/tag?text=${debouceValue}`
-      )
-      .then((res) => {
-        console.log(res);
-        const tagNames = res.data.map((data: any) => data.tagName);
-        setOption(tagNames);
-      });
+    if (debouceValue) fetchTagList();
   }, [debouceValue]);
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -71,18 +101,27 @@ const Write = () => {
     }
   };
 
-  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    let thumbnail = null;
+
+    if (content.includes("img")) {
+      const re = /<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i;
+      const result = content.match(re);
+      if (result) [thumbnail] = result;
+    }
+
     const requestForm = {
-      usename: "CuteHwanMin",
-      userProfile: "/images/CC",
+      username: "CuteHwanMin",
       title,
       content,
+      thumbnail,
       tags,
+      dropDownValue,
     };
+
     console.log(requestForm);
-    console.log("I'm Handle Submit ~");
   };
 
   return (
@@ -114,14 +153,45 @@ const Write = () => {
             ))}
             <input
               type="text"
-              placeholder="# Tag"
+              placeholder="Tag"
               className="inputTag"
               value={tag}
               onChange={handleTag}
-              onClick={() => setIsOpen(true)}
+              onClick={() => setIsOpen(!isOpen)}
             />
           </div>
         </TagContainer>
+        <div className="dropdown-column">
+          <DropDown
+            width="100%"
+            list={REGION_LIST}
+            name="region"
+            isOpen={dropDownIsOpen}
+            value={dropDownValue.region}
+            setValue={setDropDownValue}
+            handleClick={handleClick}
+          />
+          <DropDown
+            width="100%"
+            list={MOUNTAIN_LIST}
+            name="mountain"
+            isOpen={dropDownIsOpen}
+            value={dropDownValue.mountain}
+            setValue={setDropDownValue}
+            handleClick={handleClick}
+          />
+        </div>
+        <div className="dropdown-column">
+          <DropDown
+            width="100%"
+            list={HIKING_TRAIL_LIST}
+            name="hikingTrail"
+            isOpen={dropDownIsOpen}
+            value={dropDownValue.hikingTrail}
+            setValue={setDropDownValue}
+            handleClick={handleClick}
+          />
+        </div>
         {isOpen ? (
           <DropBox>
             {options?.map((option) => (
@@ -137,7 +207,7 @@ const Write = () => {
             ))}
           </DropBox>
         ) : null}
-        <div className="text-editor">
+        <div className="text-editor" onClick={() => setIsOpen(false)}>
           <CustomToolbar />
           <ReactQuill
             modules={modules}
@@ -147,12 +217,17 @@ const Write = () => {
             placeholder="소중한 당신의 후기를 공유해 주세요."
           />
         </div>
-        <BaseButton
-          text="글쓰기"
-          bgColor={colors.mainColor}
-          width={35}
-          disabled={content === "" || title === "" || content === "<p><br></p>"}
-        />
+        <ButtonBox>
+          <BaseButton
+            text="전송"
+            bgColor={colors.mainColor}
+            width={7.2}
+            height={4.2}
+            disabled={
+              content === "" || title === "" || content === "<p><br></p>"
+            }
+          />
+        </ButtonBox>
       </Form>
     </Container>
   );
@@ -162,6 +237,14 @@ export default Write;
 
 const Container = styled.div`
   overflow-y: scroll;
+
+  .dropdown-column {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    width: 90%;
+    margin-top: 1rem;
+  }
 `;
 
 const Form = styled.form`
@@ -170,14 +253,15 @@ const Form = styled.form`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 2rem;
+  margin-top: 1rem;
 
   .title {
     box-sizing: content-box;
     width: 84.35%;
-    height: 2rem;
+    height: 1rem;
     padding: 1rem 1rem;
     border: solid 1px lightgray;
+    border-radius: 5px;
 
     &:focus {
       outline: none;
@@ -191,11 +275,13 @@ const Form = styled.form`
   }
 
   .ql-container {
-    min-height: 50rem;
+    min-height: 47rem;
     height: 50vh;
     flex: 1;
     display: flex;
     flex-direction: column;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 
   .ql-editor {
@@ -207,7 +293,8 @@ const Form = styled.form`
 `;
 
 const TagContainer = styled.div`
-  border: solid 1px grey;
+  border: solid 1px lightgray;
+  border-radius: 2px;
   display: flex;
   justify-content: space-between;
   margin-top: 0.5rem;
@@ -241,13 +328,13 @@ const TagContainer = styled.div`
 
 const DropBox = styled.div`
   position: absolute;
-  background-color: red;
+  border-radius: 5px;
+  border: solid 1px ${colors.mainColor};
   width: 90%;
   height: 20rem;
   z-index: 2;
-  top: 80px;
+  top: 70px;
   background-color: white;
-  border: solid 1px lightgray;
   overflow: scroll;
 
   span {
@@ -258,4 +345,12 @@ const DropBox = styled.div`
     font-size: 1.2rem;
     border-bottom: solid 1px lightgray;
   }
+`;
+
+const ButtonBox = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin-right: 2rem;
+  margin-top: 1rem;
 `;
