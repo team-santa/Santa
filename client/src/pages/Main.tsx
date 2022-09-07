@@ -31,6 +31,7 @@ const Wrapper = styled.div`
     padding: 0 3rem;
     font-size: 4rem;
     color: #666;
+    z-index: 20;
 
     &.shadow {
       box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px;
