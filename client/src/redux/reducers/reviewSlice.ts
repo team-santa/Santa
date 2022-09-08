@@ -23,7 +23,7 @@ const initialState: ReviewInitialState = {
   localList: REGION_LIST,
   mountainList: MOUNTAIN_LIST,
   courseList: HIKING_TRAIL_LIST,
-  currentPage: 0,
+  currentPage: 1,
 };
 
 const reviewSlice = createSlice({
@@ -34,7 +34,7 @@ const reviewSlice = createSlice({
       state.currentPage += 1;
     },
     resetPage: (state) => {
-      state.currentPage = 0;
+      state.currentPage = 1;
     },
   },
   extraReducers: (builder) =>
