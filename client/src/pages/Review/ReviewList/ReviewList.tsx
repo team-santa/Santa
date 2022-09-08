@@ -1,15 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { DropDown, ReviewCard } from "src/components";
 import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
-import {
-  increasePage,
-  resetPage,
-  useAppDispatch,
-  useAppSelector,
-} from "src/redux";
+import { increasePage, useAppDispatch, useAppSelector } from "src/redux";
 import { getReviewList } from "src/redux/actions/review";
 
 import { Wrapper, SListContainer } from "./ReviewListWrapper";
@@ -20,7 +15,7 @@ const ReviewList = () => {
     (state) => state.review
   );
 
-  const infiniteScroll = () => {
+  const handleInfiniteScroll = () => {
     dispatch(increasePage());
     dispatch(
       getReviewList({
@@ -30,7 +25,7 @@ const ReviewList = () => {
       })
     );
   };
-  const setObservationTarget = useInfiniteScroll(infiniteScroll);
+  const setObservationTarget = useInfiniteScroll(handleInfiniteScroll);
 
   const [sortByViews, setSortByViews] = useState(false);
   const [dropDownValue, setDropDownValue] = useState({
@@ -44,7 +39,7 @@ const ReviewList = () => {
     hikingTrail: false,
   });
 
-  const handleClick = useCallback(
+  const handleDropDownClick = useCallback(
     (name: string) => {
       const newObj = {
         region: false,
@@ -58,10 +53,6 @@ const ReviewList = () => {
     [dropDownIsOpen]
   );
 
-  useEffect(() => {
-    dispatch(resetPage());
-  }, [dispatch]);
-
   return (
     <Wrapper selected={sortByViews}>
       <div className="dropdown-column">
@@ -72,7 +63,8 @@ const ReviewList = () => {
           isOpen={dropDownIsOpen}
           value={dropDownValue.region}
           setValue={setDropDownValue}
-          handleClick={handleClick}
+          handleClick={handleDropDownClick}
+          dispatch={(name) => console.log(name)}
         />
         <DropDown
           width="100%"
@@ -81,7 +73,8 @@ const ReviewList = () => {
           isOpen={dropDownIsOpen}
           value={dropDownValue.mountain}
           setValue={setDropDownValue}
-          handleClick={handleClick}
+          handleClick={handleDropDownClick}
+          dispatch={(name) => console.log(name)}
         />
       </div>
       <div className="dropdown-column">
@@ -92,7 +85,8 @@ const ReviewList = () => {
           isOpen={dropDownIsOpen}
           value={dropDownValue.hikingTrail}
           setValue={setDropDownValue}
-          handleClick={handleClick}
+          handleClick={handleDropDownClick}
+          dispatch={(name) => console.log(name)}
         />
       </div>
       <section>

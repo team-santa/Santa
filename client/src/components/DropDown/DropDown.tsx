@@ -12,6 +12,7 @@ interface Props {
   value: string;
   setValue: Dispatch<SetStateAction<any>>;
   handleClick: (name: string) => void;
+  dispatch: (name: string) => void;
 }
 
 const DropDown: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const DropDown: React.FC<Props> = ({
   value,
   setValue,
   handleClick,
+  dispatch,
 }) => {
   const handleListClick = useCallback(
     (event: MouseEvent<HTMLUListElement>) => {
@@ -42,7 +44,7 @@ const DropDown: React.FC<Props> = ({
       </button>
       <ul onClick={handleListClick}>
         {list.map((el) => (
-          <li key={el} id={el}>
+          <li key={el} id={el} onClick={() => dispatch(el)}>
             {el}
           </li>
         ))}
