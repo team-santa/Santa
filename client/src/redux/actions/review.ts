@@ -24,6 +24,17 @@ export const getReviewList = createAsyncThunk<
   }
 });
 
+export const deleteReview = createAsyncThunk(
+  "review/deleteReview",
+  async (payload: { reviewBoardId: string }) => {
+    try {
+      await axiosInstance.delete(`/v1/reviewboards/${payload.reviewBoardId}`);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
+);
+
 export const getReviewDetail = createAsyncThunk<
   ReviewDetail,
   { reviewBoardId: string },
