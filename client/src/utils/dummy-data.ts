@@ -91,3 +91,17 @@ export const REVIEW_LIST: Review[] = [
     tagList: ["경기도", "광교산", "수락산", "광교산"],
   },
 ];
+
+export const REVIEW_DETAIL = {
+  reviewBoardId: 1,
+  memberId: 1,
+  writer: "모상빈",
+  title: "등산 초보(등린이)도 갈만한 서울 쉬운산 인왕산 데이트 등반 후기",
+  body: "한라산... 우리나라에서 가장 높은 산인데 언젠가 한번 등산하겠지라고만생각하고 막상 가려고하면 무서워서 못 갔던 곳... 드디어 다녀왔다 가암히등산 쵸보가 덤볐다가 무려 12시간 넘게 걸린 눈물없이 읽지 못할 한라산등반 스토리 시작합니다....한라산은 오래걸리니까 아무래도 장비대여가 필요할 것같아서 한라산등산전문 게스트하우스로 예약했다 이름도 한라산게스트하우스 ㅎㅎ 아래 리뷰있으니 참고!아침에 한라산 드롭을 해줘서 7시에 게하 출발했고 아래에서 김밥한줄 먹고7시반에 등산을 시작했다",
+  thumbnail: "http://san.chosun.com/news/photo/201704/10825_44653_4757.jpg",
+  localName: "local",
+  mountainName: "mountain",
+  courseName: "course",
+  views: 3,
+  tagList: ["경기도", "광교산", "등산로"],
+};
