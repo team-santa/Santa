@@ -1,16 +1,37 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DropDown, ReviewCard } from "src/components";
-import { useAppSelector } from "src/redux";
+import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
+import {
+  increasePage,
+  resetPage,
+  useAppDispatch,
+  useAppSelector,
+} from "src/redux";
+import { getReviewList } from "src/redux/actions/review";
 
 import { Wrapper, SListContainer } from "./ReviewListWrapper";
 
 const ReviewList = () => {
+  const dispatch = useAppDispatch();
   const { reviewList, localList, mountainList, courseList } = useAppSelector(
     (state) => state.review
   );
+
+  const infiniteScroll = () => {
+    dispatch(increasePage());
+    dispatch(
+      getReviewList({
+        local: "string",
+        mountain: "string",
+        course: "string",
+      })
+    );
+  };
+  const setObservationTarget = useInfiniteScroll(infiniteScroll);
+
   const [sortByViews, setSortByViews] = useState(false);
   const [dropDownValue, setDropDownValue] = useState({
     region: "지역",
@@ -36,6 +57,10 @@ const ReviewList = () => {
     },
     [dropDownIsOpen]
   );
+
+  useEffect(() => {
+    dispatch(resetPage());
+  }, [dispatch]);
 
   return (
     <Wrapper selected={sortByViews}>
@@ -97,6 +122,7 @@ const ReviewList = () => {
             />
           ))}
         </SListContainer>
+        <div ref={setObservationTarget} />
       </section>
     </Wrapper>
   );

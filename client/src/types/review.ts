@@ -5,6 +5,7 @@ export interface ReviewInitialState {
   localList: Array<string>;
   mountainList: Array<string>;
   courseList: Array<string>;
+  currentPage: number;
 }
 
 export interface ReviewList {
@@ -35,5 +36,4 @@ export interface ReviewListPayload {
   local: string;
   mountain: string;
   course: string;
-  page: number;
 }

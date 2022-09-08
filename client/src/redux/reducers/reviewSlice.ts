@@ -16,17 +16,25 @@ const initialState: ReviewInitialState = {
     page: 1,
     size: 10,
     totalElement: 100,
-    totalPages: 10,
+    totalPages: 3,
   },
   localList: REGION_LIST,
   mountainList: MOUNTAIN_LIST,
   courseList: HIKING_TRAIL_LIST,
+  currentPage: 0,
 };
 
 const reviewSlice = createSlice({
   name: "review",
   initialState,
-  reducers: {},
+  reducers: {
+    increasePage: (state) => {
+      state.currentPage += 1;
+    },
+    resetPage: (state) => {
+      state.currentPage = 0;
+    },
+  },
   extraReducers: (builder) =>
     builder // getReviewList
       .addCase(getReviewList.pending, (state) => {
@@ -34,8 +42,10 @@ const reviewSlice = createSlice({
       })
       .addCase(getReviewList.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.reviewList.push(...payload.data);
-        state.pageInfo = payload.pageInfo;
+        if (payload) {
+          state.reviewList.push(...payload.data);
+          state.pageInfo = payload.pageInfo;
+        }
       })
       .addCase(getReviewList.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -43,5 +53,5 @@ const reviewSlice = createSlice({
       }),
 });
 
-// export const {} = reviewSlice.actions;
+export const { increasePage, resetPage } = reviewSlice.actions;
 export const reviewReducer: Reducer<typeof initialState> = reviewSlice.reducer;
