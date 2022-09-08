@@ -1,6 +1,7 @@
 export interface ReviewInitialState {
   isLoading: boolean;
   reviewList: Array<Review>;
+  reviewDetail: ReviewDetail;
   pageInfo: PageInfo;
   localList: Array<string>;
   mountainList: Array<string>;
@@ -36,4 +37,11 @@ export interface ReviewListPayload {
   local: string;
   mountain: string;
   course: string;
+}
+
+export interface ReviewDetail extends Review {
+  body: string;
+  localName: string;
+  mountainName: string;
+  courseName: string;
 }

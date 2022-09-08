@@ -6,12 +6,14 @@ import {
   MOUNTAIN_LIST,
   HIKING_TRAIL_LIST,
 } from "src/utils";
+import { REVIEW_DETAIL } from "../../utils/dummy-data";
 import { ReviewInitialState } from "../../types/review";
 import { getReviewList } from "../actions/review";
 
 const initialState: ReviewInitialState = {
   isLoading: false,
   reviewList: REVIEW_LIST,
+  reviewDetail: REVIEW_DETAIL,
   pageInfo: {
     page: 1,
     size: 10,
