@@ -2,18 +2,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { DropDown, ReviewCard } from "src/components";
-import { useAppDispatch } from "src/redux";
-import {
-  REGION_LIST,
-  MOUNTAIN_LIST,
-  HIKING_TRAIL_LIST,
-  REVIEW_LIST,
-} from "src/utils";
+import { useAppSelector } from "src/redux";
+
 import { Wrapper, SListContainer } from "./ReviewListWrapper";
 
 const ReviewList = () => {
+  const { data, regionList, mountainList, hikingTrailList } = useAppSelector(
+    (state) => state.review
+  );
   const [sortByViews, setSortByViews] = useState(false);
   const [dropDownValue, setDropDownValue] = useState({
     region: "지역",
@@ -40,14 +37,12 @@ const ReviewList = () => {
     [dropDownIsOpen]
   );
 
-  const dispatch = useAppDispatch();
-
   return (
     <Wrapper selected={sortByViews}>
       <div className="dropdown-column">
         <DropDown
           width="100%"
-          list={REGION_LIST}
+          list={regionList}
           name="region"
           isOpen={dropDownIsOpen}
           value={dropDownValue.region}
@@ -56,7 +51,7 @@ const ReviewList = () => {
         />
         <DropDown
           width="100%"
-          list={MOUNTAIN_LIST}
+          list={mountainList}
           name="mountain"
           isOpen={dropDownIsOpen}
           value={dropDownValue.mountain}
@@ -67,7 +62,7 @@ const ReviewList = () => {
       <div className="dropdown-column">
         <DropDown
           width="100%"
-          list={HIKING_TRAIL_LIST}
+          list={hikingTrailList}
           name="hikingTrail"
           isOpen={dropDownIsOpen}
           value={dropDownValue.hikingTrail}
@@ -88,7 +83,7 @@ const ReviewList = () => {
           </div>
         </div>
         <SListContainer>
-          {REVIEW_LIST.map((review) => (
+          {data.map((review) => (
             <ReviewCard
               key={review.reviewBoardId}
               reviewBoardId={review.reviewBoardId}

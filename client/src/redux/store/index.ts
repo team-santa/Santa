@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { testReducer } from "../reducers";
+import { testReducer, reviewReducer } from "../reducers";
 
 export const store = configureStore({
   reducer: {
     test: testReducer,
-
+    review: reviewReducer,
     // 앞으로 추가하게 될 전역 상태는 관심사에 따라 파일을 분리한 후 이곳에 추가해주세요.
     // user: userReducer,  -> user정보에 관련된 전역 상태
     // mountain: mountainReducer,  -> 산과 관련된 전역 상태
