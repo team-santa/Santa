@@ -42,3 +42,8 @@ export const Wrapper = styled.div<Props>`
     color: ${(props) => !props.selected && "#d7cccc"};
   }
 `;
+
+export const SListContainer = styled.ul`
+  height: 90%;
+  overflow: auto;
+`;

@@ -5,8 +5,13 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DropDown, ReviewCard } from "src/components";
 import { useAppDispatch } from "src/redux";
-import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
-import { Wrapper } from "./ReviewListWrapper";
+import {
+  REGION_LIST,
+  MOUNTAIN_LIST,
+  HIKING_TRAIL_LIST,
+  REVIEW_LIST,
+} from "src/utils";
+import { Wrapper, SListContainer } from "./ReviewListWrapper";
 
 const ReviewList = () => {
   const [sortByViews, setSortByViews] = useState(false);
@@ -82,7 +87,21 @@ const ReviewList = () => {
             </span>
           </div>
         </div>
-        <ReviewCard />
+        <SListContainer>
+          {REVIEW_LIST.map((review) => (
+            <ReviewCard
+              key={review.reviewBoardId}
+              reviewBoardId={review.reviewBoardId}
+              title={review.title}
+              thumbnail={review.thumbnail}
+              writer={review.writer}
+              profileImgUrl={review.profileImgUrl}
+              modifiedAt={review.modifiedAt}
+              views={review.views}
+              tagList={review.tagList}
+            />
+          ))}
+        </SListContainer>
       </section>
     </Wrapper>
   );
