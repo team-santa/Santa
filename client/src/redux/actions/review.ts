@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ReviewListPayload, ReviewList } from "src/types/index";
+import { ReviewListPayload, ReviewList, ReviewDetail } from "src/types/index";
 import { axiosInstance } from "../../utils/axiosInstance";
 import { CreateAsyncThunkTypes } from "../store/index";
 
@@ -19,6 +19,21 @@ export const getReviewList = createAsyncThunk<
       );
       return response.data;
     }
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const getReviewDetail = createAsyncThunk<
+  ReviewDetail,
+  { reviewBoardId: string },
+  CreateAsyncThunkTypes
+>("review/getReviewDetail", async (payload, thunkAPI) => {
+  try {
+    const response = await axiosInstance.get(
+      `v1/reviewboards/${payload.reviewBoardId}`
+    );
+    return response.data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }

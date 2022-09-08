@@ -6,9 +6,9 @@ import {
   MOUNTAIN_LIST,
   HIKING_TRAIL_LIST,
 } from "src/utils";
+import { getReviewDetail, getReviewList } from "../actions/review";
 import { REVIEW_DETAIL } from "../../utils/dummy-data";
 import { ReviewInitialState } from "../../types/review";
-import { getReviewList } from "../actions/review";
 
 const initialState: ReviewInitialState = {
   isLoading: false,
@@ -50,6 +50,17 @@ const reviewSlice = createSlice({
         }
       })
       .addCase(getReviewList.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        console.log(payload);
+      })
+      .addCase(getReviewDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getReviewDetail.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.reviewDetail = payload;
+      })
+      .addCase(getReviewDetail.rejected, (state, { payload }) => {
         state.isLoading = false;
         console.log(payload);
       }),

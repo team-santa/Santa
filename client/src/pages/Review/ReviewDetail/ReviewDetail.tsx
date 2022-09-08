@@ -1,7 +1,9 @@
 import { Slider, Comment } from "src/components";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "src/redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "src/redux";
+import { useEffect } from "react";
+import { getReviewDetail } from "src/redux/actions/review";
 import {
   Wrapper,
   SCommentsContainer,
@@ -10,8 +12,14 @@ import {
 } from "./ReviewDetailWrapper";
 
 const ReviewDetail = () => {
+  const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { reviewDetail } = useAppSelector((state) => state.review);
+
+  // useEffect(() => {
+  //   dispatch(getReviewDetail({ reviewBoardId: params.id as string }));
+  // }, [dispatch, params]);
 
   return (
     <Wrapper>
