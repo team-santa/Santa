@@ -8,7 +8,7 @@ import { useAppSelector } from "src/redux";
 import { Wrapper, SListContainer } from "./ReviewListWrapper";
 
 const ReviewList = () => {
-  const { data, regionList, mountainList, hikingTrailList } = useAppSelector(
+  const { reviewList, localList, mountainList, courseList } = useAppSelector(
     (state) => state.review
   );
   const [sortByViews, setSortByViews] = useState(false);
@@ -42,7 +42,7 @@ const ReviewList = () => {
       <div className="dropdown-column">
         <DropDown
           width="100%"
-          list={regionList}
+          list={localList}
           name="region"
           isOpen={dropDownIsOpen}
           value={dropDownValue.region}
@@ -62,7 +62,7 @@ const ReviewList = () => {
       <div className="dropdown-column">
         <DropDown
           width="100%"
-          list={hikingTrailList}
+          list={courseList}
           name="hikingTrail"
           isOpen={dropDownIsOpen}
           value={dropDownValue.hikingTrail}
@@ -83,7 +83,7 @@ const ReviewList = () => {
           </div>
         </div>
         <SListContainer>
-          {data.map((review) => (
+          {reviewList.map((review) => (
             <ReviewCard
               key={review.reviewBoardId}
               reviewBoardId={review.reviewBoardId}
