@@ -49,6 +49,8 @@ public class ReviewBoardRequestDto {
         }
     }
     @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Patch{
 
         private long reviewBoardId;
