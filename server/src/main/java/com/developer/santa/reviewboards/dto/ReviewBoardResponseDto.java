@@ -5,6 +5,7 @@ import com.developer.santa.tag.entity.TagSelect;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReviewBoardResponseDto {
@@ -16,8 +17,13 @@ public class ReviewBoardResponseDto {
         private long reviewBoardId;
         @Setter(AccessLevel.NONE)
         private String memberId;
+
+        private String profileImageUrl;
         private String writer;
+        private LocalDateTime modifiedAt;
         private String title;
+        private Long views;
+        private List<String> tagList;
         private String thumbnail;
 
 
@@ -42,9 +48,10 @@ public class ReviewBoardResponseDto {
         private long reviewBoardId;
 
         private String memberId;
+        private String profileImageUrl;
         @NotBlank(message = "제목은 공백이 아니어야 합니다.")
         private String writer;
-
+        private LocalDateTime modifiedAt;
         private String title;
         @NotBlank
         private String body;
