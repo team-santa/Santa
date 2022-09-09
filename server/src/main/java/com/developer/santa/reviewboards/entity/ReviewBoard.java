@@ -4,6 +4,7 @@ import com.developer.santa.audit.Auditable;
 import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.member.entity.Member;
 
+import com.developer.santa.reviewboards.comment.entity.Comment;
 import com.developer.santa.tag.entity.TagSelect;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -46,6 +47,7 @@ public class ReviewBoard extends Auditable{
     @Column(columnDefinition = "TEXT")
     private String thumbnail;
 
+    private int commentCount;
     @OneToMany(mappedBy = "reviewBoard", cascade = CascadeType.ALL)
     private List<TagSelect> tagSelects = new ArrayList<>();
 
@@ -57,9 +59,8 @@ public class ReviewBoard extends Auditable{
     @JoinColumn(name ="memberId")
     private Member member;
 
-//    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-//    @JoinColumn(name ="imageId")
-//    private List<Images> images = new ArrayList<>();
+    @OneToMany(mappedBy = "reviewBoard",cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     @ElementCollection
     private List<String> viewers;
@@ -93,7 +94,7 @@ public class ReviewBoard extends Auditable{
         this.viewers.add(viewer);
     }
 
-//    public void deleteImage() {
-//        this.images.clear();
-//    }
+    public void addCommentCount(){
+        this.commentCount++;
+    }
 }
