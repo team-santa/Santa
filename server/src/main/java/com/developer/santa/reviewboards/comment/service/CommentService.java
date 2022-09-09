@@ -1,5 +1,6 @@
 package com.developer.santa.reviewboards.comment.service;
 
+import com.developer.santa.member.entity.Member;
 import com.developer.santa.member.service.MemberService;
 import com.developer.santa.reviewboards.comment.entity.Comment;
 import com.developer.santa.reviewboards.comment.repository.CommentRepository;
@@ -23,9 +24,10 @@ import java.util.Optional;
 public class CommentService {
     public final CommentRepository commentRepository;
     public final ReviewBoardService reviewBoardService;
-
+    private final MemberService memberService;
     // 댓글 생성
     public Comment createComment(Comment comment){
+        comment.setMember(memberService.findMember(comment.getMember().getMemberId()));
         Comment saveComment = commentRepository.save(comment);
         Long reviewBoardId = comment.getReviewBoard().getReviewBoardId();
         ReviewBoard reviewBoard = reviewBoardService.findVerifiedReviewBoard(reviewBoardId);

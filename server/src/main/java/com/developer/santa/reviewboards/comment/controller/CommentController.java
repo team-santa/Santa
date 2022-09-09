@@ -1,6 +1,9 @@
 package com.developer.santa.reviewboards.comment.controller;
 
 
+import com.developer.santa.reviewboards.comment.dto.CommentRequestDto;
+import com.developer.santa.reviewboards.comment.entity.Comment;
+import com.developer.santa.reviewboards.comment.mapper.CommentMapper;
 import com.developer.santa.reviewboards.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,10 +17,12 @@ import javax.validation.Valid;
 @RequestMapping("v1/comment")
 public class CommentController {
     private final CommentService commentService;
-
+    private final CommentMapper mapper;
     @PostMapping // 댓글 생성
-    public ResponseEntity<?> createComment( @Valid @RequestBody RequestBody requestBody){
-        return null;
+    public ResponseEntity<?> createComment( @Valid @RequestBody CommentRequestDto.Post requestBody){
+        Comment comment = mapper.commentPostToComment(requestBody);
+        Comment createComment = commentService.createComment(comment);
+        return new ResponseEntity<>(createComment, HttpStatus.CREATED);
     }
     @GetMapping("{reviewBoardId}") // 게시판 전체 댓글 조회
     public ResponseEntity<?> findComment(@PathVariable Long reviewBoardId){
@@ -26,13 +31,16 @@ public class CommentController {
 
     @PatchMapping("{commentId}") // 댓글 수정
     public ResponseEntity<?> editComment(
-            @PathVariable String commentId,
-            @Valid @RequestBody RequestBody requestBody){ //변경필요
-        return null;
+            @PathVariable Long commentId,
+            @Valid @RequestBody CommentRequestDto.Patch requestBody){
+        Comment editComment = mapper.commentPatchToComment(requestBody);
+        Comment updateBoard = commentService.updateComment(commentId, editComment);
+        return new ResponseEntity<>(updateBoard, HttpStatus.OK);
     }
 
     @DeleteMapping("{commentId}") // 댓글 삭제
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId){
+        commentService.deleteReviewBoard(commentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
