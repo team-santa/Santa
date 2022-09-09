@@ -70,9 +70,16 @@ public interface ReviewBoardMapper {
     default ReviewBoardResponseDto.Page reviewBoardToPage(ReviewBoard reviewBoard){
         ReviewBoardResponseDto.Page reviewPage =new ReviewBoardResponseDto.Page();
         reviewPage.setReviewBoardId(reviewBoard.getReviewBoardId());
+        //작성자 이미지, 작성 날짜, 조회수, 태그리스트
         reviewPage.setWriterAndId(reviewBoard.getMember());
+        reviewPage.setProfileImageUrl(reviewBoard.getMember().getProfileImageUrl());
+        reviewPage.setModifiedAt(reviewBoard.getModifiedAt());
+        reviewPage.setViews(reviewBoard.getViews());
+        reviewPage.setTagList(reviewBoard.getTags());
         reviewPage.setTitle(reviewBoard.getTitle());
         reviewPage.setThumbnail(reviewBoard.getThumbnail());
+
+
         return reviewPage;
     };
     List<ReviewBoardResponseDto.Page> reviewBoardListToPages(List<ReviewBoard> reviewBoards);
@@ -81,7 +88,10 @@ public interface ReviewBoardMapper {
    default ReviewBoardResponseDto.Detail reviewBoardToDetail(ReviewBoard reviewBoard){
        ReviewBoardResponseDto.Detail reviewDetail =new ReviewBoardResponseDto.Detail();
        reviewDetail.setReviewBoardId(reviewBoard.getReviewBoardId());
+       // 작성자 이미지, 작성날짜
        reviewDetail.setWriterAndId(reviewBoard.getMember());
+       reviewDetail.setProfileImageUrl(reviewBoard.getMember().getProfileImageUrl());
+       reviewDetail.setModifiedAt(reviewBoard.getModifiedAt());
        reviewDetail.setTitle(reviewBoard.getTitle());
        reviewDetail.setBody(reviewBoard.getBody());
        reviewDetail.setThumbnail(reviewBoard.getThumbnail());
