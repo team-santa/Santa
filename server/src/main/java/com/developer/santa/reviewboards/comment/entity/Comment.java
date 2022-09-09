@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class Comment extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String commentId;
+    private Long commentId;
 
     @Column
     private String commentBody;
