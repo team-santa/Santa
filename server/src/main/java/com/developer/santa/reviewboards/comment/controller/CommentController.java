@@ -22,7 +22,7 @@ public class CommentController {
     public ResponseEntity<?> createComment( @Valid @RequestBody CommentRequestDto.Post requestBody){
         Comment comment = mapper.commentPostToComment(requestBody);
         Comment createComment = commentService.createComment(comment);
-        return new ResponseEntity<>(createComment, HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.commentToResponseComment(createComment), HttpStatus.CREATED);
     }
     @GetMapping("{reviewBoardId}") // 게시판 전체 댓글 조회
     public ResponseEntity<?> findComment(@PathVariable Long reviewBoardId){
@@ -35,7 +35,7 @@ public class CommentController {
             @Valid @RequestBody CommentRequestDto.Patch requestBody){
         Comment editComment = mapper.commentPatchToComment(requestBody);
         Comment updateBoard = commentService.updateComment(commentId, editComment);
-        return new ResponseEntity<>(updateBoard, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.commentToResponseComment(updateBoard), HttpStatus.OK);
     }
 
     @DeleteMapping("{commentId}") // 댓글 삭제
