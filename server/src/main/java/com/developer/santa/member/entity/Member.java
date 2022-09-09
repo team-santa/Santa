@@ -3,6 +3,7 @@ package com.developer.santa.member.entity;
 import com.developer.santa.audit.Auditable;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
+import com.developer.santa.reviewboards.comment.entity.Comment;
 import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.tag.entity.TagSelect;
 import lombok.Data;
@@ -53,6 +54,9 @@ public class Member extends Auditable implements Serializable {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     List<FavoriteMountain> favoriteMountains = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     public Member(String memberId, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;

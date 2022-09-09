@@ -23,10 +23,11 @@ public class Comment extends Auditable {
     @Column
     private String commentBody;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name="memberId")
     private Member member;
 
     @ManyToOne
+    @JoinColumn(name="reviewBoardId")
     private ReviewBoard reviewBoard;
 }
