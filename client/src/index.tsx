@@ -5,6 +5,7 @@ import App from "./App";
 import GlobalStyle from "./assets/css/GlobalStyle";
 import { store } from "./redux";
 import { worker } from "./mocks/browser";
+import { Modal } from "./components/Modal";
 
 // 실제 api 받을 때 주석 처리 해주세요.
 // if (process.env.NODE_ENV === "development") {
@@ -15,7 +16,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <GlobalStyle />
-      <App />
+      <Modal background>
+        <App />
+      </Modal>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

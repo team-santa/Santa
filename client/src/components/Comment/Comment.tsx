@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useModal } from "../Modal";
+import DeleteModal from "./DeleteModal";
 
 const text =
   "우리나라에서 가장 높은 산인데 언젠가 한번 등산하겠지라고만 생각하고 막상 가려고하면 무서워서 못 갔던 곳 ~ ";
@@ -10,9 +12,19 @@ const Comment = () => {
   const [value, setValue] = useState(text);
   const [isEdit, setIsEdit] = useState(false);
 
+  const { openModal, closeModal } = useModal({
+    position: { x: "50%", y: "50%" },
+    height: "110px",
+    width: "70%",
+  });
+
   const handleEdit = () => {
     setIsEdit(false);
   };
+
+  useEffect(() => {
+    return () => closeModal();
+  }, [closeModal]);
 
   return (
     <SComment>
@@ -28,7 +40,9 @@ const Comment = () => {
         <SUtils>
           <span onClick={() => setIsEdit(true)}>수정</span>
           <span>·</span>
-          <span>삭제</span>
+          <span onClick={() => openModal(<DeleteModal type="comment" />)}>
+            삭제
+          </span>
         </SUtils>
       </SHeader>
       {isEdit ? (

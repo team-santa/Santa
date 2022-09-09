@@ -1,9 +1,13 @@
-import { Slider, Comment } from "src/components";
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/jsx-no-undef */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { Slider, Comment, DeleteModal } from "src/components";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "src/redux";
 import { useEffect } from "react";
 import { getReviewDetail } from "src/redux/actions/review";
+import { useModal } from "src/components/Modal";
 import {
   Wrapper,
   SCommentsContainer,
@@ -20,6 +24,16 @@ const ReviewDetail = () => {
   // useEffect(() => {
   //   dispatch(getReviewDetail({ reviewBoardId: params.id as string }));
   // }, [dispatch, params]);
+
+  const { openModal, closeModal } = useModal({
+    position: { x: "50%", y: "50%" },
+    height: "110px",
+    width: "70%",
+  });
+
+  useEffect(() => {
+    return () => closeModal();
+  }, [closeModal]);
 
   return (
     <Wrapper>
@@ -38,7 +52,9 @@ const ReviewDetail = () => {
           <div>
             <span>수정</span>
             <span>·</span>
-            <span>삭제</span>
+            <span onClick={() => openModal(<DeleteModal type="review" />)}>
+              삭제
+            </span>
           </div>
         </div>
         <div className="hashTag-container">
