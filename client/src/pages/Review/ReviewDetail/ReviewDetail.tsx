@@ -5,7 +5,7 @@ import { Slider, Comment, DeleteModal } from "src/components";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "src/redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getReviewDetail } from "src/redux/actions/review";
 import { useModal } from "src/components/Modal";
 import {
@@ -19,6 +19,7 @@ const ReviewDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [inputValue, setInputValue] = useState("");
   const { reviewDetail } = useAppSelector((state) => state.review);
 
   // useEffect(() => {
@@ -33,7 +34,7 @@ const ReviewDetail = () => {
 
   useEffect(() => {
     return () => closeModal();
-  }, [closeModal]);
+  }, [closeModal, dispatch, params]);
 
   return (
     <Wrapper>
@@ -76,7 +77,12 @@ const ReviewDetail = () => {
         <Comment />
       </SCommentsContainer>
       <SInputContainer>
-        <SInput type="text" placeholder="댓글을 남겨주세요 :)" />
+        <SInput
+          type="text"
+          placeholder="댓글을 남겨주세요 :)"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
         <button type="button">등록</button>
       </SInputContainer>
     </Wrapper>
