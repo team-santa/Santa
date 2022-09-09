@@ -14,16 +14,16 @@ const initialState: ReviewInitialState = {
   isLoading: false,
   reviewList: REVIEW_LIST,
   reviewDetail: REVIEW_DETAIL,
+  localList: REGION_LIST,
+  mountainList: MOUNTAIN_LIST,
+  courseList: HIKING_TRAIL_LIST,
+  currentPage: 1,
   pageInfo: {
     page: 1,
     size: 10,
     totalElement: 100,
     totalPages: 3,
   },
-  localList: REGION_LIST,
-  mountainList: MOUNTAIN_LIST,
-  courseList: HIKING_TRAIL_LIST,
-  currentPage: 1,
 };
 
 const reviewSlice = createSlice({

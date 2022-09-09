@@ -41,6 +41,7 @@ export const Wrapper = styled.div`
 
       span {
         padding-top: 0.5rem;
+        padding-bottom: 0.2rem;
         margin-right: 0.5rem;
         font-size: 1.2rem;
         color: #696868;

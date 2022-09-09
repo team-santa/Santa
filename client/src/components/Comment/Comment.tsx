@@ -1,6 +1,19 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useState } from "react";
 import styled from "styled-components";
 
+const text =
+  "우리나라에서 가장 높은 산인데 언젠가 한번 등산하겠지라고만 생각하고 막상 가려고하면 무서워서 못 갔던 곳 ~ ";
+
 const Comment = () => {
+  const [value, setValue] = useState(text);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const handleEdit = () => {
+    setIsEdit(false);
+  };
+
   return (
     <SComment>
       <SHeader>
@@ -13,18 +26,21 @@ const Comment = () => {
           <span>3분 전</span>
         </User>
         <SUtils>
-          <span>수정</span>
+          <span onClick={() => setIsEdit(true)}>수정</span>
           <span>·</span>
           <span>삭제</span>
         </SUtils>
       </SHeader>
-      <p>
-        우리나라에서 가장 높은 산인데 언젠가 한번 등산하겠지라고만 생각하고 막상
-        가려고하면 무서워서 못 갔던 곳 ~ 우리나라에서 가장 높은 산인데 언젠가
-        한번 등산하겠지라고만 생각하고 막상 가려고하면 무서워서 못 갔던 곳 ~
-        우리나라에서 가장 높은 산인데 언젠가 한번 등산하겠지라고만 생각하고 막상
-        가려고하면 무서워서 못 갔던 곳 ~
-      </p>
+      {isEdit ? (
+        <SEditContainer>
+          <textarea value={value} onChange={(e) => setValue(e.target.value)} />
+          <button type="button" onClick={handleEdit}>
+            완료
+          </button>
+        </SEditContainer>
+      ) : (
+        <p>{value}</p>
+      )}
     </SComment>
   );
 };
@@ -80,5 +96,32 @@ const SUtils = styled.div`
     font-size: 1.2rem;
     color: #696868;
     cursor: pointer;
+  }
+`;
+
+const SEditContainer = styled.div`
+  position: relative;
+
+  & > textarea {
+    box-sizing: border-box;
+    width: 100%;
+    height: 10rem;
+    padding: 1rem;
+    resize: none;
+    border: 1.5px solid #016483;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  & > button {
+    position: absolute;
+    width: 40px;
+    bottom: 10px;
+    right: 0;
+    background-color: inherit;
+    border: none;
+    color: #016483;
+    cursor: pointer;
+    font-weight: 500;
   }
 `;

@@ -1,6 +1,7 @@
 import { Review, ReviewDetail } from "src/types";
 
 export const REGION_LIST = [
+  "전체",
   "경기도",
   "강원도",
   "충청북도",
