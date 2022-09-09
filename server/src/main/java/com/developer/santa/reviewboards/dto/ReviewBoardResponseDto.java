@@ -1,6 +1,8 @@
 package com.developer.santa.reviewboards.dto;
 
 import com.developer.santa.member.entity.Member;
+import com.developer.santa.reviewboards.comment.dto.CommentResponseDto;
+import com.developer.santa.reviewboards.comment.entity.Comment;
 import com.developer.santa.tag.entity.TagSelect;
 import lombok.*;
 
@@ -69,6 +71,7 @@ public class ReviewBoardResponseDto {
 
         private List<String> tagList;
 
+        private List<CommentResponseDto> commentList;
         public void setWriterAndId(Member member){
             String writer = "unknown";
             String memberId = "0000000000";
