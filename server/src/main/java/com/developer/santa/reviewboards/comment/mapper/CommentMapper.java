@@ -2,6 +2,7 @@ package com.developer.santa.reviewboards.comment.mapper;
 
 import com.developer.santa.member.entity.Member;
 import com.developer.santa.reviewboards.comment.dto.CommentRequestDto;
+import com.developer.santa.reviewboards.comment.dto.CommentResponseDto;
 import com.developer.santa.reviewboards.comment.entity.Comment;
 import com.developer.santa.reviewboards.entity.ReviewBoard;
 import org.mapstruct.Mapper;
@@ -30,5 +31,15 @@ public interface CommentMapper {
         return comment;
     };
 
+    default CommentResponseDto commentToResponseComment(Comment comment){
+        CommentResponseDto commentResponseDto = new CommentResponseDto();
+        commentResponseDto.setCommentId(comment.getCommentId());
+        commentResponseDto.setMemberId(comment.getMember().getMemberId());
+        commentResponseDto.setProfileImageUrl(comment.getMember().getProfileImageUrl());
+        commentResponseDto.setWriter(comment.getMember().getUsername());
+        commentResponseDto.setModifiedAt(comment.getModifiedAt());
+        commentResponseDto.setBody(comment.getCommentBody());
+        return commentResponseDto;
+    }
 
 }
