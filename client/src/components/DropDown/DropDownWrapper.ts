@@ -50,6 +50,8 @@ export const Wrapper = styled.div<Props>`
   }
 
   li {
+    display: flex;
+    justify-content: center;
     padding: 1rem;
     border-bottom: 1px solid lightgray;
     background-color: white;

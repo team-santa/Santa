@@ -42,13 +42,15 @@ const DropDown: React.FC<Props> = ({
         <h4>{value}</h4>
         <MdKeyboardArrowDown />
       </button>
-      <ul onClick={handleListClick}>
-        {list.map((el) => (
-          <li key={el} id={el} onClick={() => dispatch(el)}>
-            {el}
-          </li>
-        ))}
-      </ul>
+      {list.length > 0 && (
+        <ul onClick={handleListClick}>
+          {list.map((el) => (
+            <li key={el} id={el} onClick={() => dispatch(el)}>
+              {el}
+            </li>
+          ))}
+        </ul>
+      )}
     </Wrapper>
   );
 };
