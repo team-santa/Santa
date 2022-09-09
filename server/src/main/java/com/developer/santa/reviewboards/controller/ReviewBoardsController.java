@@ -46,9 +46,10 @@ public class ReviewBoardsController {
     public HttpEntity<?> courseReview(@RequestParam(required = false) String city,
                                       @RequestParam(required = false) String mountain,
                                       @RequestParam(required = false) String course,
+                                      @RequestParam(required = false) String sort,
                                       @RequestParam int page) {
 
-
+        String sortPoint = "reviewBoardId" ;
         Map<String, Object> spec = new HashMap<>();
         if (city != null)
             spec.put("localName" , city);
@@ -56,8 +57,11 @@ public class ReviewBoardsController {
             spec.put("mountainName", mountain);
         if (course != null)
             spec.put("courseName", course);
-
-        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findReviewBoards(page-1, spec);
+        if(sort !=null) { // 정렬 메뉴가 있을 시
+            if( sort.equals("views"))
+                sortPoint = "views";
+        }
+        Page<ReviewBoard> reviewBoardPage = reviewBoardService.findReviewBoards(page-1, spec, sortPoint);
         List<ReviewBoard> reviewBoards = reviewBoardPage.getContent();
 
         return new ResponseEntity<>(

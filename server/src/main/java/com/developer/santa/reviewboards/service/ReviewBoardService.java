@@ -46,9 +46,9 @@ public class ReviewBoardService {
 
     }
 
-    public Page<ReviewBoard> findReviewBoards(int page, Map<String, Object> spec) {
+    public Page<ReviewBoard> findReviewBoards(int page, Map<String, Object> spec, String sort) {
         Specification<ReviewBoard> search = ReviewBoardSpecification.search(spec);
-        return reviewBoardRepository.findAll(search, PageRequest.of(page, 10, Sort.by("reviewBoardId").descending()));
+        return reviewBoardRepository.findAll(search, PageRequest.of(page, 10, Sort.by(sort).descending()));
     }
 
     public ReviewBoard findReviewBoard(Long reviewBoardId, String clientIp) {
