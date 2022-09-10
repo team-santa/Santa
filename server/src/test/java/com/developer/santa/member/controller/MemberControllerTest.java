@@ -1,11 +1,15 @@
 package com.developer.santa.member.controller;
 
+import com.developer.santa.boards.mapper.ReviewBoardMapper;
+import com.developer.santa.member.annotation.WithMockCustomUser;
 import com.developer.santa.member.dto.MemberDto;
 import com.developer.santa.member.entity.Member;
 import com.developer.santa.member.mapper.MemberMapper;
+import com.developer.santa.member.oauth.entity.PrincipalDetails;
 import com.developer.santa.member.oauth.entity.ProviderType;
 import com.developer.santa.member.oauth.entity.RoleType;
 import com.developer.santa.member.service.MemberService;
+import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +19,30 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest({MemberController.class})
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
-@WithMockUser
+@WithMockCustomUser
 class MemberControllerTest {
 
     @Autowired
@@ -44,10 +52,16 @@ class MemberControllerTest {
     private MemberService memberService;
 
     @MockBean
-    private MemberMapper mapper;
+    private MemberMapper memberMapper;
+
+    @MockBean
+    private ReviewBoardMapper reviewBoardMapper;
+
+    @Autowired
+    private Gson gson;
 
     @Test
-    void register() throws Exception {
+    void login() throws Exception {
 
         String providerId = "google";
         String verifyUri = "https://accounts.google.com/o/oauth2/v2/auth*/**" + providerId;
@@ -79,7 +93,7 @@ class MemberControllerTest {
         given(memberService.findMember(Mockito.anyString())).willReturn(new Member());
         given(memberService.verifyMember(Mockito.anyString())).willReturn(new Member());
 
-        given(mapper.memberToMemberDtoResponse(Mockito.any(Member.class))).willReturn(response);
+        given(memberMapper.memberToMemberDtoResponse(Mockito.any(Member.class))).willReturn(response);
 
         ResultActions actions = mock.perform(
                 get("/members/{memberId}", memberId)
@@ -106,5 +120,84 @@ class MemberControllerTest {
                                 )
                         )
                 ));
+    }
+
+    @Test
+    public void putMember() throws Exception {
+        String memberId = "1";
+
+        MemberDto.Put put = new MemberDto.Put("testUser", "testEmail@email.com", "profileImageUrl");
+        String body = gson.toJson(put);
+        MemberDto.Response response = new MemberDto.Response("testUser", "testEmail@email.com", "profileImageUrl");
+
+        given(memberMapper.memberPutDtoToMember(Mockito.any(MemberDto.Put.class))).willReturn(new Member());
+
+        given(memberService.putMember(Mockito.anyString(),
+                Mockito.any(Member.class),
+                Mockito.any(PrincipalDetails.class),
+                Mockito.any(HttpServletResponse.class))).willReturn(new Member());
+
+        given(memberMapper.memberToMemberDtoResponse(Mockito.any(Member.class))).willReturn(response);
+
+        ResultActions actions = mock.perform(
+                put("/members/{memberId}", memberId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content(body)
+        );
+
+        actions
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.username").value(put.getUsername()))
+                .andExpect(jsonPath("$.email").value(put.getEmail()))
+                .andExpect(jsonPath("$.profileImageUrl").value(put.getProfileImageUrl()))
+                .andDo(document("put-profile",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberId").description("제공자 고유번호")
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("username").type(JsonFieldType.STRING).description("회원 이름"),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 경로")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("username").type(JsonFieldType.STRING).description("회원 이름"),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 경로")
+                                )
+                        )
+                ));
+    }
+
+    @GetMapping("/{username}/check")
+    @Test
+    public void checkDuplicateUsername() {
+
+    }
+
+    @PostMapping("/{memberId}/mountains/{mountainName}")
+    @Test
+    public void likeMountain() {
+    }
+
+    @DeleteMapping("/{memberId}/mountains/{mountainName}")
+    @Test
+    public void deleteMountain() {
+    }
+
+    @GetMapping("/{memberId}/mountains")
+    @Test
+    public void getMountains() {
+    }
+
+    @GetMapping("/{memberId}/reviewboards")
+    @Test
+    public void getReviewBoards() {
     }
 }
