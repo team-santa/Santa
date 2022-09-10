@@ -6,16 +6,21 @@ import { CreateAsyncThunkTypes } from "../store/index";
 
 export const getReviewList = createAsyncThunk<
   ReviewList | undefined,
-  ReviewListPayload,
+  undefined,
   CreateAsyncThunkTypes
 >("review/getReviewList", async (payload, thunkAPI) => {
   try {
-    const { currentPage, pageInfo } = thunkAPI.getState().review;
-    const { local, mountain, course } = payload;
+    const {
+      currentPage,
+      pageInfo,
+      selectedCourse,
+      selectedLocal,
+      selectedMountain,
+    } = thunkAPI.getState().review;
     if (currentPage <= pageInfo.totalPages) {
-      console.log(local, mountain, course, currentPage);
+      console.log(selectedLocal, selectedMountain, selectedCourse, currentPage);
       const response = await axiosInstance.get(
-        `/v1/reviewboards/local=${local}/mountain=${mountain}/course=${course}/page=${currentPage}`
+        `/v1/reviewboards/local=${selectedLocal}/mountain=${selectedMountain}/course=${selectedCourse}/page=${currentPage}`
       );
       return response.data;
     }

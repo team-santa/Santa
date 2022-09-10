@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { createSlice, Reducer } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, Reducer } from "@reduxjs/toolkit";
 import {
   REVIEW_LIST,
   REGION_LIST,
@@ -8,7 +8,7 @@ import {
 } from "src/utils";
 import { getReviewDetail, getReviewList } from "../actions/review";
 import { REVIEW_DETAIL } from "../../utils/dummy-data";
-import { ReviewInitialState } from "../../types/review";
+import { ReviewInitialState, ChageSelectedPlace } from "../../types/review";
 
 const initialState: ReviewInitialState = {
   isLoading: false,
@@ -17,6 +17,9 @@ const initialState: ReviewInitialState = {
   localList: REGION_LIST,
   mountainList: MOUNTAIN_LIST,
   courseList: HIKING_TRAIL_LIST,
+  selectedLocal: "",
+  selectedMountain: "",
+  selectedCourse: "",
   currentPage: 1,
   pageInfo: {
     page: 1,
@@ -35,6 +38,22 @@ const reviewSlice = createSlice({
     },
     resetPage: (state) => {
       state.currentPage = 1;
+    },
+    changeSelectedPlace: (
+      state,
+      { payload }: PayloadAction<ChageSelectedPlace>
+    ) => {
+      const { name, value } = payload;
+      switch (name) {
+        case "local":
+          state.selectedLocal = value;
+          break;
+        case "mountain":
+          state.selectedMountain = value;
+          break;
+        case "course":
+          state.selectedCourse = value;
+      }
     },
   },
   extraReducers: (builder) =>
@@ -66,5 +85,6 @@ const reviewSlice = createSlice({
       }),
 });
 
-export const { increasePage, resetPage } = reviewSlice.actions;
+export const { increasePage, resetPage, changeSelectedPlace } =
+  reviewSlice.actions;
 export const reviewReducer: Reducer<typeof initialState> = reviewSlice.reducer;

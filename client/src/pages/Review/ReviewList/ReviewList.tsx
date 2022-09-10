@@ -4,9 +4,14 @@
 import { useCallback, useState } from "react";
 import { DropDown, ReviewCard } from "src/components";
 import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
-import { increasePage, useAppDispatch, useAppSelector } from "src/redux";
+import {
+  changeSelectedPlace,
+  increasePage,
+  useAppDispatch,
+  useAppSelector,
+} from "src/redux";
 import { getReviewList } from "src/redux/actions/review";
-
+import { ChageSelectedPlace } from "src/types/review";
 import { Wrapper, SListContainer } from "./ReviewListWrapper";
 
 const ReviewList = () => {
@@ -17,34 +22,28 @@ const ReviewList = () => {
 
   const handleInfiniteScroll = () => {
     dispatch(increasePage());
-    dispatch(
-      getReviewList({
-        local: "string",
-        mountain: "string",
-        course: "string",
-      })
-    );
+    dispatch(getReviewList());
   };
   const setObservationTarget = useInfiniteScroll(handleInfiniteScroll);
 
   const [sortByViews, setSortByViews] = useState(false);
   const [dropDownValue, setDropDownValue] = useState({
-    region: "지역",
+    local: "지역",
     mountain: "산 이름",
-    hikingTrail: "등산로",
+    course: "등산로",
   });
   const [dropDownIsOpen, setDropDownIsOpen] = useState({
-    region: false,
+    local: false,
     mountain: false,
-    hikingTrail: false,
+    course: false,
   });
 
   const handleDropDownClick = useCallback(
     (name: string) => {
       const newObj = {
-        region: false,
+        local: false,
         mountain: false,
-        hikingTrail: false,
+        course: false,
       };
       newObj[name as keyof typeof newObj] =
         !dropDownIsOpen[name as keyof typeof newObj];
@@ -53,18 +52,22 @@ const ReviewList = () => {
     [dropDownIsOpen]
   );
 
+  const handleDispatch = (payload: ChageSelectedPlace) => {
+    dispatch(changeSelectedPlace(payload));
+  };
+
   return (
     <Wrapper selected={sortByViews}>
       <div className="dropdown-column">
         <DropDown
           width="100%"
           list={localList}
-          name="region"
+          name="local"
           isOpen={dropDownIsOpen}
-          value={dropDownValue.region}
+          value={dropDownValue.local}
           setValue={setDropDownValue}
           handleClick={handleDropDownClick}
-          dispatch={(name) => console.log(name)}
+          dispatch={handleDispatch}
         />
         <DropDown
           width="100%"
@@ -74,19 +77,19 @@ const ReviewList = () => {
           value={dropDownValue.mountain}
           setValue={setDropDownValue}
           handleClick={handleDropDownClick}
-          dispatch={(name) => console.log(name)}
+          dispatch={handleDispatch}
         />
       </div>
       <div className="dropdown-column">
         <DropDown
           width="100%"
           list={courseList}
-          name="hikingTrail"
+          name="course"
           isOpen={dropDownIsOpen}
-          value={dropDownValue.hikingTrail}
+          value={dropDownValue.course}
           setValue={setDropDownValue}
           handleClick={handleDropDownClick}
-          dispatch={(name) => console.log(name)}
+          dispatch={handleDispatch}
         />
       </div>
       <section>

@@ -5,6 +5,9 @@ export interface ReviewInitialState {
   pageInfo: PageInfo;
   localList: Array<string>;
   mountainList: Array<string>;
+  selectedLocal: string;
+  selectedMountain: string;
+  selectedCourse: string;
   courseList: Array<string>;
   currentPage: number;
 }
@@ -44,4 +47,11 @@ export interface ReviewDetail extends Review {
   localName: string;
   mountainName: string;
   courseName: string;
+}
+
+export type SelectOption = "local" | "mountain" | "course";
+
+export interface ChageSelectedPlace {
+  name: SelectOption;
+  value: string;
 }
