@@ -99,7 +99,7 @@ const Write = () => {
         "JPEG",
         30,
         0,
-        (uri) => {
+        (uri: any) => {
           setMainImg(uri);
         },
         "base64",
@@ -155,11 +155,12 @@ const Write = () => {
           <DropDown
             width="100%"
             list={REGION_LIST}
-            name="region"
+            name="local"
             isOpen={dropDownIsOpen}
             value={dropDownValue.region}
             setValue={setDropDownValue}
             handleClick={handleClick}
+            dispatch={(name) => console.log(name)}
           />
           <DropDown
             width="100%"
@@ -169,17 +170,19 @@ const Write = () => {
             value={dropDownValue.mountain}
             setValue={setDropDownValue}
             handleClick={handleClick}
+            dispatch={(name) => console.log(name)}
           />
         </div>
         <div className="dropdown-column">
           <DropDown
             width="100%"
             list={HIKING_TRAIL_LIST}
-            name="hikingTrail"
+            name="course"
             isOpen={dropDownIsOpen}
             value={dropDownValue.hikingTrail}
             setValue={setDropDownValue}
             handleClick={handleClick}
+            dispatch={(name) => console.log(name)}
           />
         </div>
         <FileBox>
