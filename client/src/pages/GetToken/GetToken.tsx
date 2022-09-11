@@ -1,26 +1,29 @@
 /* eslint-disable camelcase */
 import React, { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { useAppDispatch } from "src/redux";
+import { getUserAction } from "src/redux/actions/getUserAction";
 import { setCookie } from "src/utils/cookie";
-import jwt_decode from "jwt-decode";
 
 const GetToken = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const token = searchParams.get("token");
+
     if (token) {
-      setCookie("token", token, { path: "/", maxAge: 40000 });
-      const decoded = jwt_decode(token);
-      localStorage.setItem("user", JSON.stringify(decoded));
+      setCookie("token", token, { path: "/" });
+      dispatch(getUserAction(token));
     }
 
-    if (searchParams.get("signup")) {
-      navigate("/main/signup");
+    if (searchParams.get("signup") === "true") {
+      window.location.replace("/main/signup");
     } else {
-      navigate("/main");
+      window.location.replace("/main");
     }
   });
+
   return <div>GetToken</div>;
 };
 

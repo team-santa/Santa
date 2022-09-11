@@ -1,17 +1,19 @@
-import axios from "axios";
 import React from "react";
 import SocialButton from "src/components/SocialButton/SocialButton";
 import styled from "styled-components";
+import Logo from "src/assets/images/santa_log.svg";
+import { colors } from "src/utils/colors";
 
-// 소셜 로그인 양식 주소 !!
-const url = `http://localhost:8080/oauth2/authorization/{provider-id}?redirect_uri=http://localhost:3000/oauth/redirect`;
 const Login = () => {
   const HandleClick = async (mode: string) => {
     window.location.href = `http://localhost:8080/oauth2/authorization/${mode}?redirect_uri=http://localhost:3000/oauth/redirect`;
   };
+
   return (
     <Container>
-      <Logo>ㅅㅌ</Logo>
+      <LogoBox>
+        <img src={Logo} alt="Logo" />
+      </LogoBox>
       <SocialButtons>
         <SocialButton
           mode="kakao"
@@ -55,7 +57,9 @@ const Container = styled.div`
   height: 80vh;
 `;
 
-const Logo = styled.div``;
+const LogoBox = styled.div`
+  margin-bottom: 2rem;
+`;
 
 const SocialButtons = styled.div`
   display: flex;
@@ -63,7 +67,6 @@ const SocialButtons = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 4rem;
-  border: solid 2px lightgray;
   border-radius: 1rem;
-  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+  border: solid 1px ${colors.mainColor};
 `;
