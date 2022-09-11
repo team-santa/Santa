@@ -1,13 +1,14 @@
 export interface ReviewInitialState {
   isLoading: boolean;
   reviewList: Array<Review>;
-  reviewDetail: ReviewDetail;
+  reviewDetail: ReviewDetail | null;
   pageInfo: PageInfo;
   localList: Array<string>;
   mountainList: Array<string>;
   selectedLocal: string;
   selectedMountain: string;
   selectedCourse: string;
+  sortByViews: boolean;
   courseList: Array<string>;
   currentPage: number;
 }
@@ -23,7 +24,7 @@ export interface Review {
   title: string;
   thumbnail: string;
   writer: string;
-  profileImgUrl: string;
+  profileImageUrl: string;
   modifiedAt: string;
   views: number;
   tagList: Array<string>;

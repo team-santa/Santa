@@ -1,24 +1,30 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { useCallback, useState } from "react";
-import { DropDown, ReviewCard } from "src/components";
+import { useCallback, useEffect, useState } from "react";
+import { DropDown, LoadingSpinner, ReviewCard } from "src/components";
 import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
 import {
   changeSelectedPlace,
+  changeSortByViews,
   increasePage,
   useAppDispatch,
   useAppSelector,
 } from "src/redux";
-import { getReviewList } from "src/redux/actions/review";
+import { getReviewList, getSpecificReviewList } from "src/redux/actions/review";
 import { ChageSelectedPlace } from "src/types/review";
 import { Wrapper, SListContainer } from "./ReviewListWrapper";
 
 const ReviewList = () => {
   const dispatch = useAppDispatch();
-  const { reviewList, localList, mountainList, courseList } = useAppSelector(
-    (state) => state.review
-  );
+  const {
+    isLoading,
+    reviewList,
+    localList,
+    mountainList,
+    courseList,
+    sortByViews,
+  } = useAppSelector((state) => state.review);
 
   const handleInfiniteScroll = () => {
     dispatch(increasePage());
@@ -26,7 +32,6 @@ const ReviewList = () => {
   };
   const setObservationTarget = useInfiniteScroll(handleInfiniteScroll);
 
-  const [sortByViews, setSortByViews] = useState(false);
   const [dropDownValue, setDropDownValue] = useState({
     local: "지역",
     mountain: "산 이름",
@@ -55,6 +60,20 @@ const ReviewList = () => {
   const handleDispatch = (payload: ChageSelectedPlace) => {
     dispatch(changeSelectedPlace(payload));
   };
+
+  const handleSortByViews = () => {
+    dispatch(changeSortByViews(false));
+    dispatch(getSpecificReviewList());
+  };
+
+  const handleSortByNewest = () => {
+    dispatch(changeSortByViews(true));
+    dispatch(getSpecificReviewList());
+  };
+
+  useEffect(() => {
+    dispatch(getReviewList());
+  }, [dispatch]);
 
   return (
     <Wrapper selected={sortByViews}>
@@ -96,10 +115,10 @@ const ReviewList = () => {
         <div className="review-title-container">
           <h2>리뷰 목록</h2>
           <div>
-            <span className="new-first" onClick={() => setSortByViews(false)}>
+            <span className="new-first" onClick={handleSortByNewest}>
               최신순
             </span>
-            <span className="view-first" onClick={() => setSortByViews(true)}>
+            <span className="view-first" onClick={handleSortByViews}>
               조회순
             </span>
           </div>
@@ -112,12 +131,13 @@ const ReviewList = () => {
               title={review.title}
               thumbnail={review.thumbnail}
               writer={review.writer}
-              profileImgUrl={review.profileImgUrl}
+              profileImgUrl={review.profileImageUrl}
               modifiedAt={review.modifiedAt}
               views={review.views}
               tagList={review.tagList}
             />
           ))}
+          {isLoading && <LoadingSpinner />}
         </SListContainer>
         <div ref={setObservationTarget} />
       </section>

@@ -1,7 +1,7 @@
 /** getDateToString('2021-11-17') or getDateToString('2021-11-17 00:00:00') */
 export const getDateToString = (value: string) => {
   const today = new Date();
-  const timeValue = new Date(`${value}Z`);
+  const timeValue = new Date(`${value}`);
 
   const betweenTime = Math.floor(
     (today.getTime() - timeValue.getTime()) / 1000 / 60

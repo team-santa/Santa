@@ -6,7 +6,11 @@ import {
   MOUNTAIN_LIST,
   HIKING_TRAIL_LIST,
 } from "src/utils";
-import { getReviewDetail, getReviewList } from "../actions/review";
+import {
+  getReviewDetail,
+  getReviewList,
+  getSpecificReviewList,
+} from "../actions/review";
 import { REVIEW_DETAIL } from "../../utils/dummy-data";
 import { ReviewInitialState, ChageSelectedPlace } from "../../types/review";
 
@@ -20,6 +24,7 @@ const initialState: ReviewInitialState = {
   selectedLocal: "",
   selectedMountain: "",
   selectedCourse: "",
+  sortByViews: false,
   currentPage: 1,
   pageInfo: {
     page: 1,
@@ -55,6 +60,10 @@ const reviewSlice = createSlice({
           state.selectedCourse = value;
       }
     },
+    changeSortByViews: (state, { payload }: PayloadAction<boolean>) => {
+      state.currentPage = 1;
+      state.sortByViews = payload;
+    },
   },
   extraReducers: (builder) =>
     builder // getReviewList
@@ -64,11 +73,24 @@ const reviewSlice = createSlice({
       .addCase(getReviewList.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         if (payload) {
+          state.reviewList = [];
           state.reviewList.push(...payload.data);
           state.pageInfo = payload.pageInfo;
         }
       })
       .addCase(getReviewList.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        console.log(payload);
+      })
+      .addCase(getSpecificReviewList.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSpecificReviewList.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.reviewList = payload.data;
+        state.pageInfo = payload.pageInfo;
+      })
+      .addCase(getSpecificReviewList.rejected, (state, { payload }) => {
         state.isLoading = false;
         console.log(payload);
       })
@@ -85,6 +107,10 @@ const reviewSlice = createSlice({
       }),
 });
 
-export const { increasePage, resetPage, changeSelectedPlace } =
-  reviewSlice.actions;
+export const {
+  increasePage,
+  resetPage,
+  changeSelectedPlace,
+  changeSortByViews,
+} = reviewSlice.actions;
 export const reviewReducer: Reducer<typeof initialState> = reviewSlice.reducer;

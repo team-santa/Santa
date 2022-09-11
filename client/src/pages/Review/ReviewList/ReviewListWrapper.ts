@@ -44,6 +44,5 @@ export const Wrapper = styled.div<Props>`
 `;
 
 export const SListContainer = styled.ul`
-  height: 90%;
-  overflow: auto;
+  min-height: 1000px;
 `;

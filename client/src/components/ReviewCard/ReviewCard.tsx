@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useNavigate } from "react-router-dom";
+import { getDateToString } from "src/utils";
 import { Wrapper } from "./ReviewCardWrapper";
 
 interface Prop {
@@ -44,7 +45,7 @@ const ReviewCard = ({
               <span>{writer}</span>
             </div>
             <div className="util-container">
-              <span>{modifiedAt}</span>
+              <span>{getDateToString(modifiedAt)}</span>
               <span>·</span>
               <span>조회 {views}</span>
             </div>
