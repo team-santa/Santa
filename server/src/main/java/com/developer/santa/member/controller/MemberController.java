@@ -2,6 +2,7 @@ package com.developer.santa.member.controller;
 
 import com.developer.santa.boards.dto.ReviewBoardResponseDto;
 import com.developer.santa.boards.mapper.ReviewBoardMapper;
+import com.developer.santa.dto.SingleResponseDto;
 import com.developer.santa.member.dto.MemberDto;
 import com.developer.santa.member.entity.Member;
 import com.developer.santa.member.mapper.MemberMapper;
@@ -41,8 +42,8 @@ public class MemberController {
     }
 
     @GetMapping("/{username}/check")
-    public ResponseEntity<Boolean> checkDuplicateUsername(@PathVariable String username) {
-        return new ResponseEntity<>(!memberService.checkDuplicateUsername(username), HttpStatus.OK);
+    public ResponseEntity<SingleResponseDto<Boolean>> checkDuplicateUsername(@PathVariable String username) {
+        return new ResponseEntity<>(new SingleResponseDto<>(!memberService.checkDuplicateUsername(username)), HttpStatus.OK);
     }
 
     @PostMapping("/{memberId}/mountains/{mountainName}")
