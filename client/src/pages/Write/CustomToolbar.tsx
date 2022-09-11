@@ -42,8 +42,6 @@ const CustomToolbar = () => {
           <option value="black" />
         </select>
         <select className="ql-background" />
-        <button className="ql-link" />
-        <button className="ql-image" />
       </div>
     </div>
   );
