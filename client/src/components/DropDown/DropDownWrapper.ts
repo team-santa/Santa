@@ -44,12 +44,14 @@ export const Wrapper = styled.div<Props>`
     max-height: 27.2rem;
     cursor: pointer;
     overflow: auto;
-    z-index: 990;
+    z-index: 10;
     animation: growDown 250ms ease-in;
     transform-origin: top center;
   }
 
   li {
+    display: flex;
+    justify-content: center;
     padding: 1rem;
     border-bottom: 1px solid lightgray;
     background-color: white;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  padding: 2rem;
+  padding: 2rem 2rem 11rem 2rem;
 
   .title-container {
     svg {
@@ -41,9 +41,11 @@ export const Wrapper = styled.div`
 
       span {
         padding-top: 0.5rem;
-        margin-right: 1rem;
+        padding-bottom: 0.2rem;
+        margin-right: 0.5rem;
         font-size: 1.2rem;
         color: #696868;
+        cursor: pointer;
       }
     }
 
@@ -73,4 +75,40 @@ export const Wrapper = styled.div`
     font-size: 1.4rem;
     line-height: 2.8rem;
   }
+`;
+
+export const SCommentsContainer = styled.section`
+  margin-top: 2rem;
+  border-top: 2px solid lightgray;
+
+  & > h1 {
+    margin: 2rem 0 1rem 0;
+  }
+`;
+
+export const SInputContainer = styled.section`
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  bottom: 60px;
+  width: 100%;
+  margin-left: -20px;
+  border-top: 1px solid lightgray;
+
+  & > button {
+    width: 8rem;
+    background-color: white;
+    border: none;
+    color: #016483;
+    cursor: pointer;
+  }
+`;
+
+export const SInput = styled.input`
+  width: 100%;
+  padding: 0.5rem 2rem;
+  height: 3rem;
+  border: none;
+  outline: none;
+  overflow: auto;
 `;

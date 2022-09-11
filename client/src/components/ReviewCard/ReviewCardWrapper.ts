@@ -1,9 +1,6 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.ul`
-  height: 90%;
-  overflow: auto;
-
   li {
     display: flex;
     flex-direction: column;

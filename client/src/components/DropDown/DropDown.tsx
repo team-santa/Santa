@@ -2,16 +2,18 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Dispatch, MouseEvent, useCallback, SetStateAction } from "react";
+import { ChageSelectedPlace, SelectOption } from "src/types/review";
 import { Wrapper } from "./DropDownWrapper";
 
 interface Props {
   width: string;
   list: Array<string>;
-  name: string;
+  name: SelectOption;
   isOpen: { [name: string]: boolean };
   value: string;
   setValue: Dispatch<SetStateAction<any>>;
   handleClick: (name: string) => void;
+  dispatch: (payload: ChageSelectedPlace) => void;
 }
 
 const DropDown: React.FC<Props> = ({
@@ -22,6 +24,7 @@ const DropDown: React.FC<Props> = ({
   value,
   setValue,
   handleClick,
+  dispatch,
 }) => {
   const handleListClick = useCallback(
     (event: MouseEvent<HTMLUListElement>) => {
@@ -29,7 +32,7 @@ const DropDown: React.FC<Props> = ({
       setValue((state: object) => {
         return { ...state, [name]: selected };
       });
-      handleClick(name);
+      handleClick(selected);
     },
     [name, setValue, handleClick]
   );
@@ -40,13 +43,24 @@ const DropDown: React.FC<Props> = ({
         <h4>{value}</h4>
         <MdKeyboardArrowDown />
       </button>
-      <ul onClick={handleListClick}>
-        {list.map((el) => (
-          <li key={el} id={el}>
-            {el}
-          </li>
-        ))}
-      </ul>
+      {list.length > 0 && (
+        <ul onClick={handleListClick}>
+          {list.map((el) => (
+            <li
+              key={el}
+              id={el}
+              onClick={() =>
+                dispatch({
+                  name,
+                  value: el,
+                })
+              }
+            >
+              {el}
+            </li>
+          ))}
+        </ul>
+      )}
     </Wrapper>
   );
 };
