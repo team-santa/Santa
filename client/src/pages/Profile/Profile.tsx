@@ -5,10 +5,12 @@ import Dialog from "src/components/Dialog/Dialog";
 import styled from "styled-components";
 import { useUser } from "src/utils/localStorage";
 import { BiEdit } from "react-icons/bi";
-import { LocalUser } from "src/types";
+import ProfileTab from "src/components/ProfileTab/ProfileTab";
+import { LocalUser } from "src/types/User";
 
 const Profile = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line no-underscore-dangle
   const user: LocalUser = useUser();
 
   if (!user)
@@ -30,7 +32,9 @@ const Profile = () => {
         <img src={String(user.profileImageUrl)} alt="profile-img" />
         <UserName>{user.username}</UserName>
       </ProfileBox>
-      <MyReviewBox />
+      <MyReviewBox>
+        <ProfileTab />
+      </MyReviewBox>
     </Container>
   );
 };
@@ -44,7 +48,7 @@ const Container = styled.div`
   padding: 0rem 2rem;
   overflow: scroll;
 
-  h1 {
+  & > h1 {
     font-size: 2.5rem;
     margin: 1rem 0rem;
   }
@@ -68,10 +72,10 @@ const ProfileBox = styled.div`
   align-items: center;
   flex-direction: column;
   padding-bottom: 3rem;
-  border-bottom: solid 1px lightgray;
+  /* border-bottom: solid 1px lightgray; */
 
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1.2rem;
 
   img {
     width: 13rem;
@@ -83,8 +87,7 @@ const ProfileBox = styled.div`
 `;
 const MyReviewBox = styled.div`
   width: 100%;
-  margin: 1rem 0rem;
-  background-color: red;
+  height: 50vh;
 `;
 
 const UserName = styled.h2`
