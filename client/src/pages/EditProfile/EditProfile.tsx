@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
@@ -10,15 +12,14 @@ import styled from "styled-components";
 import Resizer from "react-image-file-resizer";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { LocalUser, User } from "src/types";
+import { LocalUser } from "src/types/User";
+import { useAppDispatch } from "src/redux";
+import { updateProfileAction } from "src/redux/actions/updateProfileAction";
 
-/**
- * 처음에 로딩시 유저네임이 서버에 있기 때문에 중복으로 확인되는 현상 고쳐야함
- */
 const EditProfile = () => {
   const user: LocalUser = useUser();
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const [username, setUserName] = useState(user.username); // user.username
   const [userImg, setUserImg] = useState<any>(user.profileImageUrl);
 
@@ -30,7 +31,8 @@ const EditProfile = () => {
       return axios
         .get(`http://localhost:8080/members/${debouceValue}/check`)
         .then((res) => {
-          setError(!res.data);
+          if (user.username === username) setError(false);
+          else setError(!res.data);
         });
     };
 
@@ -56,9 +58,7 @@ const EditProfile = () => {
       );
     }
   }
-  /**
-   * TODO : 헤더에서 받은 토큰을 갈아주는 작업을 해야한다.
-   */
+
   // eslint-disable-next-line consistent-return
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,24 +67,8 @@ const EditProfile = () => {
     if (username.trim().length <= 2)
       return window.alert("유저네임을 2글자 이상으로 설정해 주세요.");
     console.log(userImg.length);
-
-    const result = await axios.put(
-      `http://localhost:8080/members/${user.memberId}`,
-      { username, profileImageUrl: userImg }
-    );
-
-    const { memberId } = user;
-    const userData: User = result.data;
-    const mergeUser = {
-      ...userData,
-      memberId,
-    };
-
-    localStorage.setItem("user", JSON.stringify(mergeUser));
-
-    if (result.status === 201) {
-      navigate("/main");
-    }
+    dispatch(updateProfileAction({ username, profileImageUrl: userImg }));
+    navigate("/main");
   };
 
   if (!username && !userImg) return <div>로딩중...</div>;
@@ -95,7 +79,7 @@ const EditProfile = () => {
         <IconBox>
           <AiOutlineArrowLeft onClick={() => navigate(-1)} />
         </IconBox>
-        <Title>추가 정보 입력</Title>
+        <Title>프로필 수정</Title>
         <ProfileImgBox>
           <img src={String(userImg)} alt="profileImg" />
         </ProfileImgBox>
