@@ -1,33 +1,20 @@
 /* eslint-disable camelcase */
 import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useAppDispatch } from "src/redux";
+import { getUserAction } from "src/redux/actions/getUserAction";
 import { setCookie } from "src/utils/cookie";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
-import { User } from "src/types";
-
-interface Decode {
-  exp: number;
-  role: string;
-  sub: string;
-}
 
 const GetToken = () => {
   const [searchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const token = searchParams.get("token");
+
     if (token) {
       setCookie("token", token, { path: "/" });
-      const decoded: Decode = jwt_decode(token);
-      axios.get(`http://localhost:8080/members/${decoded.sub}`).then((res) => {
-        const user: User = res.data;
-        const memberId = decoded.sub;
-        const mergeUser = {
-          ...user,
-          memberId,
-        };
-        localStorage.setItem("user", JSON.stringify(mergeUser));
-      });
+      dispatch(getUserAction(token));
     }
 
     if (searchParams.get("signup") === "true") {
