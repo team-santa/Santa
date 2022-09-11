@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-useless-escape */
@@ -17,6 +18,9 @@ import useDebounce from "src/hooks/useDebounce";
 import { useUser } from "src/utils/localStorage";
 import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
 import { DropDown } from "src/components";
+import { MdOutlineAddAPhoto } from "react-icons/md";
+import Resizer from "react-image-file-resizer";
+import LiveTag from "src/components/TagBox/LiveTag";
 import CustomToolbar, { formats, modules } from "./CustomToolbar";
 
 const Write = () => {
@@ -28,7 +32,11 @@ const Write = () => {
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [options, setOption] = useState([]);
+  const [options, setOption] = useState<string[]>([]);
+  const [imgText, setImgText] = useState("대표 이미지를 선택해 주세요.");
+  const [mainImg, setMainImg] = useState<
+    string | null | File | Blob | ProgressEvent<FileReader>
+  >(null);
 
   // DropDown
   const [dropDownValue, setDropDownValue] = useState({
@@ -63,60 +71,52 @@ const Write = () => {
     const result = await axios.get(
       `https://olive-shrimps-go-222-117-186-4.loca.lt/v1/tag?text=${debouceValue}`
     );
-    const tagNames = result.data.map((data: any) => data.tagName);
+    const tagNames: string[] = result.data.map((data: any) => data.tagName);
     setOption(tagNames);
   };
 
   useEffect(() => {
     if (debouceValue) fetchTagList();
+    if (debouceValue.length === 0) setIsOpen(false);
   }, [debouceValue]);
 
+  /**
+   * handle Function
+   */
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTitle(e.currentTarget.value);
 
-  const handleTag = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTag(e.target.value);
-
   const handleContent = (value: any) => setContent(value);
 
-  const handleAddTags = async (tag: string) => {
-    console.log(tag);
-    if (tags.indexOf(tag) !== -1) return window.alert("중복된 태그 입니다.");
-    if (tag.length >= 15)
-      return window.alert("태그는 최대 15자 까지 입력해주세요.");
-    if (tags.length >= 5)
-      return window.alert("태그는 최대 5개 까지 입력이 가능합니다.");
-    if (tag.trim().length === 0)
-      return window.alert("공백태그는 입력할 수 없습니다.");
-    setTags([...tags, tag]);
-    setTag("");
-    return "";
-  };
-
-  const handleRemoveTag = (tag: string) => {
-    const findIndex = tags.indexOf(tag);
-    if (findIndex !== -1) {
-      const tagFilter = tags.filter((tagItem) => tagItem !== tag);
-      setTags(tagFilter);
+  function fileChangedHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.currentTarget.files !== null) {
+      const file = e.currentTarget.files[0];
+      setImgText(file.name);
+      Resizer.imageFileResizer(
+        file,
+        300,
+        300,
+        "JPEG",
+        30,
+        0,
+        (uri) => {
+          setMainImg(uri);
+        },
+        "base64",
+        200,
+        200
+      );
     }
-  };
+  }
 
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let thumbnail = null;
-
-    if (content.includes("img")) {
-      const re = /<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i;
-      const result = content.match(re);
-      if (result) [thumbnail] = result;
-    }
-
     const requestForm = {
-      username: "CuteHwanMin",
+      username: user.username,
+      thumbnail: mainImg,
       title,
       content,
-      thumbnail,
       tags,
       dropDownValue,
     };
@@ -141,25 +141,15 @@ const Write = () => {
           onChange={handleTitle}
         />
         <TagContainer>
-          <div>
-            {tags?.map((tag) => (
-              <span
-                key={tag}
-                onClick={(e) => handleRemoveTag(tag)}
-                aria-hidden="true"
-              >
-                # {tag}
-              </span>
-            ))}
-            <input
-              type="text"
-              placeholder="Tag"
-              className="inputTag"
-              value={tag}
-              onChange={handleTag}
-              onClick={() => setIsOpen(!isOpen)}
-            />
-          </div>
+          <LiveTag
+            tags={tags}
+            setTags={setTags}
+            setTag={setTag}
+            setIsOpen={setIsOpen}
+            tag={tag}
+            isOpen={isOpen}
+            options={options}
+          />
         </TagContainer>
         <div className="dropdown-column">
           <DropDown
@@ -192,21 +182,12 @@ const Write = () => {
             handleClick={handleClick}
           />
         </div>
-        {isOpen ? (
-          <DropBox>
-            {options?.map((option) => (
-              <span
-                key={option}
-                onClick={() => {
-                  handleAddTags(option);
-                  setIsOpen(false);
-                }}
-              >
-                {option}
-              </span>
-            ))}
-          </DropBox>
-        ) : null}
+        <FileBox>
+          <label htmlFor="profile">
+            {imgText} <MdOutlineAddAPhoto />
+          </label>
+          <input type="file" id="profile" onChange={fileChangedHandler} />
+        </FileBox>
         <div className="text-editor" onClick={() => setIsOpen(false)}>
           <CustomToolbar />
           <ReactQuill
@@ -275,7 +256,7 @@ const Form = styled.form`
   }
 
   .ql-container {
-    min-height: 47rem;
+    min-height: 30rem;
     height: 50vh;
     flex: 1;
     display: flex;
@@ -294,7 +275,7 @@ const Form = styled.form`
 
 const TagContainer = styled.div`
   border: solid 1px lightgray;
-  border-radius: 2px;
+  border-radius: 4px;
   display: flex;
   justify-content: space-between;
   margin-top: 0.5rem;
@@ -326,31 +307,42 @@ const TagContainer = styled.div`
   }
 `;
 
-const DropBox = styled.div`
-  position: absolute;
-  border-radius: 5px;
-  border: solid 1px ${colors.mainColor};
-  width: 90%;
-  height: 20rem;
-  z-index: 2;
-  top: 70px;
-  background-color: white;
-  overflow: scroll;
-
-  span {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    font-size: 1.2rem;
-    border-bottom: solid 1px lightgray;
-  }
-`;
-
 const ButtonBox = styled.div`
   position: fixed;
   top: 0;
   right: 0;
   margin-right: 2rem;
   margin-top: 1rem;
+`;
+
+const FileBox = styled.div`
+  width: 90%;
+  margin-top: 1rem;
+  border: solid 1px lightgray;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  label {
+    display: inline-block;
+    padding-left: 1rem;
+    color: #888;
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.5rem;
+  }
+
+  & input[type="file"] {
+    /* 파일 필드 숨기기 */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
 `;
