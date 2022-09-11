@@ -4,23 +4,22 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useDebounce from "src/hooks/useDebounce";
+import { useAppDispatch } from "src/redux";
+import { updateProfileAction } from "src/redux/actions/updateProfileAction";
 import { colors } from "src/utils/colors";
-import { useUser } from "src/utils/localStorage";
 import styled from "styled-components";
 
 const SignUp = () => {
-  const user = useUser();
   const navigate = useNavigate();
   const [username, setUserName] = useState("");
   const debouceValue = useDebounce(username);
   const [error, setError] = useState(false);
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const Fetch = async () => {
       return axios
         .get(`http://localhost:8080/members/${debouceValue}/check`)
         .then((res) => {
-          console.log(res);
           setError(!res.data);
         });
     };
@@ -33,20 +32,8 @@ const SignUp = () => {
     if (error) return window.alert("유저네임을 유효하게 입력해 주세요.");
     if (username.trim().length <= 2)
       return window.alert("유저네임을 2글자 이상으로 설정해 주세요.");
-
-    const result = await axios.put(
-      `http://localhost:8080/members/${user.memberId}`,
-      { username }
-    );
-    const userData = result.data;
-    const mergeUser = {
-      ...user,
-      userData,
-    };
-    localStorage.setItem("user", JSON.stringify(mergeUser));
-    if (result.status === 201) {
-      navigate("/main");
-    }
+    dispatch(updateProfileAction({ username }));
+    navigate("/main");
   };
 
   return (
