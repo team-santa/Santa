@@ -175,10 +175,30 @@ class MemberControllerTest {
                 ));
     }
 
-    @GetMapping("/{username}/check")
     @Test
-    public void checkDuplicateUsername() {
+    public void checkDuplicateUsername() throws Exception {
+        String username = "testUser";
 
+        given(memberService.checkDuplicateUsername(Mockito.anyString())).willReturn(false);
+
+        ResultActions actions = mock.perform(
+                get("/members/{username}/check", username)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value(true))
+                .andDo(document("check-username",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("username").description("회원 닉네임")
+                        ),
+                        responseFields(
+                                fieldWithPath("data").type(JsonFieldType.BOOLEAN).description("변경가능 여부")
+                        )
+                ));
     }
 
     @PostMapping("/{memberId}/mountains/{mountainName}")
