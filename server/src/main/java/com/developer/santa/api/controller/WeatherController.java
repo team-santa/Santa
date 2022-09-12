@@ -18,8 +18,8 @@ public class WeatherController {
         return ResponseEntity.ok(weatherService.getWeather(weatherLocal));
     }
 
-    @PostMapping("/input")
-    public void postWeather(){
-        weatherService.postWeather();
-    }
+//    @PostMapping("/input")
+//    public void postWeather(){
+//        weatherService.postWeather();
+//    }
 }
