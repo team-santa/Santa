@@ -55,7 +55,7 @@ public class MemberController {
 
     @DeleteMapping("/{memberId}/mountains/{mountainName}")
     public ResponseEntity<Void> deleteMountain(@PathVariable String memberId,
-                                                             @PathVariable String mountainName) {
+                                               @PathVariable String mountainName) {
         memberService.deleteMemberFavoriteMountain(memberId, mountainName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

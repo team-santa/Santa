@@ -21,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -222,7 +221,7 @@ class MemberControllerTest {
         actions
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.mountainNames[0]").value(mountainName))
-                .andDo(document("member-mountains",
+                .andDo(document("member-post-mountain",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
@@ -237,15 +236,64 @@ class MemberControllerTest {
                 ));
     }
 
-    @DeleteMapping("/{memberId}/mountains/{mountainName}")
     @Test
-    public void deleteMountain() {
+    public void deleteMountain() throws Exception {
+        String memberId = "1";
+        String mountainName = "도봉산";
+
+        ResultActions actions = mock.perform(
+                delete("/members/{memberId}/mountains/{mountainName}", memberId, mountainName)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+        );
+
+        actions
+                .andExpect(status().isNoContent())
+                .andDo(document("member-delete-mountain",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberId").description("회원 고유ID"),
+                                parameterWithName("mountainName").description("산 이름")
+                        )
+                ));
+
     }
 
-    @GetMapping("/{memberId}/mountains")
     @Test
-    public void getMountains() {
+    public void getMountains() throws Exception {
+        String memberId = "1";
+        String mountainName = "도봉산";
+
+        MemberDto.Mountain mountains = new MemberDto.Mountain(List.of(mountainName));
+
+        given(memberService.findMember(Mockito.anyString())).willReturn(new Member());
+
+        given(memberMapper.memberToMemberDtoMountain(Mockito.any(Member.class))).willReturn(mountains);
+
+        ResultActions actions = mock.perform(
+                get("/members/{memberId}/mountains", memberId, mountainName)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+        );
+
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.mountainNames[0]").value(mountainName))
+                .andDo(document("member-post-mountain",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberId").description("회원 고유ID")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("mountainNames").type(JsonFieldType.ARRAY).description("산 목록")
+                                )
+                        )
+                ));
     }
+
 
     @GetMapping("/{memberId}/reviewboards")
     @Test
