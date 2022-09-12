@@ -1,5 +1,6 @@
 package com.developer.santa.member.controller;
 
+import com.developer.santa.boards.dto.ReviewBoardResponseDto;
 import com.developer.santa.boards.mapper.ReviewBoardMapper;
 import com.developer.santa.member.annotation.WithMockCustomUser;
 import com.developer.santa.member.dto.MemberDto;
@@ -21,7 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletResponse;
@@ -294,9 +294,42 @@ class MemberControllerTest {
                 ));
     }
 
-
-    @GetMapping("/{memberId}/reviewboards")
     @Test
-    public void getReviewBoards() {
+    public void getReviewBoards() throws Exception {
+        String memberId = "1";
+
+        ReviewBoardResponseDto.Page page = new ReviewBoardResponseDto.Page(1L, "testUser", "testTitle", "photo");
+
+        given(memberService.findMember(Mockito.anyString())).willReturn(new Member());
+
+        given(reviewBoardMapper.reviewBoardListToPages(Mockito.anyList())).willReturn(List.of(page));
+
+        ResultActions actions = mock.perform(
+                get("/members/{memberId}/reviewboards", memberId)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].reviewBoardId").value(page.getReviewBoardId()))
+                .andExpect(jsonPath("$.[0].nickName").value(page.getNickName()))
+                .andExpect(jsonPath("$.[0].title").value(page.getTitle()))
+                .andExpect(jsonPath("$.[0].photo").value(page.getPhoto()))
+                .andDo(document("member-get-reviewBoards",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberId").description("회원 고유ID")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("[]").type(JsonFieldType.ARRAY).description("작성한 리뷰게시판 목록"),
+                                        fieldWithPath("[].reviewBoardId").type(JsonFieldType.NUMBER).description("리뷰게시판 고유ID"),
+                                        fieldWithPath("[].nickName").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                        fieldWithPath("[].title").type(JsonFieldType.STRING).description("리뷰게시판 제목"),
+                                        fieldWithPath("[].photo").type(JsonFieldType.STRING).description("리뷰게시판 이미지 경로")
+                                )
+                        )
+                ));
     }
 }
