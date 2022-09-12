@@ -47,10 +47,10 @@ public class MemberController {
     }
 
     @PostMapping("/{memberId}/mountains/{mountainName}")
-    public ResponseEntity<MemberDto.Response> likeMountain(@PathVariable String memberId,
+    public ResponseEntity<MemberDto.Mountain> likeMountain(@PathVariable String memberId,
                                                            @PathVariable String mountainName) {
         Member member = memberService.postMemberFavoriteMountain(memberId, mountainName);
-        return new ResponseEntity<>(memberMapper.memberToMemberDtoResponse(member), HttpStatus.CREATED);
+        return new ResponseEntity<>(memberMapper.memberToMemberDtoMountain(member), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{memberId}/mountains/{mountainName}")

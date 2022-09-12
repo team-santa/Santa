@@ -30,8 +30,7 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -110,7 +109,7 @@ class MemberControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("memberId").description("제공자 고유번호")
+                                parameterWithName("memberId").description("회원 고유ID")
                         ),
                         responseFields(
                                 List.of(
@@ -156,7 +155,7 @@ class MemberControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("memberId").description("제공자 고유번호")
+                                parameterWithName("memberId").description("회원 고유ID")
                         ),
                         requestFields(
                                 List.of(
@@ -203,7 +202,39 @@ class MemberControllerTest {
 
     @PostMapping("/{memberId}/mountains/{mountainName}")
     @Test
-    public void likeMountain() {
+    public void likeMountain() throws Exception {
+
+        String memberId = "1";
+        String mountainName = "도봉산";
+
+        MemberDto.Mountain mountains = new MemberDto.Mountain(List.of(mountainName));
+
+        given(memberService.postMemberFavoriteMountain(Mockito.anyString(), Mockito.anyString())).willReturn(new Member());
+
+        given(memberMapper.memberToMemberDtoMountain(Mockito.any(Member.class))).willReturn(mountains);
+
+        ResultActions actions = mock.perform(
+                post("/members/{memberId}/mountains/{mountainName}", memberId, mountainName)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+        );
+
+        actions
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.mountainNames[0]").value(mountainName))
+                .andDo(document("member-mountains",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberId").description("회원 고유ID"),
+                                parameterWithName("mountainName").description("산 이름")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("mountainNames").type(JsonFieldType.ARRAY).description("산 목록")
+                                )
+                        )
+                ));
     }
 
     @DeleteMapping("/{memberId}/mountains/{mountainName}")
