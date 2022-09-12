@@ -8,10 +8,18 @@ import {
   changeSelectedPlace,
   changeSortByViews,
   increasePage,
+  resetOption,
+  resetPage,
   useAppDispatch,
   useAppSelector,
 } from "src/redux";
-import { getReviewList, getSpecificReviewList } from "src/redux/actions/review";
+import {
+  getCourseList,
+  getLocalList,
+  getMountainList,
+  getReviewList,
+  getSpecificReviewList,
+} from "src/redux/actions/review";
 import { ChageSelectedPlace } from "src/types/review";
 import { Wrapper, SListContainer } from "./ReviewListWrapper";
 
@@ -58,20 +66,34 @@ const ReviewList = () => {
   );
 
   const handleDispatch = (payload: ChageSelectedPlace) => {
+    const { name } = payload;
     dispatch(changeSelectedPlace(payload));
-  };
 
-  const handleSortByViews = () => {
-    dispatch(changeSortByViews(false));
+    if (name === "local") {
+      dispatch(getMountainList());
+    }
+
+    if (name === "mountain") {
+      dispatch(getCourseList());
+    }
+
+    dispatch(resetPage());
     dispatch(getSpecificReviewList());
   };
 
-  const handleSortByNewest = () => {
+  const handleSortByViews = () => {
     dispatch(changeSortByViews(true));
     dispatch(getSpecificReviewList());
   };
 
+  const handleSortByNewest = () => {
+    dispatch(changeSortByViews(false));
+    dispatch(getSpecificReviewList());
+  };
+
   useEffect(() => {
+    // dispatch(resetOption());
+    dispatch(getLocalList());
     dispatch(getReviewList());
   }, [dispatch]);
 

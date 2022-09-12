@@ -28,6 +28,7 @@ export interface Review {
   modifiedAt: string;
   views: number;
   tagList: Array<string>;
+  commentList: Array<Comment>;
 }
 
 export interface PageInfo {
@@ -48,6 +49,16 @@ export interface ReviewDetail extends Review {
   localName: string;
   mountainName: string;
   courseName: string;
+  commentList: Array<Comment>;
+}
+
+export interface Comment {
+  commentId: number;
+  memberId: string;
+  profileImageUrl: string;
+  writer: string;
+  modifiedAt: string;
+  body: string;
 }
 
 export type SelectOption = "local" | "mountain" | "course";
