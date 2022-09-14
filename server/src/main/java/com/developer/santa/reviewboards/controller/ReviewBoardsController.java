@@ -37,7 +37,7 @@ public class ReviewBoardsController {
     public ResponseEntity<?> postReview(@Valid @RequestBody ReviewBoardRequestDto.Post requestBody){
         ReviewBoard reviewBoard = mapper.reviewBoardPostToReviewBoard(requestBody);
         ReviewBoard createBoard = reviewBoardService.createMyBoard(reviewBoard);
-        return new ResponseEntity<>(createBoard, HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.reviewBoardToDetail(createBoard), HttpStatus.CREATED);
     }
 
 
