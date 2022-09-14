@@ -1,13 +1,10 @@
 package com.developer.santa.reviewboards.controller;
 
-import com.developer.santa.member.service.MemberService;
+import com.developer.santa.dto.MultiResponseDto;
 import com.developer.santa.reviewboards.dto.ReviewBoardRequestDto;
 import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.reviewboards.mapper.ReviewBoardMapper;
 import com.developer.santa.reviewboards.service.ReviewBoardService;
-import com.developer.santa.dto.MultiResponseDto;
-import com.developer.santa.tag.entity.Tag;
-import com.developer.santa.tag.entity.TagSelect;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
@@ -22,12 +19,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/v1/reviewboards")
+@RequestMapping("/reviewboards")
 @RequiredArgsConstructor
-@CrossOrigin(origins="*", allowedHeaders = "*")
 public class ReviewBoardsController {
     // 최신순조회
     private final ReviewBoardService reviewBoardService;

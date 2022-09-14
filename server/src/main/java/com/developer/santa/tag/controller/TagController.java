@@ -14,9 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/tag")
+@RequestMapping("/tag")
 @RequiredArgsConstructor
-@CrossOrigin(origins="*", allowedHeaders = "*")
 public class TagController {
     private final TagService tagService;
     private final TagMapper mapper;
