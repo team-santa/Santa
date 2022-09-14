@@ -66,6 +66,7 @@ const ReviewList = () => {
   );
 
   const handleDispatch = (payload: ChageSelectedPlace) => {
+    console.log(payload);
     const { name } = payload;
     dispatch(changeSelectedPlace(payload));
 

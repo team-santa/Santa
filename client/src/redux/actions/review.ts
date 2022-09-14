@@ -116,7 +116,7 @@ export const getMountainList = createAsyncThunk<
   string[],
   undefined,
   CreateAsyncThunkTypes
->("review/getMountainList", async (payload, { rejectWithValue }) => {
+>("review/getMountainList", async (_, { rejectWithValue }) => {
   try {
     const { selectedLocal } = useAppSelector((state) => state.review);
     const response = await axiosInstance.get(
@@ -132,7 +132,7 @@ export const getCourseList = createAsyncThunk<
   string[],
   undefined,
   CreateAsyncThunkTypes
->("review/getCourseList", async (payload, { rejectWithValue }) => {
+>("review/getCourseList", async (_, { rejectWithValue }) => {
   try {
     const { selectedMountain } = useAppSelector((state) => state.review);
     const response = await axiosInstance.get(
