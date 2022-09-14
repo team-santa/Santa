@@ -2,7 +2,6 @@
 /* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useDebounce from "src/hooks/useDebounce";
@@ -15,6 +14,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { LocalUser } from "src/types/User";
 import { useAppDispatch } from "src/redux";
 import { updateProfileAction } from "src/redux/actions/updateProfileAction";
+import { axiosAuthInstance } from "src/utils";
 
 const EditProfile = () => {
   const user: LocalUser = useUser();
@@ -28,11 +28,11 @@ const EditProfile = () => {
 
   useEffect(() => {
     const Fetch = async () => {
-      return axios
-        .get(`http://localhost:8080/members/${debouceValue}/check`)
+      return axiosAuthInstance
+        .get(`/members/${debouceValue}/check`)
         .then((res) => {
           if (user.username === username) setError(false);
-          else setError(!res.data);
+          else setError(!res.data.data);
         });
     };
 
@@ -66,7 +66,6 @@ const EditProfile = () => {
     if (error) return window.alert("유저네임을 유효하게 입력해 주세요.");
     if (username.trim().length <= 2)
       return window.alert("유저네임을 2글자 이상으로 설정해 주세요.");
-    console.log(userImg.length);
     dispatch(updateProfileAction({ username, profileImageUrl: userImg }));
     navigate("/main");
   };

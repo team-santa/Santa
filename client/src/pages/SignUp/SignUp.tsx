@@ -6,21 +6,25 @@ import { useNavigate } from "react-router-dom";
 import useDebounce from "src/hooks/useDebounce";
 import { useAppDispatch } from "src/redux";
 import { updateProfileAction } from "src/redux/actions/updateProfileAction";
+import { axiosAuthInstance } from "src/utils";
 import { colors } from "src/utils/colors";
+import { useUser } from "src/utils/localStorage";
 import styled from "styled-components";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [username, setUserName] = useState("");
+  const user = useUser();
+  const [username, setUserName] = useState(user.username);
   const debouceValue = useDebounce(username);
   const [error, setError] = useState(false);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const Fetch = async () => {
-      return axios
-        .get(`http://localhost:8080/members/${debouceValue}/check`)
+      return axiosAuthInstance
+        .get(`/members/${debouceValue}/check`)
         .then((res) => {
-          setError(!res.data);
+          setError(!res.data.data);
         });
     };
     if (username) Fetch();
