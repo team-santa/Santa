@@ -1,14 +1,12 @@
 package com.developer.santa.api.controller;
 
 import com.developer.santa.api.service.ApiService;
-import com.developer.santa.api.domain.course.CourseDTO;
-import com.developer.santa.api.domain.local.LocalDTO;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 
 @RestController
@@ -19,9 +17,10 @@ public class ApiController {
     private final ApiService apiService;
 
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/connect")
-    public ResponseEntity<String> connect(@RequestParam String geomFilter, String crs, int page, int size, String localName) {
-        return ResponseEntity.ok(apiService.connectApi(geomFilter, crs, page, size, localName));
+    public Mono<String> connect(@RequestParam String geomFilter, String crs, int page, int size, String localName) {
+        return apiService.connectApi(geomFilter, crs, page, size, localName);
     }
 
     @GetMapping("/datacrawling")

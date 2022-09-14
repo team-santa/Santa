@@ -2,6 +2,7 @@ package com.developer.santa.api.domain.mountain;
 
 import com.developer.santa.api.domain.local.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 

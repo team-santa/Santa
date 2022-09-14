@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +30,7 @@ public class Course {
     private String courseDistance;
 
     //mountain
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "mountain_id")
     private Mountain mountain;
 

@@ -4,7 +4,6 @@ import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseDTO;
 import com.developer.santa.api.domain.course.CourseMapper;
 import com.developer.santa.api.domain.course.CourseRepository;
-import com.developer.santa.api.domain.mountain.Mountain;
 import com.developer.santa.api.domain.mountain.MountainRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.developer.santa.api.controller;
 
 import com.developer.santa.api.domain.local.Local;
 import com.developer.santa.api.domain.local.LocalDTO;
-import com.developer.santa.api.domain.local.LocalRepository;
+
 import com.developer.santa.api.service.LocalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

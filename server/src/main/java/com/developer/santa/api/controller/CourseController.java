@@ -2,7 +2,7 @@ package com.developer.santa.api.controller;
 
 import com.developer.santa.api.domain.course.Course;
 import com.developer.santa.api.domain.course.CourseDTO;
-import com.developer.santa.api.domain.mountain.Mountain;
+
 import com.developer.santa.api.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

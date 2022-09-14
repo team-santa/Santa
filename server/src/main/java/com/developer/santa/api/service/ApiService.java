@@ -2,13 +2,12 @@ package com.developer.santa.api.service;
 
 import com.developer.santa.api.domain.batchdata.BatchData;
 import com.developer.santa.api.domain.batchdata.BatchRepository;
-import com.developer.santa.api.domain.course.CourseRepository;
-import com.developer.santa.api.domain.local.LocalRepository;
-import com.developer.santa.api.domain.mountain.MountainRepository;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import lombok.RequiredArgsConstructor;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;;
 import org.springframework.context.ApplicationEventPublisher;
@@ -36,42 +35,44 @@ public class ApiService {
     @Value("${mapi.baseUrl}")
     String baseUrl;
 
-    private final MountainRepository mountainRepository;
-    private final LocalRepository localRepository;
+
     private final BatchRepository batchRepository;
     private final ApplicationEventPublisher eventPublisher;
 
 
-    public String connectApi(String geomFilter, String crs, int page, int size, String localName) {
-        if (size > 20) return String.valueOf(webClientApi(geomFilter, crs, page, size));
+    public Mono<String> connectApi(String geomFilter, String crs, int page, int size, String localName) {
 
-//        JSONObject connectApiData = webClientApi(geomFilter, crs, page, size);
-//        isExistsUrl(geomFilter, crs, page, size, localName);
-        return String.valueOf(webClientApi(geomFilter, crs, page, size));
+        if (size > 20) return webClientApi(geomFilter, crs, page, size);
+        Mono<String> mono = webClientApi(geomFilter, crs, page, size);
+        isExistsUrl(geomFilter, crs, page, size, localName, mono);
+        return mono;
     }
 
 
     public void dataCrawling(String geomFilter, String crs, int page, int size, String localName){
-        isExistsUrl(geomFilter, crs, page, size, localName);
+
+        isExistsUrl(geomFilter, crs, page, size, localName, webClientApi(geomFilter, crs, page, size));
     }
 
 
-    private void isExistsUrl(String geomFilter, String crs, int page, int size, String localName) {
+    private void isExistsUrl(String geomFilter, String crs, int page, int size, String localName, Mono<String> mono) {
         String reqUrl = "/req/data?service=data&request=GetFeature&data=LT_L_FRSTCLIMB"+"&geomFilter="+ geomFilter +"&crs="+ crs +"&size="+ size +"&page="+ page;
 
         if(batchRepository.existsByReqUrl(reqUrl)) {
+            new JSONObject();
             return;
         }
-        batchRepository.save(new BatchData(reqUrl));
-        eventPublisher.publishEvent(new DataCrawlingEvent(eventPublisher,
-                localName,
-                webClientApi(geomFilter, crs, page, size).getJSONArray("features"),
-                mountainRepository,
-                localRepository));
+        JSONArray connectApiData = new JSONObject(mono.block())
+                .getJSONObject("response")
+                .getJSONObject("result")
+                .getJSONObject("featureCollection")
+                .getJSONArray("features");
+
+        eventPublisher.publishEvent(new DataCrawlingEvent(eventPublisher, localName, connectApiData, reqUrl));
     }
 
 
-    public JSONObject webClientApi(String geomFilter, String crs, int page, int size){
+    public Mono<String> webClientApi(String geomFilter, String crs, int page, int size){
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
                 .responseTimeout(Duration.ofMillis(3000))
@@ -79,7 +80,7 @@ public class ApiService {
                         conn.addHandlerLast(new ReadTimeoutHandler(3000, TimeUnit.MILLISECONDS))
                                 .addHandlerLast(new WriteTimeoutHandler(3000, TimeUnit.MILLISECONDS)));
 
-        Mono<String> mono = WebClient.builder().baseUrl(baseUrl)
+        return WebClient.builder().baseUrl(baseUrl)
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build().get()
                 .uri(builder -> builder.path("/req/data")
@@ -97,10 +98,5 @@ public class ApiService {
                 .exchangeToMono(response -> {
                     return response.bodyToMono(String.class);
                 });
-
-        return new JSONObject(mono.block())
-                .getJSONObject("response")
-                .getJSONObject("result")
-                .getJSONObject("featureCollection");
     }
 }
