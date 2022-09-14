@@ -47,7 +47,6 @@ interface IWeekWeatherBackData {
 }
 
 const Home = () => {
-  const weatherKey = process.env.REACT_APP_WEATHER_KEY_TODAY;
   const shortWeatherKey = process.env.REACT_APP_WEATHER_KEY_SHORT;
   const midWeatherKey = process.env.REACT_APP_WEATHER_KEY_MID;
 
@@ -150,8 +149,6 @@ const Home = () => {
           }&dataType=JSON`
         )
         .then((res) => res.data.response.body.items.item[0]);
-
-      console.log(responseTmp, responsePop);
 
       setWeekWeatherBackData({
         a3Day: {
@@ -283,8 +280,6 @@ const Home = () => {
           popPm: dAftTmrPopPm,
         },
       });
-
-      // console.log(response);
     } catch (error) {
       console.log("error", error);
     }
@@ -294,7 +289,6 @@ const Home = () => {
   const weatherIcons = [Sun, Cloudy, "", Cloud];
 
   useEffect(() => {
-    // getTodayWeather();
     getShortWeather();
     getMidWeather();
   }, []);
