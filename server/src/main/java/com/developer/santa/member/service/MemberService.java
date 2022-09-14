@@ -65,7 +65,9 @@ public class MemberService {
         return member;
     }
 
-    public void deleteMember(String memberId) {
+    public void deleteMemberFavoriteMountain(String memberId, String mountainName) {
+        Member member = findMember(memberId);
+        member.deleteFavoriteMountain(mountainName);
     }
 
     @Transactional(readOnly = true)

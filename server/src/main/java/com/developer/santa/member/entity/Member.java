@@ -52,8 +52,8 @@ public class Member extends Auditable implements Serializable {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ReviewBoard> reviewBoards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    List<FavoriteMountain> favoriteMountains = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteMountain> favoriteMountains = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
@@ -70,6 +70,10 @@ public class Member extends Auditable implements Serializable {
     public void addFavoriteMountain(FavoriteMountain favoriteMountain) {
         this.favoriteMountains.add(favoriteMountain);
         favoriteMountain.setMember(this);
+    }
+
+    public void deleteFavoriteMountain(String mountainName) {
+        this.favoriteMountains.removeIf(favoriteMountain -> favoriteMountain.getMountain().getMountainName().equals(mountainName));
     }
 
     public void addReviewBoard(ReviewBoard reviewBoard){
