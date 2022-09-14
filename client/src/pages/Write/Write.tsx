@@ -80,9 +80,6 @@ const Write = () => {
     if (debouceValue.length === 0) setIsOpen(false);
   }, [debouceValue]);
 
-  /**
-   * handle Function
-   */
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTitle(e.currentTarget.value);
 
