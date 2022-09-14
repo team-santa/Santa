@@ -7,6 +7,9 @@ import {
   HIKING_TRAIL_LIST,
 } from "src/utils";
 import {
+  getCourseList,
+  getMountainList,
+  getLocalList,
   getReviewDetail,
   getReviewList,
   getSpecificReviewList,
@@ -64,6 +67,17 @@ const reviewSlice = createSlice({
       state.currentPage = 1;
       state.sortByViews = payload;
     },
+    resetOption: (state) => {
+      state.reviewList = [];
+      state.localList = [];
+      state.mountainList = [];
+      state.courseList = [];
+      state.selectedLocal = "";
+      state.selectedMountain = "";
+      state.selectedCourse = "";
+      state.sortByViews = false;
+      state.currentPage = 1;
+    },
   },
   extraReducers: (builder) =>
     builder // getReviewList
@@ -104,12 +118,22 @@ const reviewSlice = createSlice({
       .addCase(getReviewDetail.rejected, (state, { payload }) => {
         state.isLoading = false;
         console.log(payload);
+      })
+      .addCase(getLocalList.fulfilled, (state, { payload }) => {
+        state.localList = payload;
+      })
+      .addCase(getMountainList.fulfilled, (state, { payload }) => {
+        state.mountainList = payload;
+      })
+      .addCase(getCourseList.fulfilled, (state, { payload }) => {
+        state.courseList = payload;
       }),
 });
 
 export const {
   increasePage,
   resetPage,
+  resetOption,
   changeSelectedPlace,
   changeSortByViews,
 } = reviewSlice.actions;

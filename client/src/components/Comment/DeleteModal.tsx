@@ -1,4 +1,5 @@
-import { GrFormClose } from "react-icons/gr";
+import { useAppDispatch } from "src/redux";
+import { deleteReview } from "src/redux/actions/review";
 import styled from "styled-components";
 
 import { useModal } from "../Modal";
@@ -41,13 +42,19 @@ export const Cancel = styled.button`
 
 interface Prop {
   type: "review" | "comment";
+  reviewBoardId?: number;
+  commentId?: number;
 }
 
-const DeleteModal = ({ type }: Prop) => {
+const DeleteModal = ({ type, reviewBoardId, commentId }: Prop) => {
+  const dispatch = useAppDispatch();
   const { closeModal } = useModal();
 
   const handleDelete = () => {
-    console.log(type);
+    console.log(type, reviewBoardId);
+    if (type === "review") {
+      dispatch(deleteReview({ reviewBoardId: reviewBoardId as number }));
+    }
     closeModal();
   };
 

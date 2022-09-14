@@ -1,6 +1,7 @@
+import { useAppSelector } from "src/redux";
 /* eslint-disable consistent-return */
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ReviewListPayload, ReviewList, ReviewDetail } from "src/types/index";
+import { ReviewList, ReviewDetail } from "src/types/index";
 import { axiosInstance } from "../../utils/axiosInstance";
 import { CreateAsyncThunkTypes } from "../store/index";
 
@@ -69,7 +70,7 @@ export const getSpecificReviewList = createAsyncThunk<
 
 export const deleteReview = createAsyncThunk(
   "review/deleteReview",
-  async (payload: { reviewBoardId: string }, thunkAPI) => {
+  async (payload: { reviewBoardId: number }, thunkAPI) => {
     try {
       await axiosInstance.delete(`/v1/reviewboards/${payload.reviewBoardId}`);
     } catch (error: any) {
@@ -95,5 +96,50 @@ export const getReviewDetail = createAsyncThunk<
     return response.data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const getLocalList = createAsyncThunk<
+  string[],
+  undefined,
+  CreateAsyncThunkTypes
+>("review/getLocalList", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get("/local");
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
+
+export const getMountainList = createAsyncThunk<
+  string[],
+  undefined,
+  CreateAsyncThunkTypes
+>("review/getMountainList", async (_, { rejectWithValue }) => {
+  try {
+    const { selectedLocal } = useAppSelector((state) => state.review);
+    const response = await axiosInstance.get(
+      `/mountain/selection?localName=${selectedLocal}`
+    );
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
+
+export const getCourseList = createAsyncThunk<
+  string[],
+  undefined,
+  CreateAsyncThunkTypes
+>("review/getCourseList", async (_, { rejectWithValue }) => {
+  try {
+    const { selectedMountain } = useAppSelector((state) => state.review);
+    const response = await axiosInstance.get(
+      `/course/selection?mountainName=${selectedMountain}`
+    );
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
   }
 });

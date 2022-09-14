@@ -22,7 +22,6 @@ const ReviewDetail = () => {
   const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState("");
   const { reviewDetail } = useAppSelector((state) => state.review);
-
   const { openModal, closeModal } = useModal({
     position: { x: "50%", y: "50%" },
     height: "110px",
@@ -33,6 +32,7 @@ const ReviewDetail = () => {
     dispatch(getReviewDetail({ reviewBoardId: params.id as string }));
     return () => closeModal();
   }, [closeModal, dispatch, params]);
+
   if (reviewDetail) {
     return (
       <Wrapper>
@@ -51,7 +51,16 @@ const ReviewDetail = () => {
             <div>
               <span onClick={() => navigate(`/write/${params.id}`)}>수정</span>
               <span>·</span>
-              <span onClick={() => openModal(<DeleteModal type="review" />)}>
+              <span
+                onClick={() =>
+                  openModal(
+                    <DeleteModal
+                      type="review"
+                      reviewBoardId={reviewDetail.reviewBoardId}
+                    />
+                  )
+                }
+              >
                 삭제
               </span>
             </div>
@@ -70,9 +79,17 @@ const ReviewDetail = () => {
         </section>
         <SCommentsContainer>
           <h1>댓글</h1>
-          <Comment />
-          <Comment />
-          <Comment />
+          {reviewDetail.commentList.map((comment) => (
+            <Comment
+              key={comment.commentId}
+              commentId={comment.commentId}
+              memberId={comment.memberId}
+              profileImageUrl={comment.profileImageUrl}
+              writer={comment.writer}
+              modifiedAt={comment.modifiedAt}
+              body={comment.body}
+            />
+          ))}
         </SCommentsContainer>
         <SInputContainer>
           <SInput
