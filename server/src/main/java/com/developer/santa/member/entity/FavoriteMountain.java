@@ -27,7 +27,7 @@ public class FavoriteMountain {
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "mountainId")
+    @JoinColumn(name = "mountainId", nullable = false)
     private Mountain mountain;
 
 }

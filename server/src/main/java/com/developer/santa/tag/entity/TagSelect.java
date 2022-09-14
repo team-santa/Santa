@@ -1,8 +1,9 @@
 package com.developer.santa.tag.entity;
 
 
-import com.developer.santa.boards.entity.ReviewBoard;
-import lombok.AllArgsConstructor;
+import com.developer.santa.reviewboards.entity.ReviewBoard;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class TagSelect {
 
     @Id
@@ -24,7 +26,7 @@ public class TagSelect {
     private ReviewBoard reviewBoard;
 
     @ManyToOne
-    @JoinColumn(name = "TAG_ID")
+    @JoinColumn(name = "TAG_NAME")
     private Tag tag;
 
     public void addReviewBoard(ReviewBoard reviewBoard){
@@ -35,7 +37,7 @@ public class TagSelect {
     }
     public void addTag(Tag tag){
         this.tag =tag;
-        if(this.tag.getTagSelects().contains(this)){
+        if(!this.tag.getTagSelects().contains(this)){
             this.tag.getTagSelects().add(this);
         }
     }

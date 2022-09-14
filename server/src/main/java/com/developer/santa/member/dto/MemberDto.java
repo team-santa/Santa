@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public class MemberDto {
 
@@ -33,4 +34,13 @@ public class MemberDto {
 
         private String profileImageUrl;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Mountain {
+
+        List<String> mountainNames;
+
+    }
+
 }
