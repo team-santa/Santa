@@ -54,6 +54,7 @@ const Wrapper = styled.div`
     padding: 0 10%;
     align-items: center;
     border-top: 1px solid lightgray;
+    z-index: 10000;
     button {
       border: none;
       background: transparent;
@@ -75,7 +76,6 @@ const Main = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      console.log(window.scrollY);
       if (window.scrollY > 50) {
         setShow(true);
       } else {
