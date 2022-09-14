@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { CreateAsyncThunkTypes } from "src/redux";
 import { LocalUser } from "src/types/User";
+import { axiosAuthInstance } from "src/utils";
 import { useUser } from "src/utils/localStorage";
 
 interface PayLoad {
@@ -25,10 +25,11 @@ export const updateProfileAction = createAsyncThunk<
     profileImageUrl: profileImageUrl ?? user.profileImageUrl,
   };
   try {
-    const result = await axios.put(
-      `http://localhost:8080/members/${user.memberId}`,
+    const result = await axiosAuthInstance.put(
+      `/members/${user.memberId}`,
       form
     );
+
     const userData = result.data;
     const mergeUser = {
       ...user,
