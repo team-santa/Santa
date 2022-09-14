@@ -43,7 +43,7 @@ public class ReviewBoardsController {
 
 
     @GetMapping
-    public HttpEntity<?> courseReview(@RequestParam(required = false) String city,
+    public HttpEntity<?> courseReview(@RequestParam(required = false) String local,
                                       @RequestParam(required = false) String mountain,
                                       @RequestParam(required = false) String course,
                                       @RequestParam(required = false) String sort,
@@ -51,13 +51,13 @@ public class ReviewBoardsController {
 
         String sortPoint = "reviewBoardId" ;
         Map<String, Object> spec = new HashMap<>();
-        if (city != null)
-            spec.put("localName" , city);
-        if (mountain != null)
+        if (local.length()> 0)
+            spec.put("localName" , local);
+        if (mountain.length()> 0)
             spec.put("mountainName", mountain);
-        if (course != null)
+        if (course.length()> 0)
             spec.put("courseName", course);
-        if(sort !=null) { // 정렬 메뉴가 있을 시
+        if(sort.length()> 0) { // 정렬 메뉴가 있을 시
             if( sort.equals("views"))
                 sortPoint = "views";
         }
