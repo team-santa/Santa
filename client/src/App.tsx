@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main, Landing, ReviewList, ReviewDetail, NotFound } from "src/pages";
 import { GetToken } from "./pages/GetToken";
 import { Home } from "./pages/Home";
+import { KakaoMap } from "./pages/KakaoMap";
 import { Login } from "./pages/Login";
 import { Profile } from "./pages/Profile";
 import SignUp from "./pages/SignUp/SignUp";
@@ -15,7 +16,7 @@ const App = () => {
         <Route path="oauth/redirect" element={<GetToken />} />
         <Route path="main" element={<Main />}>
           <Route index element={<Home />} />
-          <Route path="map" element={<div>map</div>} />
+          <Route path="map" element={<KakaoMap />} />
           <Route path="profile" element={<Profile />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
