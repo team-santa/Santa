@@ -43,6 +43,13 @@ const Reviews = [
   },
 ];
 
+interface Review {
+  reviewBoardId: number;
+  tagList: string[];
+  title: string;
+  thumbnail: string;
+}
+
 const ProfileTab = () => {
   const [currentTab, setCurrentTab] = useState("Review");
   const user = useUser();
@@ -94,12 +101,12 @@ const ProfileTab = () => {
                 <h2>작성한 리뷰가 없습니다.</h2>
               </Empty>
             ) : (
-              Reviews.map((obj) => (
+              myReview.map((obj: Review) => (
                 <ReviewCard
-                  key={obj.id}
+                  key={obj.reviewBoardId}
                   title={obj.title}
-                  img={obj.img}
-                  tags={obj.tags}
+                  img={obj.thumbnail}
+                  tags={obj.tagList}
                 />
               ))
             )}
