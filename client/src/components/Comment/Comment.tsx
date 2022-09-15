@@ -1,7 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from "react";
+import { useAppDispatch } from "src/redux";
+import { editComment } from "src/redux/actions/review";
 import { getDateToString } from "src/utils";
+import { useUser } from "src/utils/localStorage";
 import styled from "styled-components";
 import { useModal } from "../Modal";
 import DeleteModal from "./DeleteModal";
@@ -25,6 +28,8 @@ const Comment = ({
 }: Prop) => {
   const [value, setValue] = useState(body);
   const [isEdit, setIsEdit] = useState(false);
+  const { memberId: userId } = useUser();
+  const dispatch = useAppDispatch();
 
   const { openModal, closeModal } = useModal({
     position: { x: "50%", y: "50%" },
@@ -33,6 +38,13 @@ const Comment = ({
   });
 
   const handleEdit = () => {
+    dispatch(
+      editComment({
+        userId,
+        body: value,
+        commentId,
+      })
+    );
     setIsEdit(false);
   };
 

@@ -131,7 +131,7 @@ export const getCourseList = createAsyncThunk<
 });
 
 export const addComment = createAsyncThunk<
-  undefined,
+  void,
   { userId: string; body: string },
   CreateAsyncThunkTypes
 >("review/addComment", async (payload, thunkAPI) => {
@@ -143,11 +143,33 @@ export const addComment = createAsyncThunk<
       reviewBoardId,
       commentBody: body,
     };
-    return await axiosAuthInstance.post("/comment", requestBody);
-    // thunkAPI.dispatch()
+    await axiosAuthInstance.post("/comment", requestBody);
+    thunkAPI.dispatch(
+      getReviewDetail({ reviewBoardId: reviewBoardId as unknown as string })
+    );
+    return;
   } catch (error) {
     console.log(error);
   }
 });
 
-// export const editComment = createAsyncThunk<
+export const editComment = createAsyncThunk<
+  void,
+  { userId: string; body: string; commentId: number },
+  CreateAsyncThunkTypes
+>("review/editComment", async (payload, thunkAPI) => {
+  try {
+    const { reviewBoardId } = thunkAPI.getState().review.reviewDetail!;
+    const { userId, body, commentId } = payload;
+    const requestBody = {
+      memberId: userId,
+      commentBody: body,
+    };
+    await axiosAuthInstance.patch(`/comment/${commentId}`, requestBody);
+    thunkAPI.dispatch(
+      getReviewDetail({ reviewBoardId: reviewBoardId as unknown as string })
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});

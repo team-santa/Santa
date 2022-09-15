@@ -6,10 +6,11 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "src/redux";
 import { useEffect, useState } from "react";
-import { getReviewDetail } from "src/redux/actions/review";
+import { addComment, getReviewDetail } from "src/redux/actions/review";
 import { useModal } from "src/components/Modal";
 import { getDateToString } from "src/utils";
 import { useUser } from "src/utils/localStorage";
+import parse from "html-react-parser";
 import {
   Wrapper,
   SCommentsContainer,
@@ -29,6 +30,16 @@ const ReviewDetail = () => {
     height: "110px",
     width: "70%",
   });
+
+  const handleAddComment = () => {
+    dispatch(
+      addComment({
+        userId,
+        body: inputValue,
+      })
+    );
+    setInputValue("");
+  };
 
   useEffect(() => {
     dispatch(getReviewDetail({ reviewBoardId: params.id as string }));
@@ -79,7 +90,7 @@ const ReviewDetail = () => {
           <Slider imgList={[reviewDetail.thumbnail]} />
         </section>
         <section className="review-container">
-          <p>{reviewDetail.body}</p>
+          {parse(reviewDetail.body)}
         </section>
         <SCommentsContainer>
           <h1>댓글</h1>
@@ -102,7 +113,9 @@ const ReviewDetail = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button type="button">등록</button>
+          <button type="button" onClick={handleAddComment}>
+            등록
+          </button>
         </SInputContainer>
       </Wrapper>
     );
