@@ -40,7 +40,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -158,10 +157,10 @@ class ReviewBoardsControllerTest {
     @Test
     void courseReview() throws Exception {
         //given
-        String local ="";
-        String mountain ="";
-        String course ="";
-        String sort ="views";
+        String local = "";
+        String mountain = "";
+        String course = "";
+        String sort = "views";
         String page = "1";
         LocalDateTime dateTime = LocalDateTime.now();
 
@@ -172,9 +171,9 @@ class ReviewBoardsControllerTest {
         queryParams.add("sort", sort);
         queryParams.add("page", page);
 
-        ReviewBoard reviewBoard1 = new ReviewBoard(1L, 1L, "테스트제목1",  "썸네일이미지1.png", new ArrayList<>(List.of(new String[]{"정상", "등산"})));
-        ReviewBoard reviewBoard2 = new ReviewBoard(2L, 2L,"테스트제목2",  "썸네일이미지2.png", new ArrayList<>(List.of(new String[]{"정상", "등산"})) );
-        Member member1 = new Member("memberId1",  "첫번째", "프로필이미지.png");
+        ReviewBoard reviewBoard1 = new ReviewBoard(1L, 1L, "테스트제목1", "썸네일이미지1.png", new ArrayList<>(List.of(new String[]{"정상", "등산"})));
+        ReviewBoard reviewBoard2 = new ReviewBoard(2L, 2L, "테스트제목2", "썸네일이미지2.png", new ArrayList<>(List.of(new String[]{"정상", "등산"})));
+        Member member1 = new Member("memberId1", "첫번째", "프로필이미지.png");
         Member member2 = new Member("memberId2", "두번째", "프로필이미지.png");
         reviewBoard1.setMember(member1);
         reviewBoard2.setMember(member2);
@@ -203,7 +202,7 @@ class ReviewBoardsControllerTest {
                         "썸네일이미지2.png")
         );
 
-        given(reviewBoardService.findReviewBoards(Mockito.anyInt(),Mockito.anyMap(),Mockito.anyString())).willReturn(reviewBoards);
+        given(reviewBoardService.findReviewBoards(Mockito.anyInt(), Mockito.anyMap(), Mockito.anyString())).willReturn(reviewBoards);
         given(mapper.reviewBoardListToPages(Mockito.anyList())).willReturn(responses);
         //when
         ResultActions actions = mockMvc.perform(
@@ -215,7 +214,7 @@ class ReviewBoardsControllerTest {
                 .andExpect(status().isOk())
                 .andDo(
                         document(
-                                "get-members",
+                                "get-reviewBoards",
                                 requestParameters(
                                         List.of(
                                                 parameterWithName("local").description("지역"),
@@ -418,12 +417,12 @@ class ReviewBoardsControllerTest {
         actions.andExpect(status().isNoContent())
                 .andDo(
                         document(
-                                "delete-member",
+                                "delete-reviewBoard",
                                 pathParameters(
-                                        Arrays.asList(parameterWithName("reviewBoardId").description("리뷰게시판 식별자 ID"))
+                                        parameterWithName("reviewBoardId").description("리뷰게시판 식별자 ID")
                                 )
                         )
-                );
+                ).andReturn();
     }
 
 }
