@@ -1,8 +1,9 @@
-import { useAppSelector } from "src/redux";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable consistent-return */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ReviewList, ReviewDetail } from "src/types/index";
-import { axiosInstance } from "../../utils/axiosInstance";
+import { axiosAuthInstance, axiosInstance } from "../../utils/axiosInstance";
 import { CreateAsyncThunkTypes } from "../store/index";
 
 export const getReviewList = createAsyncThunk<
@@ -24,12 +25,7 @@ export const getReviewList = createAsyncThunk<
 
     if (currentPage <= pageInfo.totalPages) {
       const response = await axiosInstance.get(
-        `/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`, // views or newest
-        {
-          headers: {
-            authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
-          },
-        }
+        `/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`
       );
       return response.data;
     }
@@ -55,12 +51,7 @@ export const getSpecificReviewList = createAsyncThunk<
     const sort = sortByViews ? "views" : "newest";
 
     const response = await axiosInstance.get(
-      `/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`, // views or newest
-      {
-        headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
-        },
-      }
+      `/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`
     );
     return response.data;
   } catch (error: any) {
@@ -86,12 +77,7 @@ export const getReviewDetail = createAsyncThunk<
 >("review/getReviewDetail", async (payload, thunkAPI) => {
   try {
     const response = await axiosInstance.get(
-      `/reviewboards/${payload.reviewBoardId}`,
-      {
-        headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
-        },
-      }
+      `/reviewboards/${payload.reviewBoardId}`
     );
     return response.data;
   } catch (error: any) {
@@ -143,3 +129,25 @@ export const getCourseList = createAsyncThunk<
     return thunkAPI.rejectWithValue(error.message);
   }
 });
+
+export const addComment = createAsyncThunk<
+  undefined,
+  { userId: string; body: string },
+  CreateAsyncThunkTypes
+>("review/addComment", async (payload, thunkAPI) => {
+  try {
+    const { userId, body } = payload;
+    const { reviewBoardId } = thunkAPI.getState().review.reviewDetail!;
+    const requestBody = {
+      memberId: userId,
+      reviewBoardId,
+      commentBody: body,
+    };
+    return await axiosAuthInstance.post("/comment", requestBody);
+    // thunkAPI.dispatch()
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// export const editComment = createAsyncThunk<

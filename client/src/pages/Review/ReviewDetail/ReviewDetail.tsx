@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { getReviewDetail } from "src/redux/actions/review";
 import { useModal } from "src/components/Modal";
 import { getDateToString } from "src/utils";
+import { useUser } from "src/utils/localStorage";
 import {
   Wrapper,
   SCommentsContainer,
@@ -20,6 +21,7 @@ const ReviewDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { memberId: userId } = useUser();
   const [inputValue, setInputValue] = useState("");
   const { reviewDetail } = useAppSelector((state) => state.review);
   const { openModal, closeModal } = useModal({
@@ -49,7 +51,9 @@ const ReviewDetail = () => {
               <span>조회 {reviewDetail.views}</span>
             </div>
             <div>
-              <span onClick={() => navigate(`/write/${params.id}`)}>수정</span>
+              <span onClick={() => navigate(`/main/write/${params.id}`)}>
+                수정
+              </span>
               <span>·</span>
               <span
                 onClick={() =>
