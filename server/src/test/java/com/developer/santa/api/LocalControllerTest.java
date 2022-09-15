@@ -45,9 +45,6 @@ public class LocalControllerTest {
     private Gson gson;
 
     @MockBean
-    private LocalMapper localMapper;
-
-    @MockBean
     private LocalService localService;
 
     @Test

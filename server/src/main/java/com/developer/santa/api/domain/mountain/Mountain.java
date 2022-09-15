@@ -30,9 +30,6 @@ public class Mountain {
     @JoinColumn(name = "local_id")
     private Local local;
 
-    @OneToMany(mappedBy = "mountain")
-    private List<FavoriteMountain> favoriteMountains;
-
     @Builder
     public Mountain(String mountainName, Local local){
         this.mountainName = mountainName;
