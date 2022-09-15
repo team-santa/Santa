@@ -30,7 +30,9 @@ public class Tag {
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     private List<TagSelect> tagSelects = new ArrayList<>();
 
-
+    public Tag(String tagName) {
+        this.tagName = tagName;
+    }
 
 //    public Tag(String tagName) {
 //        this.tagName = tagName;
@@ -42,6 +44,7 @@ public class Tag {
             tagSelect.addTag(this);
         }
     }
+
 }
 
 
