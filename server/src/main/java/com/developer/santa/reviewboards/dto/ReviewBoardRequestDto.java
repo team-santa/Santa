@@ -49,6 +49,7 @@ public class ReviewBoardRequestDto {
         }
     }
     @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Patch{
@@ -68,17 +69,20 @@ public class ReviewBoardRequestDto {
         @NotBlank
         private String courseName;
 
-        private Optional<String> thumbnail= Optional.empty();
+        private String thumbnail;
 
         private List<String> tagList;
+
+
 
         public void setReviewBoardId(long reviewBoardId) {
             this.reviewBoardId = reviewBoardId;
         }
 
-        public String getThumbnail() {
-            return thumbnail.orElse(null);
-        }
+//        public String getThumbnail() {
+//            return thumbnail.orElse(null);
+//        }
     }
+
 
 }
