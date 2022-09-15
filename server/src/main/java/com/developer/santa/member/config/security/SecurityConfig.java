@@ -70,7 +70,7 @@ public class SecurityConfig{
                 .antMatchers("/local/**").permitAll()
                 .antMatchers("/mountain/**").permitAll()
                 .antMatchers("/weather/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/reviwboards/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/reviewboards/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
