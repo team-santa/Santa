@@ -1,0 +1,512 @@
+= 산타 API Documentation
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+v1.0.0, 2022.09.15
+
+***
+== 회원
+=== 회원가입 및 로그인
+
+.Request
+include::{snippets}/oauth2-login/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/oauth2-login/path-parameters.adoc[]
+
+include::{snippets}/common-document-controller-test/provider-id/custom-response-fields-provider.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/oauth2-login/httpie-request.adoc[]
+
+
+=== 닉네임 중복확인
+
+.Request
+include::{snippets}/check-username/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/check-username/path-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/check-username/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/check-username/httpie-request.adoc[]
+
+.Response
+include::{snippets}/check-username/response-body.adoc[]
+
+
+=== 회원정보 조회
+
+.Request
+include::{snippets}/get-profile/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/get-profile/path-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/get-profile/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/get-profile/httpie-request.adoc[]
+
+.Response
+include::{snippets}/get-profile/response-body.adoc[]
+
+
+=== 회원정보 수정
+
+.Request
+include::{snippets}/put-profile/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/put-profile/path-parameters.adoc[]
+
+.Body
+include::{snippets}/put-profile/request-fields.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/put-profile/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/put-profile/httpie-request.adoc[]
+
+.Response
+include::{snippets}/put-profile/response-body.adoc[]
+
+
+=== 좋아하는 산 등록
+
+.Request
+include::{snippets}/member-post-mountain/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/member-post-mountain/path-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/member-post-mountain/response-fields.adoc[]
+
+==== Sample
+
+.Response
+include::{snippets}/member-post-mountain/httpie-request.adoc[]
+
+.Response
+include::{snippets}/member-post-mountain/response-body.adoc[]
+
+
+=== 좋아하는 산 조회
+
+.Request
+include::{snippets}/member-post-mountain/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/member-post-mountain/path-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/member-post-mountain/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/member-post-mountain/httpie-request.adoc[]
+
+.Response
+include::{snippets}/member-post-mountain/response-body.adoc[]
+
+
+=== 좋아하는 산 삭제
+
+.Request
+include::{snippets}/member-delete-mountain/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/member-delete-mountain/path-parameters.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/member-delete-mountain/httpie-request.adoc[]
+
+
+=== 작성한 리뷰글 조회
+
+.Request
+include::{snippets}/member-get-reviewBoards/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/member-get-reviewBoards/path-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/member-get-reviewBoards/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/member-get-reviewBoards/httpie-request.adoc[]
+
+.Response
+include::{snippets}/member-get-reviewBoards/response-body.adoc[]
+
+
+== 게시판
+=== 게시판 생성
+.Request
+include::{snippets}/post-reviewBoard/http-request.adoc[]
+
+==== Request
+.Body
+include::{snippets}/post-reviewBoard/request-fields.adoc[]
+
+==== Response
+.Response
+include::{snippets}/post-reviewBoard/response-fields.adoc[]
+
+==== Sample
+.Request
+include::{snippets}/post-reviewBoard/request-body.adoc[]
+.Response
+include::{snippets}/post-reviewBoard/response-body.adoc[]
+
+
+=== 게시판 조회
+.Request
+include::{snippets}/get-reviewBoard/http-request.adoc[]
+
+==== Request
+.PathVariable
+include::{snippets}/get-reviewBoard/path-parameters.adoc[]
+
+==== Response
+.Response
+include::{snippets}/get-reviewBoard/response-fields.adoc[]
+
+==== Sample
+.Request
+include::{snippets}/get-reviewBoard/httpie-request.adoc[]
+.Response
+include::{snippets}/get-reviewBoard/response-body.adoc[]
+
+=== 게시판 상세 조회
+.Request
+include::{snippets}/get-reviewBoards/http-request.adoc[]
+
+==== Request
+.Parameter
+include::{snippets}/get-reviewBoards/request-parameters.adoc[]
+
+==== Response
+.Response
+include::{snippets}/get-reviewBoards/response-fields.adoc[]
+
+==== Sample
+.Request
+include::{snippets}/get-reviewBoards/httpie-request.adoc[]
+.Response
+include::{snippets}/get-reviewBoards/response-body.adoc[]
+
+
+
+=== 게시판 수정
+.Request
+include::{snippets}/patch-reviewBoard/http-request.adoc[]
+
+==== Request
+.PathVariable
+include::{snippets}/patch-reviewBoard/path-parameters.adoc[]
+.Body
+include::{snippets}/patch-reviewBoard/request-fields.adoc[]
+
+==== Response
+.Response
+include::{snippets}/patch-reviewBoard/response-fields.adoc[]
+
+
+==== Sample
+.Request
+include::{snippets}/patch-reviewBoard/httpie-request.adoc[]
+.Response
+include::{snippets}/patch-reviewBoard/response-body.adoc[]
+
+
+
+
+=== 게시판 삭제
+.Request
+include::{snippets}/delete-reviewBoard/http-request.adoc[]
+
+==== Request
+.PathVariable
+include::{snippets}/delete-reviewBoard/path-parameters.adoc[]
+
+==== Sample
+.Request
+include::{snippets}/delete-reviewBoard/httpie-request.adoc[]
+
+
+
+== 댓글
+=== 댓글 생성
+include::{snippets}/post-comment/http-request.adoc[]
+==== Request
+.Body
+include::{snippets}/post-comment/request-fields.adoc[]
+
+==== Response
+.Response
+include::{snippets}/post-comment/response-fields.adoc[]
+
+==== Sample
+.Request
+include::{snippets}/post-comment/httpie-request.adoc[]
+
+.Response
+include::{snippets}/post-comment/response-body.adoc[]
+
+
+
+
+=== 댓글 수정
+include::{snippets}/patch-comment/http-request.adoc[]
+==== Request
+.PathVariable
+include::{snippets}/patch-comment/path-parameters.adoc[]
+
+.Body
+include::{snippets}/patch-comment/request-fields.adoc[]
+
+==== Response
+.Response
+include::{snippets}/patch-comment/response-fields.adoc[]
+
+==== Sample
+.Request
+include::{snippets}/patch-comment/httpie-request.adoc[]
+
+.Response
+include::{snippets}/patch-comment/response-body.adoc[]
+
+
+
+
+
+=== 댓글 삭제
+include::{snippets}/delete-comment/http-request.adoc[]
+==== Request
+.PathVariable
+include::{snippets}/delete-comment/path-parameters.adoc[]
+
+==== Response
+
+.Request
+include::{snippets}/delete-comment/httpie-request.adoc[]
+
+.Response
+include::{snippets}/delete-comment/http-response.adoc[]
+
+
+
+
+
+
+== 태그
+=== 태그 조회
+.Request
+include::{snippets}/get-tags/http-request.adoc[]
+
+==== Request
+.Query-Parameter
+include::{snippets}/get-tags/request-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/get-tags/response-fields.adoc[]
+
+==== Sample
+.Request
+include::{snippets}/get-tags/httpie-request.adoc[]
+
+.Response
+include::{snippets}/get-tags/response-body.adoc[]
+
+
+
+== 날씨
+=== 날씨 조회
+
+.Request
+include::{snippets}/get-weather/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/get-weather/path-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/get-weather/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/get-weather/httpie-request.adoc[]
+
+.Response
+include::{snippets}/get-weather/response-body.adoc[]
+
+
+== 등산로 정보
+
+=== 지역 조회
+
+.Request
+include::{snippets}/get-localList/http-request.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/get-localList/response-fields.adoc[]
+
+==== Sample
+
+.Response
+include::{snippets}/get-localList/response-body.adoc[]
+
+
+=== 특정 산 조회
+
+.Request
+include::{snippets}/get-mountainDetail/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/get-mountainDetail/path-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/get-mountainDetail/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/get-mountainDetail/httpie-request.adoc[]
+
+.Response
+include::{snippets}/get-mountainDetail/response-body.adoc[]
+
+
+=== 지역기반 산 조회
+
+.Request
+include::{snippets}/get-mountainSelection/http-request.adoc[]
+
+==== Request
+
+.Query-Parameter
+include::{snippets}/get-mountainSelection/request-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/get-mountainSelection/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/get-mountainSelection/httpie-request.adoc[]
+
+.Response
+include::{snippets}/get-mountainSelection/response-body.adoc[]
+
+
+=== 특정 등산로 조회
+
+.Request
+include::{snippets}/get-courseDetail/http-request.adoc[]
+
+==== Request
+
+.Request-Parameter
+include::{snippets}/get-courseDetail/path-parameters.adoc[]
+
+==== Response
+
+.Response
+include::{snippets}/get-courseDetail/response-fields.adoc[]
+
+==== Sample
+
+.Request
+include::{snippets}/get-courseDetail/httpie-request.adoc[]
+
+.Response
+include::{snippets}/get-courseDetail/response-body.adoc[]
+
+
+=== 산 기반 등산로 조회
+
+.Request
+include::{snippets}/get-courseSelection/http-request.adoc[]
+
+==== Request
+
+.Query-Parameter
+include::{snippets}/get-courseSelection/request-parameters.adoc[]
+
+
+==== Response
+
+.Response
+include::{snippets}/get-courseSelection/response-fields.adoc[]
+
+==== Sample
+.Request
+include::{snippets}/get-courseSelection/httpie-request.adoc[]
+
+.Response
+include::{snippets}/get-courseSelection/response-body.adoc[]

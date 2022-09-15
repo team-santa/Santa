@@ -2,23 +2,17 @@ package com.developer.santa.reviewboards.controller;
 
 import com.developer.santa.member.annotation.WithMockCustomUser;
 import com.developer.santa.member.entity.Member;
-import com.developer.santa.member.oauth.entity.RoleType;
-import com.developer.santa.member.oauth.token.AuthToken;
-import com.developer.santa.member.oauth.token.AuthTokenProvider;
 import com.developer.santa.reviewboards.dto.ReviewBoardRequestDto;
 import com.developer.santa.reviewboards.dto.ReviewBoardResponseDto;
 import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.reviewboards.mapper.ReviewBoardMapper;
 import com.developer.santa.reviewboards.service.ReviewBoardService;
-import com.developer.santa.utils.HeaderUtils;
 import com.google.gson.Gson;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,18 +27,14 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -215,7 +205,7 @@ class ReviewBoardsControllerTest {
                 .andExpect(status().isOk())
                 .andDo(
                         document(
-                                "get-members",
+                                "get-reviewBoards",
                                 requestParameters(
                                         List.of(
                                                 parameterWithName("local").description("지역"),
@@ -418,7 +408,7 @@ class ReviewBoardsControllerTest {
         actions.andExpect(status().isNoContent())
                 .andDo(
                         document(
-                                "delete-member",
+                                "delete-reviewBoard",
                                 pathParameters(
                                         Arrays.asList(parameterWithName("reviewBoardId").description("리뷰게시판 식별자 ID"))
                                 )
