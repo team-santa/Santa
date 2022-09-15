@@ -24,7 +24,7 @@ export const getReviewList = createAsyncThunk<
 
     if (currentPage <= pageInfo.totalPages) {
       const response = await axiosInstance.get(
-        `/v1/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`, // views or newest
+        `/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`, // views or newest
         {
           headers: {
             authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
@@ -55,7 +55,7 @@ export const getSpecificReviewList = createAsyncThunk<
     const sort = sortByViews ? "views" : "newest";
 
     const response = await axiosInstance.get(
-      `/v1/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`, // views or newest
+      `/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`, // views or newest
       {
         headers: {
           authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
@@ -72,7 +72,7 @@ export const deleteReview = createAsyncThunk(
   "review/deleteReview",
   async (payload: { reviewBoardId: number }, thunkAPI) => {
     try {
-      await axiosInstance.delete(`/v1/reviewboards/${payload.reviewBoardId}`);
+      await axiosInstance.delete(`/reviewboards/${payload.reviewBoardId}`);
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -86,7 +86,7 @@ export const getReviewDetail = createAsyncThunk<
 >("review/getReviewDetail", async (payload, thunkAPI) => {
   try {
     const response = await axiosInstance.get(
-      `v1/reviewboards/${payload.reviewBoardId}`,
+      `/reviewboards/${payload.reviewBoardId}`,
       {
         headers: {
           authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
@@ -100,7 +100,7 @@ export const getReviewDetail = createAsyncThunk<
 });
 
 export const getLocalList = createAsyncThunk<
-  string[],
+  { localName: string }[],
   undefined,
   CreateAsyncThunkTypes
 >("review/getLocalList", async (_, { rejectWithValue }) => {
@@ -113,33 +113,33 @@ export const getLocalList = createAsyncThunk<
 });
 
 export const getMountainList = createAsyncThunk<
-  string[],
+  { mountainName: string }[],
   undefined,
   CreateAsyncThunkTypes
->("review/getMountainList", async (_, { rejectWithValue }) => {
+>("review/getMountainList", async (_, thunkAPI) => {
   try {
-    const { selectedLocal } = useAppSelector((state) => state.review);
+    const { selectedLocal } = thunkAPI.getState().review;
     const response = await axiosInstance.get(
       `/mountain/selection?localName=${selectedLocal}`
     );
     return response.data;
   } catch (error: any) {
-    return rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(error.message);
   }
 });
 
 export const getCourseList = createAsyncThunk<
-  string[],
+  { courseName: string }[],
   undefined,
   CreateAsyncThunkTypes
->("review/getCourseList", async (_, { rejectWithValue }) => {
+>("review/getCourseList", async (_, thunkAPI) => {
   try {
-    const { selectedMountain } = useAppSelector((state) => state.review);
+    const { selectedMountain } = thunkAPI.getState().review;
     const response = await axiosInstance.get(
       `/course/selection?mountainName=${selectedMountain}`
     );
     return response.data;
   } catch (error: any) {
-    return rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(error.message);
   }
 });

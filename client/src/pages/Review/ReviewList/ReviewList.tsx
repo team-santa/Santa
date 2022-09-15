@@ -66,7 +66,6 @@ const ReviewList = () => {
   );
 
   const handleDispatch = (payload: ChageSelectedPlace) => {
-    console.log(payload);
     const { name } = payload;
     dispatch(changeSelectedPlace(payload));
 
@@ -78,8 +77,8 @@ const ReviewList = () => {
       dispatch(getCourseList());
     }
 
-    dispatch(resetPage());
-    dispatch(getSpecificReviewList());
+    // dispatch(resetPage());
+    // dispatch(getSpecificReviewList());
   };
 
   const handleSortByViews = () => {
@@ -93,7 +92,7 @@ const ReviewList = () => {
   };
 
   useEffect(() => {
-    // dispatch(resetOption());
+    dispatch(resetOption());
     dispatch(getLocalList());
     dispatch(getReviewList());
   }, [dispatch]);

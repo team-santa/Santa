@@ -21,9 +21,9 @@ const initialState: ReviewInitialState = {
   isLoading: false,
   reviewList: REVIEW_LIST,
   reviewDetail: REVIEW_DETAIL,
-  localList: REGION_LIST,
-  mountainList: MOUNTAIN_LIST,
-  courseList: HIKING_TRAIL_LIST,
+  localList: [],
+  mountainList: [],
+  courseList: [],
   selectedLocal: "",
   selectedMountain: "",
   selectedCourse: "",
@@ -120,13 +120,16 @@ const reviewSlice = createSlice({
         console.log(payload);
       })
       .addCase(getLocalList.fulfilled, (state, { payload }) => {
-        state.localList = payload;
+        const list = payload.map((el) => el.localName);
+        state.localList = list;
       })
       .addCase(getMountainList.fulfilled, (state, { payload }) => {
-        state.mountainList = payload;
+        const list = payload.map((el) => el.mountainName);
+        state.mountainList = list;
       })
       .addCase(getCourseList.fulfilled, (state, { payload }) => {
-        state.courseList = payload;
+        const list = payload.map((el) => el.courseName);
+        state.courseList = list;
       }),
 });
 
