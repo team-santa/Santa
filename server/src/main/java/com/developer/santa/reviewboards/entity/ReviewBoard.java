@@ -97,4 +97,12 @@ public class ReviewBoard extends Auditable{
     public void addCommentCount(){
         this.commentCount++;
     }
+
+    public ReviewBoard(Long reviewBoardId, Long views, String title, String thumbnail, List<String> tags) {
+        this.reviewBoardId = reviewBoardId;
+        this.views = views;
+        this.title = title;
+        this.thumbnail = thumbnail;
+        this.tags = tags;
+    }
 }
