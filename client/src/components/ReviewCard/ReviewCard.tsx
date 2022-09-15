@@ -35,8 +35,8 @@ const ReviewCard = ({
       >
         <div className="review-content-container">
           <div className="review-content">
-            {title.length > 26 ? (
-              <h3>{title.slice(0, 26)} ...</h3>
+            {title.length > 24 ? (
+              <h3>{title.slice(0, 24)} ...</h3>
             ) : (
               <h3>{title}</h3>
             )}
