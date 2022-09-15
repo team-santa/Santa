@@ -58,6 +58,12 @@ public class Member extends Auditable implements Serializable {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    public Member(String memberId, String username, String profileImageUrl) {
+        this.memberId = memberId;
+        this.username = username;
+        this.profileImageUrl = profileImageUrl;
+    }
+
     public Member(String memberId, String email, String profileImageUrl, ProviderType providerType, RoleType roleType) {
         this.memberId = memberId;
         this.password = "NO_PASS";
