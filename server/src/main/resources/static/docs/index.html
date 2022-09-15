@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Untitled</title>
+<title>산타 API Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,17 +436,2616 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
+<h1>산타 API Documentation</h1>
+<div class="details">
+<span id="revnumber">version 0.0.1-SNAPSHOT</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_회원">1. 회원</a>
+<ul class="sectlevel2">
+<li><a href="#_회원가입_및_로그인">1.1. 회원가입 및 로그인</a>
+<ul class="sectlevel3">
+<li><a href="#_request">1.1.1. Request</a></li>
+<li><a href="#_sample">1.1.2. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_닉네임_중복확인">1.2. 닉네임 중복확인</a>
+<ul class="sectlevel3">
+<li><a href="#_request_2">1.2.1. Request</a></li>
+<li><a href="#_response">1.2.2. Response</a></li>
+<li><a href="#_sample_2">1.2.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_회원정보_조회">1.3. 회원정보 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_3">1.3.1. Request</a></li>
+<li><a href="#_response_2">1.3.2. Response</a></li>
+<li><a href="#_sample_3">1.3.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_회원정보_수정">1.4. 회원정보 수정</a>
+<ul class="sectlevel3">
+<li><a href="#_request_4">1.4.1. Request</a></li>
+<li><a href="#_response_3">1.4.2. Response</a></li>
+<li><a href="#_sample_4">1.4.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_좋아하는_산_등록">1.5. 좋아하는 산 등록</a>
+<ul class="sectlevel3">
+<li><a href="#_request_5">1.5.1. Request</a></li>
+<li><a href="#_response_4">1.5.2. Response</a></li>
+<li><a href="#_sample_5">1.5.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_좋아하는_산_조회">1.6. 좋아하는 산 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_6">1.6.1. Request</a></li>
+<li><a href="#_response_5">1.6.2. Response</a></li>
+<li><a href="#_sample_6">1.6.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_좋아하는_산_삭제">1.7. 좋아하는 산 삭제</a>
+<ul class="sectlevel3">
+<li><a href="#_request_7">1.7.1. Request</a></li>
+<li><a href="#_sample_7">1.7.2. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_작성한_리뷰글_조회">1.8. 작성한 리뷰글 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_8">1.8.1. Request</a></li>
+<li><a href="#_response_6">1.8.2. Response</a></li>
+<li><a href="#_sample_8">1.8.3. Sample</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_게시판">2. 게시판</a>
+<ul class="sectlevel2">
+<li><a href="#_게시판_생성">2.1. 게시판 생성</a>
+<ul class="sectlevel3">
+<li><a href="#_request_9">2.1.1. Request</a></li>
+<li><a href="#_response_7">2.1.2. Response</a></li>
+<li><a href="#_sample_9">2.1.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_게시판_조회">2.2. 게시판 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_10">2.2.1. Request</a></li>
+<li><a href="#_response_8">2.2.2. Response</a></li>
+<li><a href="#_sample_10">2.2.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_게시판_상세_조회">2.3. 게시판 상세 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_11">2.3.1. Request</a></li>
+<li><a href="#_response_9">2.3.2. Response</a></li>
+<li><a href="#_sample_11">2.3.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_게시판_수정">2.4. 게시판 수정</a>
+<ul class="sectlevel3">
+<li><a href="#_request_12">2.4.1. Request</a></li>
+<li><a href="#_response_10">2.4.2. Response</a></li>
+<li><a href="#_sample_12">2.4.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_게시판_삭제">2.5. 게시판 삭제</a>
+<ul class="sectlevel3">
+<li><a href="#_request_13">2.5.1. Request</a></li>
+<li><a href="#_sample_13">2.5.2. Sample</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_댓글">3. 댓글</a>
+<ul class="sectlevel2">
+<li><a href="#_댓글_생성">3.1. 댓글 생성</a>
+<ul class="sectlevel3">
+<li><a href="#_request_14">3.1.1. Request</a></li>
+<li><a href="#_response_11">3.1.2. Response</a></li>
+<li><a href="#_sample_14">3.1.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_댓글_수정">3.2. 댓글 수정</a>
+<ul class="sectlevel3">
+<li><a href="#_request_15">3.2.1. Request</a></li>
+<li><a href="#_response_12">3.2.2. Response</a></li>
+<li><a href="#_sample_15">3.2.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_댓글_삭제">3.3. 댓글 삭제</a>
+<ul class="sectlevel3">
+<li><a href="#_request_16">3.3.1. Request</a></li>
+<li><a href="#_response_13">3.3.2. Response</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_태그">4. 태그</a>
+<ul class="sectlevel2">
+<li><a href="#_태그_조회">4.1. 태그 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_17">4.1.1. Request</a></li>
+<li><a href="#_response_14">4.1.2. Response</a></li>
+<li><a href="#_sample_16">4.1.3. Sample</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_날씨">5. 날씨</a>
+<ul class="sectlevel2">
+<li><a href="#_날씨_조회">5.1. 날씨 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_18">5.1.1. Request</a></li>
+<li><a href="#_response_15">5.1.2. Response</a></li>
+<li><a href="#_sample_17">5.1.3. Sample</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_등산로_정보">6. 등산로 정보</a>
+<ul class="sectlevel2">
+<li><a href="#_지역_조회">6.1. 지역 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_response_16">6.1.1. Response</a></li>
+<li><a href="#_sample_18">6.1.2. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_특정_산_조회">6.2. 특정 산 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_19">6.2.1. Request</a></li>
+<li><a href="#_response_17">6.2.2. Response</a></li>
+<li><a href="#_sample_19">6.2.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_지역기반_산_조회">6.3. 지역기반 산 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_20">6.3.1. Request</a></li>
+<li><a href="#_response_18">6.3.2. Response</a></li>
+<li><a href="#_sample_20">6.3.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_특정_등산로_조회">6.4. 특정 등산로 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_21">6.4.1. Request</a></li>
+<li><a href="#_response_19">6.4.2. Response</a></li>
+<li><a href="#_sample_21">6.4.3. Sample</a></li>
+</ul>
+</li>
+<li><a href="#_산_기반_등산로_조회">6.5. 산 기반 등산로 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_request_22">6.5.1. Request</a></li>
+<li><a href="#_response_20">6.5.2. Response</a></li>
+<li><a href="#_sample_22">6.5.3. Sample</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>v1.0.0, 2022.09.15</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_회원">1. 회원</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_회원가입_및_로그인">1.1. 회원가입 및 로그인</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /oauth2/authorization/google?redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Foauth%2Fredirect HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request">1.1.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /oauth2/authorization/{providerId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>providerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 제공자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>로그인 제공자</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">코드</th>
+<th class="tableblock halign-left valign-top">코드명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>google</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">구글 로그인</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kakao</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카카오 로그인</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>naver</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">네이버 로그인</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample">1.1.2. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/oauth2/authorization/google?redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Foauth%2Fredirect'</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_닉네임_중복확인">1.2. 닉네임 중복확인</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/testUser/check HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_2">1.2.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. /members/{username}/check</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 닉네임</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response">1.2.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">변경가능 여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_2">1.2.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/testUser/check' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "data" : true
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원정보_조회">1.3. 회원정보 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1 HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_3">1.3.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. /members/{memberId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_2">1.3.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지 경로</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_3">1.3.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "username" : "testUser",
+  "email" : "testEmail@email.com",
+  "profileImageUrl" : "profileImageUrl"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원정보_수정">1.4. 회원정보 수정</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PUT /members/1?_csrf=af3205d7-9d01-4cff-904d-6eac98850f7a HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 109
+Host: localhost:8080
 
+{
+  "username" : "testUser",
+  "email" : "testEmail@email.com",
+  "profileImageUrl" : "profileImageUrl"
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_4">1.4.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /members/{memberId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Body</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지 경로</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_3">1.4.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지 경로</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_4">1.4.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ echo '{
+  "username" : "testUser",
+  "email" : "testEmail@email.com",
+  "profileImageUrl" : "profileImageUrl"
+}' | http PUT 'http://localhost:8080/members/1?_csrf=af3205d7-9d01-4cff-904d-6eac98850f7a' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "username" : "testUser",
+  "email" : "testEmail@email.com",
+  "profileImageUrl" : "profileImageUrl"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_좋아하는_산_등록">1.5. 좋아하는 산 등록</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1/mountains?_csrf=d7f2f26f-13a4-4d1c-8f2a-701df5d794fb HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_5">1.5.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. /members/{memberId}/mountains</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_4">1.5.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainNames</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 목록</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_5">1.5.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1/mountains?_csrf=d7f2f26f-13a4-4d1c-8f2a-701df5d794fb' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "mountainNames" : [ "�룄遊됱궛" ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_좋아하는_산_조회">1.6. 좋아하는 산 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1/mountains?_csrf=d7f2f26f-13a4-4d1c-8f2a-701df5d794fb HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_6">1.6.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. /members/{memberId}/mountains</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_5">1.6.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainNames</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 목록</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_6">1.6.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1/mountains?_csrf=d7f2f26f-13a4-4d1c-8f2a-701df5d794fb' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "mountainNames" : [ "�룄遊됱궛" ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_좋아하는_산_삭제">1.7. 좋아하는 산 삭제</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /members/1/mountains/%EB%8F%84%EB%B4%89%EC%82%B0?_csrf=9e1ce1a4-65d2-42e5-b87a-e1f29db018ab HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_7">1.7.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. /members/{memberId}/mountains/{mountainName}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_7">1.7.2. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/members/1/mountains/%EB%8F%84%EB%B4%89%EC%82%B0?_csrf=9e1ce1a4-65d2-42e5-b87a-e1f29db018ab' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_작성한_리뷰글_조회">1.8. 작성한 리뷰글 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1/reviewboards HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_8">1.8.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. /members/{memberId}/reviewboards</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_6">1.8.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성한 리뷰게시판 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 고유ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].writer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 수정날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].views</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 조회수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].tagList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 태그</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 이미지 경로</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_8">1.8.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1/reviewboards' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>[ {
+  "reviewBoardId" : 1,
+  "memberId" : "1234567",
+  "profileImageUrl" : "profileImageUrl",
+  "writer" : "testUser",
+  "modifiedAt" : "2022-09-15T23:22:31.7691573",
+  "title" : "testTitle",
+  "views" : 1,
+  "tagList" : [ "testTag1", "testTag2" ],
+  "thumbnail" : "thumbnail"
+} ]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_게시판">2. 게시판</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_게시판_생성">2.1. 게시판 생성</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /reviewboards?_csrf=d63116b6-9496-42c0-9570-ddbb0d93b9ab HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 211
+Host: localhost:8080
+
+{"memberId":"2411017009","title":"테스트제목","body":"바디내용","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","thumbnail":"썸네일.png","tagList":["정상","등산"]}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_9">2.1.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 16. Body</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원식별ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>body</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tagList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">태그리스트</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_7">2.1.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 17. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 식별 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막수정날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>body</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 본문</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>views</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tagList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">태그리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 리스트</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_9">2.1.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{"memberId":"2411017009","title":"테스트제목","body":"바디내용","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","thumbnail":"썸네일.png","tagList":["정상","등산"]}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"�봽濡쒗븘�씠誘몄�.jpg","writer":"湲��벖�씠","modifiedAt":"2022-09-15T23:22:35.1098646","title":"�뀒�뒪�듃�젣紐�","body":"諛붾뵒�궡�슜","thumbnail":"�뜽�꽕�씪.png","localName":"�꽌�슱�떆","mountainName":"愿��븙�궛","courseName":"�벑�궛肄붿뒪A","views":1,"tagList":["�젙�긽","�벑�궛"],"commentList":[]}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_게시판_조회">2.2. 게시판 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /reviewboards/1 HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_10">2.2.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 18. /reviewboards/{reviewBoardId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판식별자 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_8">2.2.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 19. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 식별 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막수정날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>body</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 본문</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>views</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tagList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">태그리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 리스트</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_10">2.2.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/reviewboards/1' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"�봽濡쒗븘�씠誘몄�.jpg","writer":"湲��벖�씠","modifiedAt":"2022-09-15T23:22:34.7775937","title":"�뀒�뒪�듃�젣紐�","body":"諛붾뵒�궡�슜","thumbnail":"�뜽�꽕�씪.png","localName":"�꽌�슱�떆","mountainName":"愿��븙�궛","courseName":"�벑�궛肄붿뒪A","views":1,"tagList":["�젙�긽","�벑�궛"],"commentList":[]}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_게시판_상세_조회">2.3. 게시판 상세 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /reviewboards?local=&amp;mountain=&amp;course=&amp;sort=views&amp;page=1 HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_11">2.3.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 20. Parameter</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>course</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬방법</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Page 번호</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_9">2.3.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 21. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].writer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막수정날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].views</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].tagList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">태그리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageInfo.page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageInfo.size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 사이즈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageInfo.totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 건 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageInfo.totalPages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 페이지 수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_11">2.3.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/reviewboards?local=&amp;mountain=&amp;course=&amp;sort=views&amp;page=1' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{"data":[{"reviewBoardId":1,"memberId":"memberId1","profileImageUrl":"�봽濡쒗븘�씠誘몄�.png","writer":"泥ル쾲吏�","modifiedAt":"2022-09-15T23:22:34.9891252","title":"�뀒�뒪�듃�젣紐�1","views":1,"tagList":["�젙�긽","�벑�궛"],"thumbnail":"�뜽�꽕�씪�씠誘몄�1.png"},{"reviewBoardId":2,"memberId":"memberId2","profileImageUrl":"�봽濡쒗븘�씠誘몄�.png","writer":"�몢踰덉㎏","modifiedAt":"2022-09-15T23:22:34.9891252","title":"�뀒�뒪�듃�젣紐�2","views":2,"tagList":["�젙�긽","�벑�궛"],"thumbnail":"�뜽�꽕�씪�씠誘몄�2.png"}],"pageInfo":{"page":1,"size":10,"totalElements":2,"totalPages":1}}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_게시판_수정">2.4. 게시판 수정</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /reviewboards/1?_csrf=79afc556-21e1-49ce-ab9a-6ff8241ffe5b HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 211
+Host: localhost:8080
+
+{"memberId":"2411017009","title":"테스트제목","body":"바디내용","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","thumbnail":"썸네일.png","tagList":["정상","등산"]}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_12">2.4.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 22. /reviewboards/{reviewBoardId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판식별자 ID</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 23. Body</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원식별ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>body</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tagList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">태그리스트</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_10">2.4.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 24. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 식별 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막수정날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>body</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 본문</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>thumbnail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>views</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tagList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">태그리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 리스트</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_12">2.4.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ echo '{"memberId":"2411017009","title":"테스트제목","body":"바디내용","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","thumbnail":"썸네일.png","tagList":["정상","등산"]}' | http PATCH 'http://localhost:8080/reviewboards/1?_csrf=79afc556-21e1-49ce-ab9a-6ff8241ffe5b' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"�봽濡쒗븘�씠誘몄�.jpg","writer":"湲��벖�씠","modifiedAt":"2022-09-15T23:22:34.8414232","title":"�뀒�뒪�듃�젣紐�","body":"諛붾뵒�궡�슜","thumbnail":"�뜽�꽕�씪.png","localName":"�꽌�슱�떆","mountainName":"愿��븙�궛","courseName":"�벑�궛肄붿뒪A","views":1,"tagList":["�젙�긽","�벑�궛"],"commentList":[]}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_게시판_삭제">2.5. 게시판 삭제</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /reviewboards/1?_csrf=5280f2e4-30b8-4c4d-9f2d-cfbe3afe215f HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_13">2.5.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 25. /reviewboards/{reviewBoardId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시판 식별자 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_13">2.5.2. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/reviewboards/1?_csrf=5280f2e4-30b8-4c4d-9f2d-cfbe3afe215f'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_댓글">3. 댓글</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_댓글_생성">3.1. 댓글 생성</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /comment?_csrf=f7e6c042-1c2d-4db8-9ee6-3e744b0c6d14 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 88
+Host: localhost:8080
+
+{
+  "reviewBoardId" : 1,
+  "memberId" : "1234567",
+  "commentBody" : "commentBody"
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_14">3.1.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 26. Body</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewBoardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰게시글ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentBody</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 본문</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_11">3.1.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 27. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 수정날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>body</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 본문</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_14">3.1.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ echo '{
+  "reviewBoardId" : 1,
+  "memberId" : "1234567",
+  "commentBody" : "commentBody"
+}' | http POST 'http://localhost:8080/comment?_csrf=f7e6c042-1c2d-4db8-9ee6-3e744b0c6d14' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "commentId" : 1,
+  "memberId" : "1234567",
+  "profileImageUrl" : "profileImgUrl",
+  "writer" : "testUser",
+  "modifiedAt" : "2022-09-15T23:22:33.5403004",
+  "body" : "commentBody"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_수정">3.2. 댓글 수정</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /comment/1?_csrf=b975318d-a114-46ed-9b0e-8744941265bc HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 64
+Host: localhost:8080
+
+{
+  "memberId" : "1234567",
+  "commentBody" : "commentBody"
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_15">3.2.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 28. /comment/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글ID</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 29. Body</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentBody</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 본문</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_12">3.2.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 30. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 수정날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>body</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 본문</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_15">3.2.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ echo '{
+  "memberId" : "1234567",
+  "commentBody" : "commentBody"
+}' | http PATCH 'http://localhost:8080/comment/1?_csrf=b975318d-a114-46ed-9b0e-8744941265bc' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "commentId" : 1,
+  "memberId" : "1234567",
+  "profileImageUrl" : "profileImgUrl",
+  "writer" : "testUser",
+  "modifiedAt" : "2022-09-15T23:22:33.4897859",
+  "body" : "commentBody"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_댓글_삭제">3.3. 댓글 삭제</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /comment/1?_csrf=ccbabfe1-8952-45ca-9521-7864f4bfd378 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_16">3.3.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 31. /comment/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_13">3.3.2. Response</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/comment/1?_csrf=ccbabfe1-8952-45ca-9521-7864f4bfd378'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_태그">4. 태그</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_태그_조회">4.1. 태그 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /tag?text=%EC%82%B0 HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_17">4.1.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 32. Query-Parameter</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>text</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">태그검색</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_14">4.1.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 33. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].tagName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">태그이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_16">4.1.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/tag?text=%EC%82%B0' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>[{"tagName":"100��紐낆궛"},{"tagName":"200��紐낆궛"},{"tagName":"400��紐낆궛"},{"tagName":"�벑�궛"},{"tagName":"�궛"}]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_날씨">5. 날씨</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_날씨_조회">5.1. 날씨 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /weather/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_18">5.1.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 34. /weather/{weatherLocal}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>weatherLocal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역명</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_15">5.1.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 35. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mountain_id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>weatherLocal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>weatherCity</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역 도시명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>weatherCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역 코드</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_17">5.1.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/weather/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{"id":1,"weatherLocal":"�꽌�슱�듅蹂꾩떆","weatherCity":"�꽌�슱","weatherCode":"11B10101"}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_등산로_정보">6. 등산로 정보</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_지역_조회">6.1. 지역 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /local HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_16">6.1.1. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 36. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역명</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_18">6.1.2. Sample</h4>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>[{"localName":"�꽌�슱�듅蹂꾩떆 愿��븙援�"},{"localName":"寃쎄린�룄 �떆�씎�떆"},{"localName":"媛뺤썝�룄 異섏쿇�떆"},{"localName":"寃쎌긽�궓�룄 吏꾩＜�떆"},{"localName":"���쟾愿묒뿭�떆 �쑀�꽦援�"},{"localName":"�쟾�씪遺곷룄 �쟾二쇱떆"}]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_특정_산_조회">6.2. 특정 산 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /mountain/%EA%B4%80%EC%95%85%EC%82%B0 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_19">6.2.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 37. /mountain/{mountain}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_17">6.2.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 38. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mountain_id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 지역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 지역 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local.localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 지역명</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_19">6.2.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{"@id":1,"id":1,"mountainName":"愿��븙�궛","local":{"id":1,"localName":"�꽌�슱�듅蹂꾩떆 愿��븙援�"}}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_지역기반_산_조회">6.3. 지역기반 산 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /mountain/selection?localName=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C+%EA%B4%80%EC%95%85%EA%B5%AC HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_20">6.3.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 39. Query-Parameter</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_18">6.3.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 40. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0].mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[1].mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[2].mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[3].mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_20">6.3.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/mountain/selection?localName=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C+%EA%B4%80%EC%95%85%EA%B5%AC' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>[{"mountainName":"愿��븙�궛"},{"mountainName":"�궪�꽦�궛"},{"mountainName":"泥�猷≪궛"},{"mountainName":"泥�怨꾩궛"}]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_특정_등산로_조회">6.4. 특정 등산로 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /course/%EA%B4%80%EC%95%85%EC%82%B0%20%EB%93%B1%EC%82%B0%EB%A1%9C%20A HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_21">6.4.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 41. /course/{courseName}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_19">6.4.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 42. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">course_id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 좌표</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseLevel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 난이도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>courseDistance</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 길이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 산 객체</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 산 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain.@id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 산 @id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain.mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 산 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain.local</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 지역 객체</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain.local.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 지역 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountain.local.localName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소속 지역 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_21">6.4.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{"id":1,"courseName":"愿��븙�궛 �벑�궛濡� A","courseLocation":"[37.12345678, 118.12345678]","courseLevel":"�븯","courseDistance":"145","mountain":{"@id":1,"id":1,"mountainName":"愿��븙�궛","local":{"id":1,"localName":"�꽌�슱�듅蹂꾩떆 愿��븙援�"}}}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_산_기반_등산로_조회">6.5. 산 기반 등산로 조회</h3>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /course/selection?mountainName=%EA%B4%80%EC%95%85%EC%82%B0 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_22">6.5.1. Request</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 43. Query-Parameter</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mountainName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_20">6.5.2. Response</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 44. Response</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0].courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[1].courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[2].courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[3].courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[4].courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[5].courseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코스 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sample_22">6.5.3. Sample</h4>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/course/selection?mountainName=%EA%B4%80%EC%95%85%EC%82%B0' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>[{"courseName":"愿��븙�궛 �벑�궛濡� A"},{"courseName":"愿��븙�궛 �벑�궛濡� B"},{"courseName":"愿��븙�궛 �벑�궛濡� C"},{"courseName":"�궪�꽦�궛 �벑�궛濡� A"},{"courseName":"�궪�꽦�궛 �벑�궛濡� B"},{"courseName":"泥�怨꾩궛 �벑�궛濡� A"}]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-09-01 00:43:04 +0900
+Last updated 2022-09-15 23:21:49 +0900
 </div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
 </body>
 </html>
