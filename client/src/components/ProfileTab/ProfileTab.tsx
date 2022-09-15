@@ -1,47 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { colors } from "src/utils/colors";
 import styled from "styled-components";
-import San from "src/assets/images/san.jpg";
-import { useAppDispatch } from "src/redux";
 import { axiosAuthInstance } from "src/utils";
 import { useUser } from "src/utils/localStorage";
 import ReviewCard from "./ReviewCard";
 import FavoritCard from "./FavoritCard";
 
 const TabMenu = ["Review", "Favorite"];
-
-const Reviews = [
-  {
-    id: 1,
-    title: "관악산 산책하기 후기 입니당 !! 관악산 날씨가 너무 좋네요 ~~",
-    img: San,
-    tags: ["관악산", "날씨좋음", "등린이"],
-  },
-  {
-    id: 2,
-    title: "무등산 등산 후기 !!",
-    img: "https://www.hwasun.go.kr/upfiles/gallery/0000000016/L_0000000016_20160119142646_0.jpg",
-    tags: ["날씨좋음", "등린이", "무등산"],
-  },
-  {
-    id: 3,
-    title: "관악산 산책하기 후기 입니당 ~~",
-    img: "https://t1.daumcdn.net/cfile/blog/998207415BD6585C2B",
-    tags: ["관악산", "날씨좋음", "등린이"],
-  },
-  {
-    id: 4,
-    title: "유달산 산책하기 후기 입니당 ~~",
-    img: "https://t1.daumcdn.net/cfile/tistory/99C9F63C5D6DC55B0C",
-    tags: ["등린이"],
-  },
-  {
-    id: 5,
-    title: "마이산 너무 좋아요 !!",
-    img: "https://www.mpva.go.kr/site/hogug/images/contents/cts615_img1.jpg",
-    tags: ["날씨좋음", "등린이"],
-  },
-];
 
 interface Review {
   reviewBoardId: number;
@@ -53,7 +18,7 @@ interface Review {
 const ProfileTab = () => {
   const [currentTab, setCurrentTab] = useState("Review");
   const user = useUser();
-  const dispatch = useAppDispatch();
+
   const [myReview, setMyReview] = useState([]);
   const [myFavorites, setMyFavorites] = useState([]);
 
@@ -67,7 +32,6 @@ const ProfileTab = () => {
       );
       const results = await Promise.allSettled([reviews, favorites]);
       if (results[0].status === "fulfilled") {
-        console.log(results[0].value.data);
         setMyReview(results[0].value.data);
       }
       if (results[1].status === "fulfilled") {
@@ -107,6 +71,7 @@ const ProfileTab = () => {
                   title={obj.title}
                   img={obj.thumbnail}
                   tags={obj.tagList}
+                  id={obj.reviewBoardId}
                 />
               ))
             )}
