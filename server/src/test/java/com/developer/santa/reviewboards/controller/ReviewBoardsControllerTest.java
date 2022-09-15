@@ -1,14 +1,17 @@
 package com.developer.santa.reviewboards.controller;
 
 import com.developer.santa.member.annotation.WithMockCustomUser;
-import com.developer.santa.member.entity.Member;
+import com.developer.santa.member.oauth.entity.RoleType;
+import com.developer.santa.member.oauth.token.AuthToken;
+import com.developer.santa.member.oauth.token.AuthTokenProvider;
 import com.developer.santa.reviewboards.dto.ReviewBoardRequestDto;
 import com.developer.santa.reviewboards.dto.ReviewBoardResponseDto;
 import com.developer.santa.reviewboards.entity.ReviewBoard;
 import com.developer.santa.reviewboards.mapper.ReviewBoardMapper;
 import com.developer.santa.reviewboards.service.ReviewBoardService;
-
+import com.developer.santa.utils.HeaderUtils;
 import com.google.gson.Gson;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +70,6 @@ class ReviewBoardsControllerTest {
 
     // 토큰값 필요
     @Test
-    @WithMockCustomUser
     void postReview() throws Exception {
 
         //given
@@ -313,7 +315,6 @@ class ReviewBoardsControllerTest {
     }
 
     @Test
-    @WithMockCustomUser
     void editReviewBoard() throws Exception {
         //given
         Long reviewBoardId = 1L;
@@ -404,7 +405,6 @@ class ReviewBoardsControllerTest {
     }
 
     @Test
-    @WithMockCustomUser
     void deleteReviewBoard() throws Exception {
         // given
         long reviewId = 1L;

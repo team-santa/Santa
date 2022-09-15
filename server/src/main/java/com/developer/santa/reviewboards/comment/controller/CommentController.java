@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/comment")
+@RequestMapping("/comment")
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper mapper;
@@ -24,12 +24,12 @@ public class CommentController {
         Comment createComment = commentService.createComment(comment);
         return new ResponseEntity<>(mapper.commentToResponseComment(createComment), HttpStatus.CREATED);
     }
-    @GetMapping("{reviewBoardId}") // 게시판 전체 댓글 조회
+    @GetMapping("/{reviewBoardId}") // 게시판 전체 댓글 조회
     public ResponseEntity<?> findComment(@PathVariable Long reviewBoardId){
         return null;
     }
 
-    @PatchMapping("{commentId}") // 댓글 수정
+    @PatchMapping("/{commentId}") // 댓글 수정
     public ResponseEntity<?> editComment(
             @PathVariable Long commentId,
             @Valid @RequestBody CommentRequestDto.Patch requestBody){
@@ -38,7 +38,7 @@ public class CommentController {
         return new ResponseEntity<>(mapper.commentToResponseComment(updateBoard), HttpStatus.OK);
     }
 
-    @DeleteMapping("{commentId}") // 댓글 삭제
+    @DeleteMapping("/{commentId}") // 댓글 삭제
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId){
         commentService.deleteReviewBoard(commentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

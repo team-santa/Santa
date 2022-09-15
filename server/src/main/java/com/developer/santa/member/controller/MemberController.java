@@ -1,13 +1,14 @@
 package com.developer.santa.member.controller;
 
-import com.developer.santa.boards.dto.ReviewBoardResponseDto;
-import com.developer.santa.boards.mapper.ReviewBoardMapper;
+
 import com.developer.santa.dto.SingleResponseDto;
 import com.developer.santa.member.dto.MemberDto;
 import com.developer.santa.member.entity.Member;
 import com.developer.santa.member.mapper.MemberMapper;
 import com.developer.santa.member.oauth.entity.PrincipalDetails;
 import com.developer.santa.member.service.MemberService;
+import com.developer.santa.reviewboards.dto.ReviewBoardResponseDto;
+import com.developer.santa.reviewboards.mapper.ReviewBoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

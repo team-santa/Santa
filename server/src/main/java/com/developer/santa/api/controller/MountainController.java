@@ -30,7 +30,7 @@ public class MountainController {
         return ResponseEntity.ok(mountainService.getLocalSelectMountain(localName));
     }
 
-    @GetMapping("{mountain}")
+    @GetMapping("/{mountain}")
     public ResponseEntity<Mountain> getDetailMountain(@PathVariable String mountain){
         return ResponseEntity.ok(mountainService.getDetailMountain(mountain));
     }

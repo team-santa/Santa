@@ -14,6 +14,7 @@ import com.developer.santa.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -63,8 +64,13 @@ public class SecurityConfig{
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/h2/**").permitAll()
                 .antMatchers("/members/login").permitAll()
+                .antMatchers("/api/connect").permitAll()
+                .antMatchers("/course/**").permitAll()
+                .antMatchers("/local/**").permitAll()
+                .antMatchers("/mountain/**").permitAll()
+                .antMatchers("/weather/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/reviwboards/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
@@ -116,7 +122,7 @@ public class SecurityConfig{
 
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // 서버응답 시 json을 자바스크립트에서 처리할 수 있게
-        config.addAllowedOrigin(corsProperties.getAllowedOrigins()); // 모든 ip의 응답 허용
+        config.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
         config.addAllowedHeader(corsProperties.getAllowedHeaders()); // 모든 헤더의 응답을 허용
         config.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(","))); // 모든 get post put delete patch 요청 허용
 
