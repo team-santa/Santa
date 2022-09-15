@@ -71,6 +71,7 @@ public class SecurityConfig{
                 .antMatchers("/mountain/**").permitAll()
                 .antMatchers("/weather/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/reviewboards/**").permitAll()
+                .antMatchers("/docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
