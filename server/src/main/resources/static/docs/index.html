@@ -879,7 +879,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">PUT /members/1?_csrf=af3205d7-9d01-4cff-904d-6eac98850f7a HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PUT /members/1?_csrf=0fb6200d-9e33-4f20-b1dc-f198b6432994 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 109
@@ -990,7 +990,7 @@ Host: localhost:8080
   "username" : "testUser",
   "email" : "testEmail@email.com",
   "profileImageUrl" : "profileImageUrl"
-}' | http PUT 'http://localhost:8080/members/1?_csrf=af3205d7-9d01-4cff-904d-6eac98850f7a' \
+}' | http PUT 'http://localhost:8080/members/1?_csrf=0fb6200d-9e33-4f20-b1dc-f198b6432994' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json'</code></pre>
 </div>
@@ -1012,7 +1012,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1/mountains?_csrf=d7f2f26f-13a4-4d1c-8f2a-701df5d794fb HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1/mountains?_csrf=2a181336-a82a-48c3-838f-bc80f5bd242d HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1069,7 +1069,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1/mountains?_csrf=d7f2f26f-13a4-4d1c-8f2a-701df5d794fb' \
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1/mountains?_csrf=2a181336-a82a-48c3-838f-bc80f5bd242d' \
     'Accept:application/json'</code></pre>
 </div>
 </div>
@@ -1077,7 +1077,7 @@ Host: localhost:8080</code></pre>
 <div class="title">Response</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code>{
-  "mountainNames" : [ "�룄遊됱궛" ]
+  "mountainNames" : [ "도봉산" ]
 }</code></pre>
 </div>
 </div>
@@ -1088,7 +1088,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1/mountains?_csrf=d7f2f26f-13a4-4d1c-8f2a-701df5d794fb HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1/mountains?_csrf=2a181336-a82a-48c3-838f-bc80f5bd242d HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1145,7 +1145,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1/mountains?_csrf=d7f2f26f-13a4-4d1c-8f2a-701df5d794fb' \
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1/mountains?_csrf=2a181336-a82a-48c3-838f-bc80f5bd242d' \
     'Accept:application/json'</code></pre>
 </div>
 </div>
@@ -1153,7 +1153,7 @@ Host: localhost:8080</code></pre>
 <div class="title">Response</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code>{
-  "mountainNames" : [ "�룄遊됱궛" ]
+  "mountainNames" : [ "도봉산" ]
 }</code></pre>
 </div>
 </div>
@@ -1164,7 +1164,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /members/1/mountains/%EB%8F%84%EB%B4%89%EC%82%B0?_csrf=9e1ce1a4-65d2-42e5-b87a-e1f29db018ab HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /members/1/mountains/%EB%8F%84%EB%B4%89%EC%82%B0?_csrf=1b3768fd-df50-4d3c-a502-680bfe7abdc0 HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1200,7 +1200,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/members/1/mountains/%EB%8F%84%EB%B4%89%EC%82%B0?_csrf=9e1ce1a4-65d2-42e5-b87a-e1f29db018ab' \
+<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/members/1/mountains/%EB%8F%84%EB%B4%89%EC%82%B0?_csrf=1b3768fd-df50-4d3c-a502-680bfe7abdc0' \
     'Accept:application/json'</code></pre>
 </div>
 </div>
@@ -1325,7 +1325,7 @@ Host: localhost:8080</code></pre>
   "memberId" : "1234567",
   "profileImageUrl" : "profileImageUrl",
   "writer" : "testUser",
-  "modifiedAt" : "2022-09-15T23:22:31.7691573",
+  "modifiedAt" : "2022-09-15T23:58:24.4385715",
   "title" : "testTitle",
   "views" : 1,
   "tagList" : [ "testTag1", "testTag2" ],
@@ -1345,7 +1345,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /reviewboards?_csrf=d63116b6-9496-42c0-9570-ddbb0d93b9ab HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /reviewboards?_csrf=e181824c-0249-4041-ba36-39b5acc97418 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 211
@@ -1515,7 +1515,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"�봽濡쒗븘�씠誘몄�.jpg","writer":"湲��벖�씠","modifiedAt":"2022-09-15T23:22:35.1098646","title":"�뀒�뒪�듃�젣紐�","body":"諛붾뵒�궡�슜","thumbnail":"�뜽�꽕�씪.png","localName":"�꽌�슱�떆","mountainName":"愿��븙�궛","courseName":"�벑�궛肄붿뒪A","views":1,"tagList":["�젙�긽","�벑�궛"],"commentList":[]}</code></pre>
+<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"프로필이미지.jpg","writer":"글쓴이","modifiedAt":"2022-09-15T23:58:25.6325707","title":"테스트제목","body":"바디내용","thumbnail":"썸네일.png","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","views":1,"tagList":["정상","등산"],"commentList":[]}</code></pre>
 </div>
 </div>
 </div>
@@ -1654,7 +1654,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"�봽濡쒗븘�씠誘몄�.jpg","writer":"湲��벖�씠","modifiedAt":"2022-09-15T23:22:34.7775937","title":"�뀒�뒪�듃�젣紐�","body":"諛붾뵒�궡�슜","thumbnail":"�뜽�꽕�씪.png","localName":"�꽌�슱�떆","mountainName":"愿��븙�궛","courseName":"�벑�궛肄붿뒪A","views":1,"tagList":["�젙�긽","�벑�궛"],"commentList":[]}</code></pre>
+<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"프로필이미지.jpg","writer":"글쓴이","modifiedAt":"2022-09-15T23:58:25.5325699","title":"테스트제목","body":"바디내용","thumbnail":"썸네일.png","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","views":1,"tagList":["정상","등산"],"commentList":[]}</code></pre>
 </div>
 </div>
 </div>
@@ -1814,7 +1814,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{"data":[{"reviewBoardId":1,"memberId":"memberId1","profileImageUrl":"�봽濡쒗븘�씠誘몄�.png","writer":"泥ル쾲吏�","modifiedAt":"2022-09-15T23:22:34.9891252","title":"�뀒�뒪�듃�젣紐�1","views":1,"tagList":["�젙�긽","�벑�궛"],"thumbnail":"�뜽�꽕�씪�씠誘몄�1.png"},{"reviewBoardId":2,"memberId":"memberId2","profileImageUrl":"�봽濡쒗븘�씠誘몄�.png","writer":"�몢踰덉㎏","modifiedAt":"2022-09-15T23:22:34.9891252","title":"�뀒�뒪�듃�젣紐�2","views":2,"tagList":["�젙�긽","�벑�궛"],"thumbnail":"�뜽�꽕�씪�씠誘몄�2.png"}],"pageInfo":{"page":1,"size":10,"totalElements":2,"totalPages":1}}</code></pre>
+<pre class="prettyprint highlight nowrap"><code>{"data":[{"reviewBoardId":1,"memberId":"memberId1","profileImageUrl":"프로필이미지.png","writer":"첫번째","modifiedAt":"2022-09-15T23:58:25.6005714","title":"테스트제목1","views":1,"tagList":["정상","등산"],"thumbnail":"썸네일이미지1.png"},{"reviewBoardId":2,"memberId":"memberId2","profileImageUrl":"프로필이미지.png","writer":"두번째","modifiedAt":"2022-09-15T23:58:25.6005714","title":"테스트제목2","views":2,"tagList":["정상","등산"],"thumbnail":"썸네일이미지2.png"}],"pageInfo":{"page":1,"size":10,"totalElements":2,"totalPages":1}}</code></pre>
 </div>
 </div>
 </div>
@@ -1824,7 +1824,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /reviewboards/1?_csrf=79afc556-21e1-49ce-ab9a-6ff8241ffe5b HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /reviewboards/1?_csrf=57c0dbb3-18ff-4e9c-8589-95006d97da0b HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 211
@@ -2007,7 +2007,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ echo '{"memberId":"2411017009","title":"테스트제목","body":"바디내용","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","thumbnail":"썸네일.png","tagList":["정상","등산"]}' | http PATCH 'http://localhost:8080/reviewboards/1?_csrf=79afc556-21e1-49ce-ab9a-6ff8241ffe5b' \
+<pre class="prettyprint highlight"><code data-lang="bash">$ echo '{"memberId":"2411017009","title":"테스트제목","body":"바디내용","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","thumbnail":"썸네일.png","tagList":["정상","등산"]}' | http PATCH 'http://localhost:8080/reviewboards/1?_csrf=57c0dbb3-18ff-4e9c-8589-95006d97da0b' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json'</code></pre>
 </div>
@@ -2015,7 +2015,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"�봽濡쒗븘�씠誘몄�.jpg","writer":"湲��벖�씠","modifiedAt":"2022-09-15T23:22:34.8414232","title":"�뀒�뒪�듃�젣紐�","body":"諛붾뵒�궡�슜","thumbnail":"�뜽�꽕�씪.png","localName":"�꽌�슱�떆","mountainName":"愿��븙�궛","courseName":"�벑�궛肄붿뒪A","views":1,"tagList":["�젙�긽","�벑�궛"],"commentList":[]}</code></pre>
+<pre class="prettyprint highlight nowrap"><code>{"reviewBoardId":1,"memberId":"2411017009","profileImageUrl":"프로필이미지.jpg","writer":"글쓴이","modifiedAt":"2022-09-15T23:58:25.5505702","title":"테스트제목","body":"바디내용","thumbnail":"썸네일.png","localName":"서울시","mountainName":"관악산","courseName":"등산코스A","views":1,"tagList":["정상","등산"],"commentList":[]}</code></pre>
 </div>
 </div>
 </div>
@@ -2025,7 +2025,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /reviewboards/1?_csrf=5280f2e4-30b8-4c4d-9f2d-cfbe3afe215f HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /reviewboards/1?_csrf=69d29db8-c802-4414-9260-0ab000ac15d3 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2056,7 +2056,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/reviewboards/1?_csrf=5280f2e4-30b8-4c4d-9f2d-cfbe3afe215f'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/reviewboards/1?_csrf=69d29db8-c802-4414-9260-0ab000ac15d3'</code></pre>
 </div>
 </div>
 </div>
@@ -2070,7 +2070,7 @@ Host: localhost:8080</code></pre>
 <h3 id="_댓글_생성">3.1. 댓글 생성</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /comment?_csrf=f7e6c042-1c2d-4db8-9ee6-3e744b0c6d14 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /comment?_csrf=5744c85c-3f16-4b2c-93cd-23afe2adc752 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 88
@@ -2177,7 +2177,7 @@ Host: localhost:8080
   "reviewBoardId" : 1,
   "memberId" : "1234567",
   "commentBody" : "commentBody"
-}' | http POST 'http://localhost:8080/comment?_csrf=f7e6c042-1c2d-4db8-9ee6-3e744b0c6d14' \
+}' | http POST 'http://localhost:8080/comment?_csrf=5744c85c-3f16-4b2c-93cd-23afe2adc752' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json'</code></pre>
 </div>
@@ -2190,7 +2190,7 @@ Host: localhost:8080
   "memberId" : "1234567",
   "profileImageUrl" : "profileImgUrl",
   "writer" : "testUser",
-  "modifiedAt" : "2022-09-15T23:22:33.5403004",
+  "modifiedAt" : "2022-09-15T23:58:25.0355693",
   "body" : "commentBody"
 }</code></pre>
 </div>
@@ -2201,7 +2201,7 @@ Host: localhost:8080
 <h3 id="_댓글_수정">3.2. 댓글 수정</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /comment/1?_csrf=b975318d-a114-46ed-9b0e-8744941265bc HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /comment/1?_csrf=47f03bb6-a398-4024-8804-d92d3b517acd HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 64
@@ -2320,7 +2320,7 @@ Host: localhost:8080
 <pre class="prettyprint highlight"><code data-lang="bash">$ echo '{
   "memberId" : "1234567",
   "commentBody" : "commentBody"
-}' | http PATCH 'http://localhost:8080/comment/1?_csrf=b975318d-a114-46ed-9b0e-8744941265bc' \
+}' | http PATCH 'http://localhost:8080/comment/1?_csrf=47f03bb6-a398-4024-8804-d92d3b517acd' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json'</code></pre>
 </div>
@@ -2333,7 +2333,7 @@ Host: localhost:8080
   "memberId" : "1234567",
   "profileImageUrl" : "profileImgUrl",
   "writer" : "testUser",
-  "modifiedAt" : "2022-09-15T23:22:33.4897859",
+  "modifiedAt" : "2022-09-15T23:58:25.0155694",
   "body" : "commentBody"
 }</code></pre>
 </div>
@@ -2344,7 +2344,7 @@ Host: localhost:8080
 <h3 id="_댓글_삭제">3.3. 댓글 삭제</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /comment/1?_csrf=ccbabfe1-8952-45ca-9521-7864f4bfd378 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /comment/1?_csrf=225f0523-edbd-408a-8789-cf9ddf3b9e8b HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2375,7 +2375,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/comment/1?_csrf=ccbabfe1-8952-45ca-9521-7864f4bfd378'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/comment/1?_csrf=225f0523-edbd-408a-8789-cf9ddf3b9e8b'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2466,7 +2466,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>[{"tagName":"100��紐낆궛"},{"tagName":"200��紐낆궛"},{"tagName":"400��紐낆궛"},{"tagName":"�벑�궛"},{"tagName":"�궛"}]</code></pre>
+<pre class="prettyprint highlight nowrap"><code>[{"tagName":"100대명산"},{"tagName":"200대명산"},{"tagName":"400대명산"},{"tagName":"등산"},{"tagName":"산"}]</code></pre>
 </div>
 </div>
 </div>
@@ -2562,7 +2562,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{"id":1,"weatherLocal":"�꽌�슱�듅蹂꾩떆","weatherCity":"�꽌�슱","weatherCode":"11B10101"}</code></pre>
+<pre class="prettyprint highlight nowrap"><code>{"id":1,"weatherLocal":"서울특별시","weatherCity":"서울","weatherCode":"11B10101"}</code></pre>
 </div>
 </div>
 </div>
@@ -2613,7 +2613,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>[{"localName":"�꽌�슱�듅蹂꾩떆 愿��븙援�"},{"localName":"寃쎄린�룄 �떆�씎�떆"},{"localName":"媛뺤썝�룄 異섏쿇�떆"},{"localName":"寃쎌긽�궓�룄 吏꾩＜�떆"},{"localName":"���쟾愿묒뿭�떆 �쑀�꽦援�"},{"localName":"�쟾�씪遺곷룄 �쟾二쇱떆"}]</code></pre>
+<pre class="prettyprint highlight nowrap"><code>[{"localName":"서울특별시 관악구"},{"localName":"경기도 시흥시"},{"localName":"강원도 춘천시"},{"localName":"경상남도 진주시"},{"localName":"대전광역시 유성구"},{"localName":"전라북도 전주시"}]</code></pre>
 </div>
 </div>
 </div>
@@ -2704,9 +2704,17 @@ Host: localhost:8080</code></pre>
 <div class="sect3">
 <h4 id="_sample_19">6.2.3. Sample</h4>
 <div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/mountain/%EA%B4%80%EC%95%85%EC%82%B0' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{"@id":1,"id":1,"mountainName":"愿��븙�궛","local":{"id":1,"localName":"�꽌�슱�듅蹂꾩떆 愿��븙援�"}}</code></pre>
+<pre class="prettyprint highlight nowrap"><code>{"@id":1,"id":1,"mountainName":"관악산","local":{"id":1,"localName":"서울특별시 관악구"}}</code></pre>
 </div>
 </div>
 </div>
@@ -2802,7 +2810,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>[{"mountainName":"愿��븙�궛"},{"mountainName":"�궪�꽦�궛"},{"mountainName":"泥�猷≪궛"},{"mountainName":"泥�怨꾩궛"}]</code></pre>
+<pre class="prettyprint highlight nowrap"><code>[{"mountainName":"관악산"},{"mountainName":"삼성산"},{"mountainName":"청룡산"},{"mountainName":"청계산"}]</code></pre>
 </div>
 </div>
 </div>
@@ -2923,9 +2931,17 @@ Host: localhost:8080</code></pre>
 <div class="sect3">
 <h4 id="_sample_21">6.4.3. Sample</h4>
 <div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/course/%EA%B4%80%EC%95%85%EC%82%B0%20%EB%93%B1%EC%82%B0%EB%A1%9C%20A' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{"id":1,"courseName":"愿��븙�궛 �벑�궛濡� A","courseLocation":"[37.12345678, 118.12345678]","courseLevel":"�븯","courseDistance":"145","mountain":{"@id":1,"id":1,"mountainName":"愿��븙�궛","local":{"id":1,"localName":"�꽌�슱�듅蹂꾩떆 愿��븙援�"}}}</code></pre>
+<pre class="prettyprint highlight nowrap"><code>{"id":1,"courseName":"관악산 등산로 A","courseLocation":"[37.12345678, 118.12345678]","courseLevel":"하","courseDistance":"145","mountain":{"@id":1,"id":1,"mountainName":"관악산","local":{"id":1,"localName":"서울특별시 관악구"}}}</code></pre>
 </div>
 </div>
 </div>
@@ -3031,7 +3047,7 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="title">Response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>[{"courseName":"愿��븙�궛 �벑�궛濡� A"},{"courseName":"愿��븙�궛 �벑�궛濡� B"},{"courseName":"愿��븙�궛 �벑�궛濡� C"},{"courseName":"�궪�꽦�궛 �벑�궛濡� A"},{"courseName":"�궪�꽦�궛 �벑�궛濡� B"},{"courseName":"泥�怨꾩궛 �벑�궛濡� A"}]</code></pre>
+<pre class="prettyprint highlight nowrap"><code>[{"courseName":"관악산 등산로 A"},{"courseName":"관악산 등산로 B"},{"courseName":"관악산 등산로 C"},{"courseName":"삼성산 등산로 A"},{"courseName":"삼성산 등산로 B"},{"courseName":"청계산 등산로 A"}]</code></pre>
 </div>
 </div>
 </div>
@@ -3042,7 +3058,7 @@ Host: localhost:8080</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-09-15 23:21:49 +0900
+Last updated 2022-09-15 23:58:02 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
