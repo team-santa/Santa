@@ -1,6 +1,7 @@
 package com.developer.santa.reviewboards.controller;
 
 import com.developer.santa.member.annotation.WithMockCustomUser;
+import com.developer.santa.member.entity.Member;
 import com.developer.santa.member.oauth.entity.RoleType;
 import com.developer.santa.member.oauth.token.AuthToken;
 import com.developer.santa.member.oauth.token.AuthTokenProvider;
