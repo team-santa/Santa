@@ -24,6 +24,7 @@ import { ChageSelectedPlace } from "src/types/review";
 import { Wrapper, SListContainer } from "./ReviewListWrapper";
 
 const ReviewList = () => {
+  // http://www.bullmetrix.com/wp-content/plugins/elementor/assets/images/no-search-results.svg
   const dispatch = useAppDispatch();
   const {
     isLoading,

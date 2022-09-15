@@ -6,10 +6,11 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "src/redux";
 import { useEffect, useState } from "react";
-import { getReviewDetail } from "src/redux/actions/review";
+import { addComment, getReviewDetail } from "src/redux/actions/review";
 import { useModal } from "src/components/Modal";
 import { getDateToString } from "src/utils";
 import { useUser } from "src/utils/localStorage";
+import parse from "html-react-parser";
 import {
   Wrapper,
   SCommentsContainer,
@@ -21,7 +22,7 @@ const ReviewDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { memberId: userId } = useUser();
+  const user = useUser();
   const [inputValue, setInputValue] = useState("");
   const { reviewDetail } = useAppSelector((state) => state.review);
   const { openModal, closeModal } = useModal({
@@ -29,6 +30,16 @@ const ReviewDetail = () => {
     height: "110px",
     width: "70%",
   });
+
+  const handleAddComment = () => {
+    dispatch(
+      addComment({
+        userId: user.memberId,
+        body: inputValue,
+      })
+    );
+    setInputValue("");
+  };
 
   useEffect(() => {
     dispatch(getReviewDetail({ reviewBoardId: params.id as string }));
@@ -50,24 +61,27 @@ const ReviewDetail = () => {
               <span>·</span>
               <span>조회 {reviewDetail.views}</span>
             </div>
-            <div>
-              <span onClick={() => navigate(`/main/write/${params.id}`)}>
-                수정
-              </span>
-              <span>·</span>
-              <span
-                onClick={() =>
-                  openModal(
-                    <DeleteModal
-                      type="review"
-                      reviewBoardId={reviewDetail.reviewBoardId}
-                    />
-                  )
-                }
-              >
-                삭제
-              </span>
-            </div>
+            {!user ||
+              (user.memberId === reviewDetail.memberId && (
+                <div>
+                  <span onClick={() => navigate(`/main/write/${params.id}`)}>
+                    수정
+                  </span>
+                  <span>·</span>
+                  <span
+                    onClick={() =>
+                      openModal(
+                        <DeleteModal
+                          type="review"
+                          reviewBoardId={reviewDetail.reviewBoardId}
+                        />
+                      )
+                    }
+                  >
+                    삭제
+                  </span>
+                </div>
+              ))}
           </div>
           <div className="hashTag-container">
             {reviewDetail.tagList.map((tag) => (
@@ -79,7 +93,7 @@ const ReviewDetail = () => {
           <Slider imgList={[reviewDetail.thumbnail]} />
         </section>
         <section className="review-container">
-          <p>{reviewDetail.body}</p>
+          {parse(reviewDetail.body)}
         </section>
         <SCommentsContainer>
           <h1>댓글</h1>
@@ -102,7 +116,9 @@ const ReviewDetail = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button type="button">등록</button>
+          <button type="button" onClick={handleAddComment}>
+            등록
+          </button>
         </SInputContainer>
       </Wrapper>
     );
