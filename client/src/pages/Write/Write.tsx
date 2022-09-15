@@ -21,12 +21,27 @@ import { DropDown } from "src/components";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import Resizer from "react-image-file-resizer";
 import LiveTag from "src/components/TagBox/LiveTag";
+import {
+  getCourseList,
+  getLocalList,
+  getMountainList,
+} from "src/redux/actions/review";
+import {
+  changeSelectedPlace,
+  resetOption,
+  useAppDispatch,
+  useAppSelector,
+} from "src/redux";
+import { ChageSelectedPlace } from "src/types";
 import CustomToolbar, { formats, modules } from "./CustomToolbar";
 
 const Write = () => {
   const navigate = useNavigate();
   const user = useUser();
-
+  const dispatch = useAppDispatch();
+  const { localList, mountainList, courseList } = useAppSelector(
+    (state) => state.review
+  );
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<string>("");
   const [tag, setTag] = useState("");
@@ -75,10 +90,10 @@ const Write = () => {
     if (debouceValue.length === 0) setIsOpen(false);
   }, [debouceValue]);
 
-  // useEffect(() => {
-  //   dispatch(resetOption());
-  //   dispatch(getLocalList());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(resetOption());
+    dispatch(getLocalList());
+  }, [dispatch]);
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTitle(e.currentTarget.value);
@@ -106,18 +121,18 @@ const Write = () => {
     }
   }
 
-  // const handleDispatch = (payload: ChageSelectedPlace) => {
-  //   const { name } = payload;
-  //   dispatch(changeSelectedPlace(payload));
+  const handleDispatch = (payload: ChageSelectedPlace) => {
+    const { name } = payload;
+    dispatch(changeSelectedPlace(payload));
 
-  //   if (name === "local") {
-  //     dispatch(getMountainList());
-  //   }
+    if (name === "local") {
+      dispatch(getMountainList());
+    }
 
-  //   if (name === "mountain") {
-  //     dispatch(getCourseList());
-  //   }
-  // };
+    if (name === "mountain") {
+      dispatch(getCourseList());
+    }
+  };
 
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -134,7 +149,7 @@ const Write = () => {
     };
 
     console.log(requestForm);
-    const result = axiosAuthInstance.post("/reviewboards", requestForm);
+    const result = await axiosAuthInstance.post("/reviewboards", requestForm);
     console.log("result: ", result);
 
     navigate("/review");
