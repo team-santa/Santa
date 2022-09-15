@@ -49,7 +49,7 @@ public class MountainControllerTest {
     private MountainService mountainService;
 
     @Test
-    public void getMountain() throws Exception {
+    public void getDetailMountain() throws Exception {
         String mountain = "관악산";
         Local local = new Local(1L,"서울특별시 관악구");
         Mountain  mountainDetail = new Mountain (1L,mountain,local);
@@ -66,7 +66,7 @@ public class MountainControllerTest {
                 .andExpect(jsonPath("mountainName").value(mountain))
                 .andExpect(jsonPath("local.localName").value(local.getLocalName()))
                 .andDo(document(
-                        "get-mountain",
+                        "get-mountainDetail",
                         pathParameters(
                                 parameterWithName("mountain").description("산 이름")
                         ),
