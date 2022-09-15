@@ -54,7 +54,6 @@ public class ReviewBoardRequestDto {
     @NoArgsConstructor
     public static class Patch{
 
-        private long reviewBoardId;
 
         @NotBlank
         private String memberId;
@@ -75,9 +74,9 @@ public class ReviewBoardRequestDto {
 
 
 
-        public void setReviewBoardId(long reviewBoardId) {
-            this.reviewBoardId = reviewBoardId;
-        }
+//        public void setReviewBoardId(long reviewBoardId) {
+//            this.reviewBoardId = reviewBoardId;
+//        }
 
 //        public String getThumbnail() {
 //            return thumbnail.orElse(null);

@@ -322,7 +322,6 @@ class ReviewBoardsControllerTest {
         LocalDateTime dateTime = LocalDateTime.now();
 
         ReviewBoardRequestDto.Patch patch = new ReviewBoardRequestDto.Patch(
-                1L,
                 "2411017009",
                 "테스트제목",
                 "바디내용",
@@ -372,7 +371,6 @@ class ReviewBoardsControllerTest {
                         )
                         , requestFields(
                                 List.of(
-                                        fieldWithPath("reviewBoardId").type(JsonFieldType.NUMBER).description("게시판식별자 ID"),
                                         fieldWithPath("memberId").type(JsonFieldType.STRING).description("회원식별ID"),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("리뷰게시판 제목"),
                                         fieldWithPath("body").type(JsonFieldType.STRING).description("리뷰게시판 내용"),
