@@ -77,8 +77,8 @@ const ReviewList = () => {
       dispatch(getCourseList());
     }
 
-    // dispatch(resetPage());
-    // dispatch(getSpecificReviewList());
+    dispatch(resetPage());
+    dispatch(getSpecificReviewList());
   };
 
   const handleSortByViews = () => {
