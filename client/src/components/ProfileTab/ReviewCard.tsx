@@ -1,15 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 interface Props {
   title: string;
   img: string;
   tags: string[];
+  id: number;
 }
 
-const ReviewCard = ({ title, img, tags }: Props) => {
+const ReviewCard = ({ title, img, tags, id }: Props) => {
+  const navigate = useNavigate();
   return (
-    <CardBox>
+    <CardBox onClick={() => navigate(`/main/review/${id}`)}>
       <ImgBox>
         <img src={img} alt="ReviewImg" />
       </ImgBox>

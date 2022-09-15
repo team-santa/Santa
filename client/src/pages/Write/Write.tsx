@@ -141,9 +141,9 @@ const Write = () => {
       memberId: user.memberId,
       title,
       body: content,
-      localName: "서울시",
-      mountainName: "관악산",
-      courseName: "학바위능선",
+      localName: dropDownValue.local,
+      mountainName: dropDownValue.mountain,
+      courseName: dropDownValue.course,
       thumbnail: mainImg,
       tagList: tags,
     };
@@ -152,7 +152,7 @@ const Write = () => {
     const result = await axiosAuthInstance.post("/reviewboards", requestForm);
     console.log("result: ", result);
 
-    navigate("/review");
+    navigate("/main/review");
   };
 
   return (
@@ -218,7 +218,7 @@ const Write = () => {
         </div>
         <FileBox>
           <label htmlFor="profile">
-            {imgText} <MdOutlineAddAPhoto />
+            {imgText.slice(0, 30)} <MdOutlineAddAPhoto />
           </label>
           <input type="file" id="profile" onChange={fileChangedHandler} />
         </FileBox>

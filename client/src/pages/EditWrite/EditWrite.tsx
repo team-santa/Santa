@@ -16,50 +16,69 @@ import { colors } from "src/utils/colors";
 import axios from "axios";
 import useDebounce from "src/hooks/useDebounce";
 import { useUser } from "src/utils/localStorage";
-import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
+import { axiosAuthInstance } from "src/utils";
 import { DropDown } from "src/components";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import Resizer from "react-image-file-resizer";
 import LiveTag from "src/components/TagBox/LiveTag";
+import {
+  getCourseList,
+  getLocalList,
+  getMountainList,
+  getReviewDetail,
+} from "src/redux/actions/review";
+import {
+  changeSelectedPlace,
+  resetOption,
+  useAppDispatch,
+  useAppSelector,
+} from "src/redux";
+import { ChageSelectedPlace } from "src/types";
 import CustomToolbar, { formats, modules } from "../Write/CustomToolbar";
 
 const EditWrite = () => {
-  const { id } = useParams();
-  console.log(id);
-
   const navigate = useNavigate();
   const user = useUser();
+  const params = useParams();
+  console.log(params);
+  const dispatch = useAppDispatch();
+  const { reviewDetail } = useAppSelector((state) => state.review);
+  const { localList, mountainList, courseList } = useAppSelector(
+    (state) => state.review
+  );
+  console.log(reviewDetail);
+  useEffect(() => {
+    dispatch(getReviewDetail({ reviewBoardId: params.id as string }));
+  }, [dispatch, params]);
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState<string>("");
+  const [title, setTitle] = useState(reviewDetail?.title);
+  const [content, setContent] = useState<string>(reviewDetail?.body || "");
   const [tag, setTag] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(reviewDetail?.tagList || []);
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOption] = useState<string[]>([]);
-  const [imgText, setImgText] = useState("대표 이미지를 선택해 주세요.");
+  const [imgText, setImgText] = useState(reviewDetail?.thumbnail);
   const [mainImg, setMainImg] = useState<
     string | null | File | Blob | ProgressEvent<FileReader>
   >(null);
 
-  // DropDown
   const [dropDownValue, setDropDownValue] = useState({
-    region: "지역",
+    local: "지역",
     mountain: "산 이름",
-    hikingTrail: "등산로",
+    course: "등산로",
   });
-
   const [dropDownIsOpen, setDropDownIsOpen] = useState({
-    region: false,
+    local: false,
     mountain: false,
-    hikingTrail: false,
+    course: false,
   });
 
-  const handleClick = useCallback(
+  const handleDropDownClick = useCallback(
     (name: string) => {
       const newObj = {
-        region: false,
+        local: false,
         mountain: false,
-        hikingTrail: false,
+        course: false,
       };
       newObj[name as keyof typeof newObj] =
         !dropDownIsOpen[name as keyof typeof newObj];
@@ -69,11 +88,8 @@ const EditWrite = () => {
   );
 
   const debouceValue = useDebounce(tag);
-
   const fetchTagList = async () => {
-    const result = await axios.get(
-      `https://olive-shrimps-go-222-117-186-4.loca.lt/v1/tag?text=${debouceValue}`
-    );
+    const result = await axiosAuthInstance.get(`tag?text=${debouceValue}`);
     const tagNames: string[] = result.data.map((data: any) => data.tagName);
     setOption(tagNames);
   };
@@ -82,6 +98,11 @@ const EditWrite = () => {
     if (debouceValue) fetchTagList();
     if (debouceValue.length === 0) setIsOpen(false);
   }, [debouceValue]);
+
+  useEffect(() => {
+    dispatch(resetOption());
+    dispatch(getLocalList());
+  }, [dispatch]);
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTitle(e.currentTarget.value);
@@ -109,19 +130,39 @@ const EditWrite = () => {
     }
   }
 
+  const handleDispatch = (payload: ChageSelectedPlace) => {
+    const { name } = payload;
+    dispatch(changeSelectedPlace(payload));
+
+    if (name === "local") {
+      dispatch(getMountainList());
+    }
+
+    if (name === "mountain") {
+      dispatch(getCourseList());
+    }
+  };
+
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const requestForm = {
-      username: user.username,
-      thumbnail: mainImg,
+      reviewBoardId: params.id as string,
+      memberId: user.memberId,
       title,
-      content,
-      tags,
-      dropDownValue,
+      body: content,
+      localName: dropDownValue.local,
+      mountainName: dropDownValue.mountain,
+      courseName: dropDownValue.course,
+      thumbnail: mainImg,
+      tagList: tags,
     };
 
-    console.log(requestForm);
+    await axiosAuthInstance.patch(
+      `/reviewboards/${reviewDetail?.reviewBoardId}`,
+      requestForm
+    );
+    navigate("/main/review");
   };
 
   return (
@@ -154,40 +195,40 @@ const EditWrite = () => {
         <div className="dropdown-column">
           <DropDown
             width="100%"
-            list={REGION_LIST}
+            list={localList}
             name="local"
             isOpen={dropDownIsOpen}
-            value={dropDownValue.region}
+            value={dropDownValue.local}
             setValue={setDropDownValue}
-            handleClick={handleClick}
-            dispatch={(name) => console.log(name)}
+            handleClick={handleDropDownClick}
+            dispatch={handleDispatch}
           />
           <DropDown
             width="100%"
-            list={MOUNTAIN_LIST}
+            list={mountainList}
             name="mountain"
             isOpen={dropDownIsOpen}
             value={dropDownValue.mountain}
             setValue={setDropDownValue}
-            handleClick={handleClick}
-            dispatch={(name) => console.log(name)}
+            handleClick={handleDropDownClick}
+            dispatch={handleDispatch}
           />
         </div>
         <div className="dropdown-column">
           <DropDown
             width="100%"
-            list={HIKING_TRAIL_LIST}
+            list={courseList}
             name="course"
             isOpen={dropDownIsOpen}
-            value={dropDownValue.hikingTrail}
+            value={dropDownValue.course}
             setValue={setDropDownValue}
-            handleClick={handleClick}
-            dispatch={(name) => console.log(name)}
+            handleClick={handleDropDownClick}
+            dispatch={handleDispatch}
           />
         </div>
         <FileBox>
           <label htmlFor="profile">
-            {imgText} <MdOutlineAddAPhoto />
+            {imgText?.slice(0, 30)} <MdOutlineAddAPhoto />
           </label>
           <input type="file" id="profile" onChange={fileChangedHandler} />
         </FileBox>
