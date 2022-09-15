@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main, Landing, ReviewList, ReviewDetail, NotFound } from "src/pages";
+import { EditProfile } from "./pages/EditProfile";
+import EditWrite from "./pages/EditWrite/EditWrite";
 import { GetToken } from "./pages/GetToken";
 import { Home } from "./pages/Home";
 import { KakaoMap } from "./pages/KakaoMap";
@@ -18,12 +20,13 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="map" element={<KakaoMap />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="editprofile" element={<EditProfile />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
           <Route path="review" element={<ReviewList />} />
           <Route path="review/:id" element={<ReviewDetail />} />
           <Route path="write" element={<Write />} />
-          <Route path="write/:id" element={<div>edit</div>} />
+          <Route path="write/:id" element={<EditWrite />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

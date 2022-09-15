@@ -7,7 +7,7 @@
 /* eslint-disable react/button-has-type */
 import "react-quill/dist/quill.snow.css";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Dialog from "src/components/Dialog/Dialog";
 import ReactQuill from "react-quill";
 import styled from "styled-components";
@@ -16,14 +16,17 @@ import { colors } from "src/utils/colors";
 import axios from "axios";
 import useDebounce from "src/hooks/useDebounce";
 import { useUser } from "src/utils/localStorage";
-import { axiosAuthInstance } from "src/utils";
+import { REGION_LIST, MOUNTAIN_LIST, HIKING_TRAIL_LIST } from "src/utils";
 import { DropDown } from "src/components";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import Resizer from "react-image-file-resizer";
 import LiveTag from "src/components/TagBox/LiveTag";
-import CustomToolbar, { formats, modules } from "./CustomToolbar";
+import CustomToolbar, { formats, modules } from "../Write/CustomToolbar";
 
-const Write = () => {
+const EditWrite = () => {
+  const { id } = useParams();
+  console.log(id);
+
   const navigate = useNavigate();
   const user = useUser();
 
@@ -38,23 +41,25 @@ const Write = () => {
     string | null | File | Blob | ProgressEvent<FileReader>
   >(null);
 
+  // DropDown
   const [dropDownValue, setDropDownValue] = useState({
-    local: "지역",
+    region: "지역",
     mountain: "산 이름",
-    course: "등산로",
-  });
-  const [dropDownIsOpen, setDropDownIsOpen] = useState({
-    local: false,
-    mountain: false,
-    course: false,
+    hikingTrail: "등산로",
   });
 
-  const handleDropDownClick = useCallback(
+  const [dropDownIsOpen, setDropDownIsOpen] = useState({
+    region: false,
+    mountain: false,
+    hikingTrail: false,
+  });
+
+  const handleClick = useCallback(
     (name: string) => {
       const newObj = {
-        local: false,
+        region: false,
         mountain: false,
-        course: false,
+        hikingTrail: false,
       };
       newObj[name as keyof typeof newObj] =
         !dropDownIsOpen[name as keyof typeof newObj];
@@ -64,8 +69,11 @@ const Write = () => {
   );
 
   const debouceValue = useDebounce(tag);
+
   const fetchTagList = async () => {
-    const result = await axiosAuthInstance.get(`tag?text=${debouceValue}`);
+    const result = await axios.get(
+      `https://olive-shrimps-go-222-117-186-4.loca.lt/v1/tag?text=${debouceValue}`
+    );
     const tagNames: string[] = result.data.map((data: any) => data.tagName);
     setOption(tagNames);
   };
@@ -74,11 +82,6 @@ const Write = () => {
     if (debouceValue) fetchTagList();
     if (debouceValue.length === 0) setIsOpen(false);
   }, [debouceValue]);
-
-  // useEffect(() => {
-  //   dispatch(resetOption());
-  //   dispatch(getLocalList());
-  // }, [dispatch]);
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTitle(e.currentTarget.value);
@@ -106,38 +109,19 @@ const Write = () => {
     }
   }
 
-  // const handleDispatch = (payload: ChageSelectedPlace) => {
-  //   const { name } = payload;
-  //   dispatch(changeSelectedPlace(payload));
-
-  //   if (name === "local") {
-  //     dispatch(getMountainList());
-  //   }
-
-  //   if (name === "mountain") {
-  //     dispatch(getCourseList());
-  //   }
-  // };
-
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const requestForm = {
-      memberId: user.memberId,
-      title,
-      body: content,
-      localName: "서울시",
-      mountainName: "관악산",
-      courseName: "학바위능선",
+      username: user.username,
       thumbnail: mainImg,
-      tagList: tags,
+      title,
+      content,
+      tags,
+      dropDownValue,
     };
 
     console.log(requestForm);
-    const result = axiosAuthInstance.post("/reviewboards", requestForm);
-    console.log("result: ", result);
-
-    navigate("/review");
   };
 
   return (
@@ -170,35 +154,35 @@ const Write = () => {
         <div className="dropdown-column">
           <DropDown
             width="100%"
-            list={localList}
+            list={REGION_LIST}
             name="local"
             isOpen={dropDownIsOpen}
-            value={dropDownValue.local}
+            value={dropDownValue.region}
             setValue={setDropDownValue}
-            handleClick={handleDropDownClick}
-            dispatch={handleDispatch}
+            handleClick={handleClick}
+            dispatch={(name) => console.log(name)}
           />
           <DropDown
             width="100%"
-            list={mountainList}
+            list={MOUNTAIN_LIST}
             name="mountain"
             isOpen={dropDownIsOpen}
             value={dropDownValue.mountain}
             setValue={setDropDownValue}
-            handleClick={handleDropDownClick}
-            dispatch={handleDispatch}
+            handleClick={handleClick}
+            dispatch={(name) => console.log(name)}
           />
         </div>
         <div className="dropdown-column">
           <DropDown
             width="100%"
-            list={courseList}
+            list={HIKING_TRAIL_LIST}
             name="course"
             isOpen={dropDownIsOpen}
-            value={dropDownValue.course}
+            value={dropDownValue.hikingTrail}
             setValue={setDropDownValue}
-            handleClick={handleDropDownClick}
-            dispatch={handleDispatch}
+            handleClick={handleClick}
+            dispatch={(name) => console.log(name)}
           />
         </div>
         <FileBox>
@@ -233,7 +217,7 @@ const Write = () => {
   );
 };
 
-export default Write;
+export default EditWrite;
 
 const Container = styled.div`
   overflow-y: scroll;

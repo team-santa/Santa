@@ -105,6 +105,8 @@ const DropBox = styled.div`
   overflow: scroll;
   animation: growDown 250ms ease-in;
   transform-origin: top center;
+  display: flex;
+  flex-direction: column;
 
   span {
     display: flex;
