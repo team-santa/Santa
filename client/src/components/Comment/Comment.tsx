@@ -28,7 +28,7 @@ const Comment = ({
 }: Prop) => {
   const [value, setValue] = useState(body);
   const [isEdit, setIsEdit] = useState(false);
-  const { memberId: userId } = useUser();
+  const user = useUser();
   const dispatch = useAppDispatch();
 
   const { openModal, closeModal } = useModal({
@@ -40,7 +40,7 @@ const Comment = ({
   const handleEdit = () => {
     dispatch(
       editComment({
-        userId,
+        userId: user.memberId,
         body: value,
         commentId,
       })
@@ -60,17 +60,22 @@ const Comment = ({
           <span>{writer}</span>
           <span>{getDateToString(modifiedAt)}</span>
         </User>
-        <SUtils>
-          <span onClick={() => setIsEdit(true)}>수정</span>
-          <span>·</span>
-          <span
-            onClick={() =>
-              openModal(<DeleteModal type="comment" commentId={commentId} />)
-            }
-          >
-            삭제
-          </span>
-        </SUtils>
+        {!user ||
+          (user.memberId === memberId && (
+            <SUtils>
+              <span onClick={() => setIsEdit(true)}>수정</span>
+              <span>·</span>
+              <span
+                onClick={() =>
+                  openModal(
+                    <DeleteModal type="comment" commentId={commentId} />
+                  )
+                }
+              >
+                삭제
+              </span>
+            </SUtils>
+          ))}
       </SHeader>
       {isEdit ? (
         <SEditContainer>

@@ -22,7 +22,7 @@ const ReviewDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { memberId: userId } = useUser();
+  const user = useUser();
   const [inputValue, setInputValue] = useState("");
   const { reviewDetail } = useAppSelector((state) => state.review);
   const { openModal, closeModal } = useModal({
@@ -34,7 +34,7 @@ const ReviewDetail = () => {
   const handleAddComment = () => {
     dispatch(
       addComment({
-        userId,
+        userId: user.memberId,
         body: inputValue,
       })
     );
@@ -61,24 +61,27 @@ const ReviewDetail = () => {
               <span>·</span>
               <span>조회 {reviewDetail.views}</span>
             </div>
-            <div>
-              <span onClick={() => navigate(`/main/write/${params.id}`)}>
-                수정
-              </span>
-              <span>·</span>
-              <span
-                onClick={() =>
-                  openModal(
-                    <DeleteModal
-                      type="review"
-                      reviewBoardId={reviewDetail.reviewBoardId}
-                    />
-                  )
-                }
-              >
-                삭제
-              </span>
-            </div>
+            {!user ||
+              (user.memberId === reviewDetail.memberId && (
+                <div>
+                  <span onClick={() => navigate(`/main/write/${params.id}`)}>
+                    수정
+                  </span>
+                  <span>·</span>
+                  <span
+                    onClick={() =>
+                      openModal(
+                        <DeleteModal
+                          type="review"
+                          reviewBoardId={reviewDetail.reviewBoardId}
+                        />
+                      )
+                    }
+                  >
+                    삭제
+                  </span>
+                </div>
+              ))}
           </div>
           <div className="hashTag-container">
             {reviewDetail.tagList.map((tag) => (
