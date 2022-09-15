@@ -148,8 +148,8 @@ export const addComment = createAsyncThunk<
       getReviewDetail({ reviewBoardId: reviewBoardId as unknown as string })
     );
     return;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
   }
 });
 
@@ -169,7 +169,25 @@ export const editComment = createAsyncThunk<
     thunkAPI.dispatch(
       getReviewDetail({ reviewBoardId: reviewBoardId as unknown as string })
     );
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const deleteComment = createAsyncThunk<
+  void,
+  { commentId: number },
+  CreateAsyncThunkTypes
+>("review/deleteComment", async (payload, thunkAPI) => {
+  try {
+    const { commentId } = payload;
+    const { reviewBoardId } = thunkAPI.getState().review.reviewDetail!;
+    await axiosAuthInstance.delete(`comment/${commentId}`);
+    thunkAPI.dispatch(
+      getReviewDetail({ reviewBoardId: reviewBoardId as unknown as string })
+    );
+    return;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
   }
 });

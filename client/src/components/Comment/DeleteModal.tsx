@@ -1,5 +1,5 @@
 import { useAppDispatch } from "src/redux";
-import { deleteReview } from "src/redux/actions/review";
+import { deleteComment, deleteReview } from "src/redux/actions/review";
 import styled from "styled-components";
 
 import { useModal } from "../Modal";
@@ -54,6 +54,9 @@ const DeleteModal = ({ type, reviewBoardId, commentId }: Prop) => {
     console.log(type, reviewBoardId);
     if (type === "review") {
       dispatch(deleteReview({ reviewBoardId: reviewBoardId as number }));
+    }
+    if (type === "comment") {
+      dispatch(deleteComment({ commentId: commentId as number }));
     }
     closeModal();
   };

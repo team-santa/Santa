@@ -19,8 +19,8 @@ import { ReviewInitialState, ChageSelectedPlace } from "../../types/review";
 
 const initialState: ReviewInitialState = {
   isLoading: false,
-  reviewList: REVIEW_LIST,
-  reviewDetail: REVIEW_DETAIL,
+  reviewList: [],
+  reviewDetail: null,
   localList: [],
   mountainList: [],
   courseList: [],
