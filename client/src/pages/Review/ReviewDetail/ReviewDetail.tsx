@@ -35,6 +35,8 @@ const ReviewDetail = () => {
   });
 
   const handleAddComment = () => {
+    if (!inputValue.trim().length) return;
+
     dispatch(
       addComment({
         userId: user.memberId,
