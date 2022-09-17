@@ -77,6 +77,12 @@ const reviewSlice = createSlice({
       state.selectedCourse = "";
       state.sortByViews = false;
       state.currentPage = 1;
+      state.pageInfo = {
+        page: 1,
+        size: 10,
+        totalElement: 100,
+        totalPages: 3,
+      };
     },
   },
   extraReducers: (builder) =>
