@@ -63,7 +63,7 @@ export const deleteReview = createAsyncThunk(
   "review/deleteReview",
   async (payload: { reviewBoardId: number }, thunkAPI) => {
     try {
-      await axiosInstance.delete(`/reviewboards/${payload.reviewBoardId}`);
+      await axiosAuthInstance.delete(`/reviewboards/${payload.reviewBoardId}`);
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }

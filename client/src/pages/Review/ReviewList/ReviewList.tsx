@@ -95,7 +95,6 @@ const ReviewList = () => {
   useEffect(() => {
     dispatch(resetOption());
     dispatch(getLocalList());
-    console.log("리퀘스트");
     dispatch(getReviewList());
   }, [dispatch]);
 
