@@ -162,7 +162,7 @@ const ReviewList = () => {
               />
             ))
           ) : (
-            <NoResult />
+            <NoResult type="review" />
           )}
           {isLoading && <LoadingSpinner />}
         </SListContainer>
