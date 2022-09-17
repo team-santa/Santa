@@ -18,6 +18,9 @@ import {
   SInputContainer,
 } from "./ReviewDetailWrapper";
 
+const noImg =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBKEGmmEQ4WlpXIfdqhhaFbJER2pXMLOFU3A&usqp=CAU";
+
 const ReviewDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -90,7 +93,11 @@ const ReviewDetail = () => {
           </div>
         </section>
         <section className="image-container">
-          <Slider imgList={[reviewDetail.thumbnail]} />
+          <Slider
+            imgList={
+              reviewDetail.thumbnail ? [reviewDetail.thumbnail] : [noImg]
+            }
+          />
         </section>
         <section className="review-container">
           {parse(reviewDetail.body)}

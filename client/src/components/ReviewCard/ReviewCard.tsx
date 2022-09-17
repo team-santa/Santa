@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { getDateToString } from "src/utils";
 import { Wrapper } from "./ReviewCardWrapper";
 
+const noImg =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBKEGmmEQ4WlpXIfdqhhaFbJER2pXMLOFU3A&usqp=CAU";
+
 interface Prop {
   reviewBoardId: number;
   title: string;
@@ -51,7 +54,7 @@ const ReviewCard = ({
             </div>
           </div>
           <div className="img-container">
-            <img src={thumbnail} alt="mountain" />
+            <img src={thumbnail || noImg} alt="mountain" />
           </div>
         </div>
         <div className="review-hashtag-container">
