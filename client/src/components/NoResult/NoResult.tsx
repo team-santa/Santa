@@ -31,15 +31,23 @@ const SContainer = styled.div`
   }
 `;
 
-const NoResult = () => {
+interface Prop {
+  type: "review" | "comment";
+}
+
+const NoResult = ({ type }: Prop) => {
   return (
     <SContainer>
       <img
         src="http://www.bullmetrix.com/wp-content/plugins/elementor/assets/images/no-search-results.svg"
         alt="no-result"
       />
-      <p>검색 결과가 없습니다.</p>
-      <Link to="/main/write">리뷰 등록하러 가기</Link>
+      {type === "review" && (
+        <>
+          <p>검색 결과가 없습니다.</p>
+          <Link to="/main/write">리뷰 등록하러 가기</Link>
+        </>
+      )}
     </SContainer>
   );
 };
