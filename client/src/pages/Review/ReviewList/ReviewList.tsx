@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import { useCallback, useEffect, useState } from "react";
-import { DropDown, LoadingSpinner, ReviewCard } from "src/components";
+import { DropDown, LoadingSpinner, NoResult, ReviewCard } from "src/components";
 import { useInfiniteScroll } from "src/hooks/useInfiniteScroll";
 import {
   changeSelectedPlace,
@@ -147,19 +147,23 @@ const ReviewList = () => {
           </div>
         </div>
         <SListContainer>
-          {reviewList.map((review) => (
-            <ReviewCard
-              key={review.reviewBoardId}
-              reviewBoardId={review.reviewBoardId}
-              title={review.title}
-              thumbnail={review.thumbnail}
-              writer={review.writer}
-              profileImgUrl={review.profileImageUrl}
-              modifiedAt={review.modifiedAt}
-              views={review.views}
-              tagList={review.tagList}
-            />
-          ))}
+          {reviewList.length ? (
+            reviewList.map((review) => (
+              <ReviewCard
+                key={review.reviewBoardId}
+                reviewBoardId={review.reviewBoardId}
+                title={review.title}
+                thumbnail={review.thumbnail}
+                writer={review.writer}
+                profileImgUrl={review.profileImageUrl}
+                modifiedAt={review.modifiedAt}
+                views={review.views}
+                tagList={review.tagList}
+              />
+            ))
+          ) : (
+            <NoResult />
+          )}
           {isLoading && <LoadingSpinner />}
         </SListContainer>
         <div ref={setObservationTarget} />
