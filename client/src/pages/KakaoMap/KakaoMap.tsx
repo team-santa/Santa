@@ -1,27 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { IoClose, IoHeart } from "react-icons/io5";
+import { Map } from "react-kakao-maps-sdk";
 import { axiosInstance } from "src/utils";
-
-interface ILatlng {
-  lat: number;
-  lng: number;
-}
-
-interface IMountain {
-  title: string;
-  latlng: ILatlng;
-}
-
-interface IBounds {
-  sw: ILatlng;
-  ne: ILatlng;
-}
-
-interface IRegionCode {
-  region_1depth_name: string;
-  region_2depth_name: string;
-}
+import { IBounds, ILatlng, IMountain, IRegionCode } from "src/types/kakaomap";
+import EventMapMarker from "src/components/EventMapMarker/EventMapMarker";
 
 const KakaoMap = () => {
   const mapRef = useRef<kakao.maps.Map>(null);
@@ -32,15 +13,16 @@ const KakaoMap = () => {
         lat: 37.444473113711695,
         lng: 126.96389458550166,
       },
+      difficulty: "하",
     },
   ]);
   const [boundInfo, setBoundInfo] = useState<IBounds>();
-  const [isOpen, setIsOpen] = useState(false);
   const [center, setCenter] = useState<ILatlng>({
     lat: 37.444473113711695,
     lng: 126.96389458550166,
   });
   const [region, setRegion] = useState("");
+  const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
   const geocoder = new kakao.maps.services.Geocoder();
 
   const getMountainLists = () => {
@@ -126,6 +108,7 @@ const KakaoMap = () => {
               lat: el.geometry.coordinates[0][0][1],
             },
             title: el.properties.mntn_nm,
+            difficulty: el.properties.cat_nam,
           };
         })
       );
@@ -135,8 +118,6 @@ const KakaoMap = () => {
       return error;
     }
   };
-
-  console.log("mountainList", mountainList);
 
   useEffect(() => {
     getMountainLists();
@@ -152,75 +133,26 @@ const KakaoMap = () => {
     }
   }, [center]);
 
-  console.log(boundInfo);
-
   return (
-    <div>
-      <Map
-        center={center}
-        style={{ width: "100%", height: "100vh" }}
-        level={4}
-        ref={mapRef}
-        onDragEnd={getBoundInfo}
-      >
-        {mountainList.map((mountain: IMountain, idx: number) => (
-          <MapMarker
-            key={`${mountain.title}-${mountain.latlng}`}
-            position={mountain.latlng}
-            title={mountain.title}
-            clickable
-            onClick={() => setIsOpen(true)}
-          >
-            {isOpen && (
-              <div
-                style={{
-                  minWidth: "150px",
-                  display: "flex",
-                  flexDirection: "column",
-                  fontSize: "1.4rem",
-                  padding: "1rem",
-                  color: "#666",
-                  paddingLeft: "1.1rem",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    margin: 0,
-                    padding: 0,
-                    marginTop: "3px",
-                  }}
-                >
-                  <div
-                    style={{
-                      color: "#444",
-                      fontSize: "1.6rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {mountain.title}
-                  </div>
-                  <button
-                    style={{
-                      border: "none",
-                      backgroundColor: "transparent",
-                      fontSize: "2rem",
-                      marginTop: "-0.5rem",
-                      color: "#666",
-                    }}
-                    type="button"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <IoClose />
-                  </button>
-                </div>
-              </div>
-            )}
-          </MapMarker>
-        ))}
-      </Map>
-    </div>
+    <Map
+      center={center}
+      style={{ width: "100%", height: "100vh" }}
+      level={4}
+      ref={mapRef}
+      onDragEnd={getBoundInfo}
+    >
+      {mountainList.map((mountain: IMountain, idx: number) => (
+        <EventMapMarker
+          key={`EventMarkerContainer-${mountain.latlng.lat}-${mountain.latlng.lng}`}
+          position={mountain.latlng}
+          content={mountain.title}
+          difficulty={mountain.difficulty}
+          onClick={() => setSelectedMarker(idx)}
+          selectedMarker={selectedMarker}
+          idx={idx}
+        />
+      ))}
+    </Map>
   );
 };
 
