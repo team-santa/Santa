@@ -1,16 +1,35 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from "react";
+import { useAppDispatch } from "src/redux";
+import { editComment } from "src/redux/actions/review";
+import { getDateToString } from "src/utils";
+import { useUser } from "src/utils/localStorage";
 import styled from "styled-components";
 import { useModal } from "../Modal";
 import DeleteModal from "./DeleteModal";
 
-const text =
-  "우리나라에서 가장 높은 산인데 언젠가 한번 등산하겠지라고만 생각하고 막상 가려고하면 무서워서 못 갔던 곳 ~ ";
+interface Prop {
+  commentId: number;
+  memberId: string;
+  profileImageUrl: string;
+  writer: string;
+  modifiedAt: string;
+  body: string;
+}
 
-const Comment = () => {
-  const [value, setValue] = useState(text);
+const Comment = ({
+  commentId,
+  memberId,
+  profileImageUrl,
+  writer,
+  modifiedAt,
+  body,
+}: Prop) => {
+  const [value, setValue] = useState(body);
   const [isEdit, setIsEdit] = useState(false);
+  const user = useUser();
+  const dispatch = useAppDispatch();
 
   const { openModal, closeModal } = useModal({
     position: { x: "50%", y: "50%" },
@@ -19,6 +38,13 @@ const Comment = () => {
   });
 
   const handleEdit = () => {
+    dispatch(
+      editComment({
+        userId: user.memberId,
+        body: value,
+        commentId,
+      })
+    );
     setIsEdit(false);
   };
 
@@ -30,20 +56,26 @@ const Comment = () => {
     <SComment>
       <SHeader>
         <User>
-          <img
-            src="https://w.namu.la/s/91986ffc01b6136fb453c4ff8b3e63adf90e525e6b10e1643058339c924830276d1fc646c2ac918d1f31e83c59308ea232acb64afb280dabeee0afc024b9dd3022b4bcdb7c0bfb7aa9e44ebc858c8e7c71746540c7a8dce7894942e85f2d0b53"
-            alt="user"
-          />
-          <span>이재용</span>
-          <span>3분 전</span>
+          <img src={profileImageUrl} alt="user" />
+          <span>{writer}</span>
+          <span>{getDateToString(modifiedAt)}</span>
         </User>
-        <SUtils>
-          <span onClick={() => setIsEdit(true)}>수정</span>
-          <span>·</span>
-          <span onClick={() => openModal(<DeleteModal type="comment" />)}>
-            삭제
-          </span>
-        </SUtils>
+        {!user ||
+          (user.memberId === memberId && (
+            <SUtils>
+              <span onClick={() => setIsEdit(true)}>수정</span>
+              <span>·</span>
+              <span
+                onClick={() =>
+                  openModal(
+                    <DeleteModal type="comment" commentId={commentId} />
+                  )
+                }
+              >
+                삭제
+              </span>
+            </SUtils>
+          ))}
       </SHeader>
       {isEdit ? (
         <SEditContainer>

@@ -7,6 +7,9 @@ import {
   HIKING_TRAIL_LIST,
 } from "src/utils";
 import {
+  getCourseList,
+  getMountainList,
+  getLocalList,
   getReviewDetail,
   getReviewList,
   getSpecificReviewList,
@@ -16,11 +19,11 @@ import { ReviewInitialState, ChageSelectedPlace } from "../../types/review";
 
 const initialState: ReviewInitialState = {
   isLoading: false,
-  reviewList: REVIEW_LIST,
-  reviewDetail: REVIEW_DETAIL,
-  localList: REGION_LIST,
-  mountainList: MOUNTAIN_LIST,
-  courseList: HIKING_TRAIL_LIST,
+  reviewList: [],
+  reviewDetail: null,
+  localList: [],
+  mountainList: [],
+  courseList: [],
   selectedLocal: "",
   selectedMountain: "",
   selectedCourse: "",
@@ -64,6 +67,17 @@ const reviewSlice = createSlice({
       state.currentPage = 1;
       state.sortByViews = payload;
     },
+    resetOption: (state) => {
+      state.reviewList = [];
+      state.localList = [];
+      state.mountainList = [];
+      state.courseList = [];
+      state.selectedLocal = "";
+      state.selectedMountain = "";
+      state.selectedCourse = "";
+      state.sortByViews = false;
+      state.currentPage = 1;
+    },
   },
   extraReducers: (builder) =>
     builder // getReviewList
@@ -104,12 +118,25 @@ const reviewSlice = createSlice({
       .addCase(getReviewDetail.rejected, (state, { payload }) => {
         state.isLoading = false;
         console.log(payload);
+      })
+      .addCase(getLocalList.fulfilled, (state, { payload }) => {
+        const list = payload.map((el) => el.localName);
+        state.localList = list;
+      })
+      .addCase(getMountainList.fulfilled, (state, { payload }) => {
+        const list = payload.map((el) => el.mountainName);
+        state.mountainList = list;
+      })
+      .addCase(getCourseList.fulfilled, (state, { payload }) => {
+        const list = payload.map((el) => el.courseName);
+        state.courseList = list;
       }),
 });
 
 export const {
   increasePage,
   resetPage,
+  resetOption,
   changeSelectedPlace,
   changeSortByViews,
 } = reviewSlice.actions;

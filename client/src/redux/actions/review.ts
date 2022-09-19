@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable consistent-return */
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ReviewListPayload, ReviewList, ReviewDetail } from "src/types/index";
-import { axiosInstance } from "../../utils/axiosInstance";
+import { ReviewList, ReviewDetail } from "src/types/index";
+import { axiosAuthInstance, axiosInstance } from "../../utils/axiosInstance";
 import { CreateAsyncThunkTypes } from "../store/index";
 
 export const getReviewList = createAsyncThunk<
@@ -23,12 +25,7 @@ export const getReviewList = createAsyncThunk<
 
     if (currentPage <= pageInfo.totalPages) {
       const response = await axiosInstance.get(
-        `/v1/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`, // views or newest
-        {
-          headers: {
-            authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
-          },
-        }
+        `/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`
       );
       return response.data;
     }
@@ -54,12 +51,7 @@ export const getSpecificReviewList = createAsyncThunk<
     const sort = sortByViews ? "views" : "newest";
 
     const response = await axiosInstance.get(
-      `/v1/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`, // views or newest
-      {
-        headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
-        },
-      }
+      `/reviewboards?local=${selectedLocal}&mountain=${selectedMountain}&course=${selectedCourse}&page=${currentPage}&sort=${sort}`
     );
     return response.data;
   } catch (error: any) {
@@ -69,9 +61,9 @@ export const getSpecificReviewList = createAsyncThunk<
 
 export const deleteReview = createAsyncThunk(
   "review/deleteReview",
-  async (payload: { reviewBoardId: string }, thunkAPI) => {
+  async (payload: { reviewBoardId: number }, thunkAPI) => {
     try {
-      await axiosInstance.delete(`/v1/reviewboards/${payload.reviewBoardId}`);
+      await axiosInstance.delete(`/reviewboards/${payload.reviewBoardId}`);
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -85,14 +77,116 @@ export const getReviewDetail = createAsyncThunk<
 >("review/getReviewDetail", async (payload, thunkAPI) => {
   try {
     const response = await axiosInstance.get(
-      `v1/reviewboards/${payload.reviewBoardId}`,
-      {
-        headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNDExMDE3MDA5Iiwicm9sZSI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiIiwiZXhwIjoxNjYyOTI2MjA3fQ.8AtsmqmP3D8aH2Lgq4bG8KoPg-jXnuoYu2J3-xzajeo`,
-        },
-      }
+      `/reviewboards/${payload.reviewBoardId}`
     );
     return response.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const getLocalList = createAsyncThunk<
+  { localName: string }[],
+  undefined,
+  CreateAsyncThunkTypes
+>("review/getLocalList", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get("/local");
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
+
+export const getMountainList = createAsyncThunk<
+  { mountainName: string }[],
+  undefined,
+  CreateAsyncThunkTypes
+>("review/getMountainList", async (_, thunkAPI) => {
+  try {
+    const { selectedLocal } = thunkAPI.getState().review;
+    const response = await axiosInstance.get(
+      `/mountain/selection?localName=${selectedLocal}`
+    );
+    return response.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const getCourseList = createAsyncThunk<
+  { courseName: string }[],
+  undefined,
+  CreateAsyncThunkTypes
+>("review/getCourseList", async (_, thunkAPI) => {
+  try {
+    const { selectedMountain } = thunkAPI.getState().review;
+    const response = await axiosInstance.get(
+      `/course/selection?mountainName=${selectedMountain}`
+    );
+    return response.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const addComment = createAsyncThunk<
+  void,
+  { userId: string; body: string },
+  CreateAsyncThunkTypes
+>("review/addComment", async (payload, thunkAPI) => {
+  try {
+    const { userId, body } = payload;
+    const { reviewBoardId } = thunkAPI.getState().review.reviewDetail!;
+    const requestBody = {
+      memberId: userId,
+      reviewBoardId,
+      commentBody: body,
+    };
+    await axiosAuthInstance.post("/comment", requestBody);
+    thunkAPI.dispatch(
+      getReviewDetail({ reviewBoardId: reviewBoardId as unknown as string })
+    );
+    return;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const editComment = createAsyncThunk<
+  void,
+  { userId: string; body: string; commentId: number },
+  CreateAsyncThunkTypes
+>("review/editComment", async (payload, thunkAPI) => {
+  try {
+    const { reviewBoardId } = thunkAPI.getState().review.reviewDetail!;
+    const { userId, body, commentId } = payload;
+    const requestBody = {
+      memberId: userId,
+      commentBody: body,
+    };
+    await axiosAuthInstance.patch(`/comment/${commentId}`, requestBody);
+    thunkAPI.dispatch(
+      getReviewDetail({ reviewBoardId: reviewBoardId as unknown as string })
+    );
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const deleteComment = createAsyncThunk<
+  void,
+  { commentId: number },
+  CreateAsyncThunkTypes
+>("review/deleteComment", async (payload, thunkAPI) => {
+  try {
+    const { commentId } = payload;
+    const { reviewBoardId } = thunkAPI.getState().review.reviewDetail!;
+    await axiosAuthInstance.delete(`comment/${commentId}`);
+    thunkAPI.dispatch(
+      getReviewDetail({ reviewBoardId: reviewBoardId as unknown as string })
+    );
+    return;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }

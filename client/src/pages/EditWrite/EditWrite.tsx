@@ -7,7 +7,7 @@
 /* eslint-disable react/button-has-type */
 import "react-quill/dist/quill.snow.css";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Dialog from "src/components/Dialog/Dialog";
 import ReactQuill from "react-quill";
 import styled from "styled-components";
@@ -25,6 +25,7 @@ import {
   getCourseList,
   getLocalList,
   getMountainList,
+  getReviewDetail,
 } from "src/redux/actions/review";
 import {
   changeSelectedPlace,
@@ -33,22 +34,30 @@ import {
   useAppSelector,
 } from "src/redux";
 import { ChageSelectedPlace } from "src/types";
-import CustomToolbar, { formats, modules } from "./CustomToolbar";
+import CustomToolbar, { formats, modules } from "../Write/CustomToolbar";
 
-const Write = () => {
+const EditWrite = () => {
   const navigate = useNavigate();
   const user = useUser();
+  const params = useParams();
+  console.log(params);
   const dispatch = useAppDispatch();
+  const { reviewDetail } = useAppSelector((state) => state.review);
   const { localList, mountainList, courseList } = useAppSelector(
     (state) => state.review
   );
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState<string>("");
+  console.log(reviewDetail);
+  useEffect(() => {
+    dispatch(getReviewDetail({ reviewBoardId: params.id as string }));
+  }, [dispatch, params]);
+
+  const [title, setTitle] = useState(reviewDetail?.title);
+  const [content, setContent] = useState<string>(reviewDetail?.body || "");
   const [tag, setTag] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(reviewDetail?.tagList || []);
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOption] = useState<string[]>([]);
-  const [imgText, setImgText] = useState("대표 이미지를 선택해 주세요.");
+  const [imgText, setImgText] = useState(reviewDetail?.thumbnail);
   const [mainImg, setMainImg] = useState<
     string | null | File | Blob | ProgressEvent<FileReader>
   >(null);
@@ -138,6 +147,7 @@ const Write = () => {
     e.preventDefault();
 
     const requestForm = {
+      reviewBoardId: params.id as string,
       memberId: user.memberId,
       title,
       body: content,
@@ -148,10 +158,10 @@ const Write = () => {
       tagList: tags,
     };
 
-    console.log(requestForm);
-    const result = await axiosAuthInstance.post("/reviewboards", requestForm);
-    console.log("result: ", result);
-
+    await axiosAuthInstance.patch(
+      `/reviewboards/${reviewDetail?.reviewBoardId}`,
+      requestForm
+    );
     navigate("/main/review");
   };
 
@@ -218,7 +228,7 @@ const Write = () => {
         </div>
         <FileBox>
           <label htmlFor="profile">
-            {imgText.slice(0, 30)} <MdOutlineAddAPhoto />
+            {imgText?.slice(0, 30)} <MdOutlineAddAPhoto />
           </label>
           <input type="file" id="profile" onChange={fileChangedHandler} />
         </FileBox>
@@ -248,7 +258,7 @@ const Write = () => {
   );
 };
 
-export default Write;
+export default EditWrite;
 
 const Container = styled.div`
   overflow-y: scroll;

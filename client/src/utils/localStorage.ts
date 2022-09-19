@@ -1,4 +1,4 @@
-import { getCookie } from "./cookie";
+import { getCookie, removeCookie } from "./cookie";
 
 export const useUser = () => {
   const user =
@@ -7,4 +7,9 @@ export const useUser = () => {
       : null;
 
   return user;
+};
+
+export const LogOut = () => {
+  localStorage.removeItem("user");
+  removeCookie("token");
 };

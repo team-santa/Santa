@@ -1,56 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "src/utils/colors";
 import styled from "styled-components";
-import San from "src/assets/images/san.jpg";
+import { axiosAuthInstance } from "src/utils";
+import { useUser } from "src/utils/localStorage";
 import ReviewCard from "./ReviewCard";
 import FavoritCard from "./FavoritCard";
 
 const TabMenu = ["Review", "Favorite"];
 
-const Reviews = [
-  {
-    id: 1,
-    title: "관악산 산책하기 후기 입니당 !! 관악산 날씨가 너무 좋네요 ~~",
-    img: San,
-    tags: ["관악산", "날씨좋음", "등린이"],
-  },
-  {
-    id: 2,
-    title: "무등산 등산 후기 !!",
-    img: San,
-    tags: ["날씨좋음", "등린이"],
-  },
-  {
-    id: 3,
-    title: "관악산 산책하기 후기 입니당 ~~",
-    img: San,
-    tags: ["관악산", "날씨좋음", "등린이"],
-  },
-  {
-    id: 4,
-    title: "관악산 산책하기 후기 입니당 ~~",
-    img: San,
-    tags: ["관악산", "날씨좋음", "등린이"],
-  },
-  {
-    id: 5,
-    title: "관악산 산책하기 후기 입니당 ~~",
-    img: San,
-    tags: ["관악산", "날씨좋음", "등린이"],
-  },
-];
-
-//
-const Favorits: any[] = [
-  { id: 1, mountine: "동백산" },
-  { id: 2, mountine: "무등산" },
-  { id: 3, mountine: "맛동산" },
-  { id: 4, mountine: "한라산" },
-  { id: 5, mountine: "관악산" },
-];
+interface Review {
+  reviewBoardId: number;
+  tagList: string[];
+  title: string;
+  thumbnail: string;
+}
 
 const ProfileTab = () => {
   const [currentTab, setCurrentTab] = useState("Review");
+  const user = useUser();
+
+  const [myReview, setMyReview] = useState([]);
+  const [myFavorites, setMyFavorites] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const reviews = await axiosAuthInstance.get(
+        `/members/${user.memberId}/reviewboards`
+      );
+      const favorites = await axiosAuthInstance.get(
+        `/members/${user.memberId}/mountains`
+      );
+      const results = await Promise.allSettled([reviews, favorites]);
+      if (results[0].status === "fulfilled") {
+        setMyReview(results[0].value.data);
+      }
+      if (results[1].status === "fulfilled") {
+        setMyFavorites(results[1].value.data.mountainNames);
+      }
+    })();
+  }, []);
   return (
     <Container>
       <TabHeader>
@@ -68,7 +56,7 @@ const ProfileTab = () => {
       <TabBody>
         {currentTab === "Review" ? (
           <div>
-            {Reviews.length === 0 ? (
+            {myReview.length === 0 ? (
               <Empty>
                 <img
                   src="http://www.bullmetrix.com/wp-content/plugins/elementor/assets/images/no-search-results.svg"
@@ -77,19 +65,20 @@ const ProfileTab = () => {
                 <h2>작성한 리뷰가 없습니다.</h2>
               </Empty>
             ) : (
-              Reviews.map((obj) => (
+              myReview.map((obj: Review) => (
                 <ReviewCard
-                  key={obj.id}
+                  key={obj.reviewBoardId}
                   title={obj.title}
-                  img={obj.img}
-                  tags={obj.tags}
+                  img={obj.thumbnail}
+                  tags={obj.tagList}
+                  id={obj.reviewBoardId}
                 />
               ))
             )}
           </div>
         ) : (
           <div>
-            {Favorits.length === 0 ? (
+            {myFavorites.length === 0 ? (
               <Empty>
                 <img
                   src="http://www.bullmetrix.com/wp-content/plugins/elementor/assets/images/no-search-results.svg"
@@ -99,8 +88,8 @@ const ProfileTab = () => {
               </Empty>
             ) : (
               <FavoritContainer>
-                {Favorits.map((obj) => (
-                  <FavoritCard key={obj.id} title={obj.mountine} />
+                {myFavorites.map((moutain, idx) => (
+                  <FavoritCard key={moutain} title={moutain} />
                 ))}
               </FavoritContainer>
             )}

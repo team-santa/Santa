@@ -3,7 +3,7 @@
 import { useNavigate } from "react-router-dom";
 import Dialog from "src/components/Dialog/Dialog";
 import styled from "styled-components";
-import { useUser } from "src/utils/localStorage";
+import { LogOut, useUser } from "src/utils/localStorage";
 import { BiEdit } from "react-icons/bi";
 import ProfileTab from "src/components/ProfileTab/ProfileTab";
 import { LocalUser } from "src/types/User";
@@ -20,17 +20,27 @@ const Profile = () => {
         close={() => navigate(-1)}
       />
     );
+
   return (
     <Container>
       <TitleBox>
         <h1>프로필</h1>
-        <div onClick={() => navigate("/main/editprofile")}>
-          <BiEdit />
+        <div>
+          <BiEdit onClick={() => navigate("/main/editprofile")} />
         </div>
       </TitleBox>
       <ProfileBox>
         <img src={String(user.profileImageUrl)} alt="profile-img" />
         <UserName>{user.username}</UserName>
+        <Button
+          type="button"
+          onClick={() => {
+            LogOut();
+            navigate("/main");
+          }}
+        >
+          로그아웃
+        </Button>
       </ProfileBox>
       <MyReviewBox>
         <ProfileTab />
@@ -64,6 +74,8 @@ const TitleBox = styled.div`
     padding: 0.5rem;
     font-size: 2.5rem;
     color: gray;
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -72,7 +84,6 @@ const ProfileBox = styled.div`
   align-items: center;
   flex-direction: column;
   padding-bottom: 3rem;
-  /* border-bottom: solid 1px lightgray; */
 
   width: 100%;
   margin-top: 1.2rem;
@@ -94,4 +105,15 @@ const UserName = styled.h2`
   margin-top: 1rem;
   font-size: 2rem;
   font-weight: 500;
+`;
+
+const Button = styled.button`
+  margin-top: 0.5rem;
+  width: 6.5rem;
+  height: 3rem;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10rem;
 `;

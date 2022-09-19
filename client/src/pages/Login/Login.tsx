@@ -6,7 +6,7 @@ import { colors } from "src/utils/colors";
 
 const Login = () => {
   const HandleClick = async (mode: string) => {
-    window.location.href = `http://localhost:8080/oauth2/authorization/${mode}?redirect_uri=http://localhost:3000/oauth/redirect`;
+    window.location.href = `http://3.38.169.199:8080/oauth2/authorization/${mode}?redirect_uri=http://localhost:3000/oauth/redirect`;
   };
 
   return (
