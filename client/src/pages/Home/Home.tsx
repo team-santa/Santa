@@ -13,11 +13,8 @@ import {
   BsThermometerHigh,
   BsUmbrella,
 } from "react-icons/bs";
-import Sun from "src/assets/images/WeatherIcons/sun.png";
-import Night from "src/assets/images/WeatherIcons/night.png";
-import Cloudy from "src/assets/images/WeatherIcons/cloudy.png";
-import CloudyNight from "src/assets/images/WeatherIcons/cloudynight.png";
-import Cloud from "src/assets/images/WeatherIcons/cloud.png";
+import { Sun, Cloud, Cloudy } from "src/assets/images/WeatherIcons";
+import { LoadingSpinner } from "src/components";
 
 interface ITodayWeather {
   temp: number;
@@ -32,20 +29,6 @@ interface IWeekWeather {
   popPm: number;
 }
 
-// spread operator 쓰면 동작 안됨, 이유 찾아보기
-interface IWeekWeatherFrontData {
-  a1Day?: IWeekWeather | null;
-  a2Day?: IWeekWeather | null;
-}
-
-interface IWeekWeatherBackData {
-  a3Day?: IWeekWeather | null;
-  a4Day?: IWeekWeather | null;
-  a5Day?: IWeekWeather | null;
-  a6Day?: IWeekWeather | null;
-  a7Day?: IWeekWeather | null;
-}
-
 const Home = () => {
   const shortWeatherKey = process.env.REACT_APP_WEATHER_KEY_SHORT;
   const midWeatherKey = process.env.REACT_APP_WEATHER_KEY_MID;
@@ -53,10 +36,8 @@ const Home = () => {
   const [todayWeatherData, setTodayWeatherData] = useState<
     ITodayWeather[] | null
   >(null);
-  const [weekWeatherFrontData, setWeekWeatherFrontData] =
-    useState<IWeekWeatherFrontData | null>(null);
-  const [weekWeatherBackData, setWeekWeatherBackData] =
-    useState<IWeekWeatherBackData | null>(null);
+  const [firstTwoDays, setFirstTwoDays] = useState<IWeekWeather[]>();
+  const [lastFiveDays, setLastFiveDays] = useState<IWeekWeather[]>();
 
   const funcGetDate = (date: Date) => {
     const year = date.getFullYear();
@@ -150,38 +131,40 @@ const Home = () => {
         )
         .then((res) => res.data.response.body.items.item[0]);
 
-      setWeekWeatherBackData({
-        a3Day: {
+      console.log(responseTmp, "mid");
+
+      setLastFiveDays([
+        {
           min: responseTmp.taMin3,
           max: responseTmp.taMax3,
           popAm: responsePop.rnSt3Am,
           popPm: responsePop.rnSt3Pm,
         },
-        a4Day: {
+        {
           min: responseTmp.taMin4,
           max: responseTmp.taMax4,
           popAm: responsePop.rnSt4Am,
           popPm: responsePop.rnSt4Pm,
         },
-        a5Day: {
+        {
           min: responseTmp.taMin5,
           max: responseTmp.taMax5,
           popAm: responsePop.rnSt5Am,
           popPm: responsePop.rnSt5Pm,
         },
-        a6Day: {
+        {
           min: responseTmp.taMin6,
           max: responseTmp.taMax6,
           popAm: responsePop.rnSt6Am,
           popPm: responsePop.rnSt6Pm,
         },
-        a7Day: {
+        {
           min: responseTmp.taMin7,
           max: responseTmp.taMax7,
           popAm: responsePop.rnSt7Am,
           popPm: responsePop.rnSt7Pm,
         },
-      });
+      ]);
     } catch (error) {
       console.log("error", error);
     }
@@ -244,6 +227,8 @@ const Home = () => {
       const dAftTmrPopAm = calcPop(weekPop, 24, 36);
       const dAftTmrPopPm = calcPop(weekPop, 36, 48);
 
+      console.log(response, "short");
+
       setTodayWeatherData([
         { temp: todayTmp[0], precip: todayPop[0], cloud: todaySky[0] },
         { temp: todayTmp[1], precip: todayPop[1], cloud: todaySky[1] },
@@ -271,15 +256,15 @@ const Home = () => {
         { temp: todayTmp[23], precip: todayPop[23], cloud: todaySky[23] },
       ]);
 
-      setWeekWeatherFrontData({
-        a1Day: { min: tmrTmN, max: tmrTmX, popAm: tmrPopAm, popPm: tmrPopPm },
-        a2Day: {
+      setFirstTwoDays([
+        { min: tmrTmN, max: tmrTmX, popAm: tmrPopAm, popPm: tmrPopPm },
+        {
           min: dAftTmrTmN,
           max: dAftTmrTmX,
           popAm: dAftTmrPopAm,
           popPm: dAftTmrPopPm,
         },
-      });
+      ]);
     } catch (error) {
       console.log("error", error);
     }
@@ -292,6 +277,9 @@ const Home = () => {
     getShortWeather();
     getMidWeather();
   }, []);
+
+  if (!todayWeatherData || !firstTwoDays || !lastFiveDays)
+    return <LoadingSpinner />;
 
   return (
     <Wrapper>
@@ -313,31 +301,36 @@ const Home = () => {
           scrollbar={{ draggable: true }}
           pagination={{ clickable: true }}
         >
-          {todayWeatherData ? (
-            todayWeatherData.map((el: ITodayWeather, idx) => {
-              const current = new Date();
-              return (
-                // eslint-disable-next-line react/no-array-index-key
-                <SwiperSlide key={idx}>
-                  <TodayWeatherBox>
-                    {idx === 0
-                      ? "현재"
-                      : `${new Date(
-                          current.setHours(current.getHours() + idx)
-                        ).getHours()}시`}
-                    <img src={weatherIcons[el.cloud - 1]} alt="cloud" />
-                    <span>
-                      <BsThermometerHalf />
-                      {el.temp}° <BsUmbrella />
+          {todayWeatherData.map((el: ITodayWeather, idx) => {
+            const current = new Date();
+            return (
+              // eslint-disable-next-line react/no-array-index-key
+              <SwiperSlide key={idx}>
+                <TodayWeatherBox>
+                  {idx === 0
+                    ? "현재"
+                    : `${new Date(
+                        current.setHours(current.getHours() + idx)
+                      ).getHours()}시`}
+                  <img src={weatherIcons[el.cloud - 1]} alt="cloud" />
+                  <span className="weather">
+                    <span className="temp">
+                      <span className="high">
+                        <BsThermometerHalf />
+                      </span>
+                      {el.temp}°
+                    </span>
+                    <span className="temp">
+                      <span className="rain">
+                        <BsUmbrella />
+                      </span>
                       {el.precip}%
                     </span>
-                  </TodayWeatherBox>
-                </SwiperSlide>
-              );
-            })
-          ) : (
-            <div>loading...</div>
-          )}
+                  </span>
+                </TodayWeatherBox>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </WeatherContainer>
 
@@ -348,93 +341,58 @@ const Home = () => {
       <WeatherContainer>
         <h2>주간 날씨</h2>
         <WeekWeatherBox>
-          <div>목</div>
-          <div className="firstline">
-            <span>최저 | 최고</span>
-            <span>
-              <BsThermometerLow />
-              {weekWeatherFrontData?.a1Day?.min}° | <BsThermometerHigh />
-              {weekWeatherFrontData?.a1Day?.max}°
-            </span>
-          </div>
-          <div className="firstline">
-            <span>오전 | 오후</span>
-            <span>
-              <BsUmbrella /> {weekWeatherFrontData?.a1Day?.popAm}% |{" "}
-              <BsUmbrella /> {weekWeatherFrontData?.a1Day?.popPm}%
-            </span>
+          <div className="padding-y grid">
+            <div>요일</div>
+            <div className="temp border-right">최저</div>
+            <div>최고</div>
+            <div className="temp border-right">오전</div>
+            <div>오후</div>
           </div>
         </WeekWeatherBox>
-        <WeekWeatherBox>
-          <div>금</div>
-          <div>
-            <BsThermometerLow /> {weekWeatherFrontData?.a2Day?.min}° |{" "}
-            <BsThermometerHigh /> {weekWeatherFrontData?.a2Day?.max}°
-          </div>
-          <div>
-            <BsUmbrella /> {weekWeatherFrontData?.a2Day?.popAm}% |{" "}
-            <BsUmbrella /> {weekWeatherFrontData?.a2Day?.popPm}%
-          </div>
-        </WeekWeatherBox>
-        <WeekWeatherBox>
-          <div>토</div>
-          <div>
-            <BsThermometerLow /> {weekWeatherBackData?.a3Day?.min}° |{" "}
-            <BsThermometerHigh />
-            {weekWeatherBackData?.a3Day?.max}°
-          </div>
-          <div>
-            <BsUmbrella /> {weekWeatherBackData?.a3Day?.popAm}% | <BsUmbrella />{" "}
-            {weekWeatherBackData?.a3Day?.popPm}%
-          </div>
-        </WeekWeatherBox>
-        <WeekWeatherBox>
-          <div>일</div>
-          <div>
-            <BsThermometerLow /> {weekWeatherBackData?.a4Day?.min}° |{" "}
-            <BsThermometerHigh /> {weekWeatherBackData?.a4Day?.max}°
-          </div>
-          <div>
-            <BsUmbrella /> {weekWeatherBackData?.a4Day?.popAm}% | <BsUmbrella />{" "}
-            {weekWeatherBackData?.a4Day?.popPm}%
-          </div>
-        </WeekWeatherBox>
-        <WeekWeatherBox>
-          <div>월</div>
-          <div>
-            <BsThermometerLow /> {weekWeatherBackData?.a5Day?.min}° |{" "}
-            <BsThermometerHigh />
-            {weekWeatherBackData?.a5Day?.max}°
-          </div>
-          <div>
-            <BsUmbrella /> {weekWeatherBackData?.a5Day?.popAm}% | <BsUmbrella />{" "}
-            {weekWeatherBackData?.a5Day?.popPm}%
-          </div>
-        </WeekWeatherBox>
-        <WeekWeatherBox>
-          <div>화</div>
-          <div>
-            <BsThermometerLow /> {weekWeatherBackData?.a6Day?.min}° |{" "}
-            <BsThermometerHigh />
-            {weekWeatherBackData?.a6Day?.max}°
-          </div>
-          <div>
-            <BsUmbrella /> {weekWeatherBackData?.a6Day?.popAm}% | <BsUmbrella />{" "}
-            {weekWeatherBackData?.a6Day?.popPm}%
-          </div>
-        </WeekWeatherBox>
-        <WeekWeatherBox>
-          <div>수</div>
-          <div>
-            <BsThermometerLow /> {weekWeatherBackData?.a7Day?.min}° |{" "}
-            <BsThermometerHigh />
-            {weekWeatherBackData?.a7Day?.max}°
-          </div>
-          <div>
-            <BsUmbrella /> {weekWeatherBackData?.a7Day?.popAm}% | <BsUmbrella />{" "}
-            {weekWeatherBackData?.a7Day?.popPm}%
-          </div>
-        </WeekWeatherBox>
+        {firstTwoDays
+          .concat(lastFiveDays)
+          .map((el: IWeekWeather, idx: number) => {
+            return (
+              // eslint-disable-next-line react/no-array-index-key
+              <WeekWeatherBox key={idx}>
+                <div className="border-top padding-y">
+                  <div className="grid">
+                    <div>
+                      {
+                        ["일", "월", "화", "수", "목", "금", "토"][
+                          (new Date().getDay() + idx) % 7
+                        ]
+                      }
+                    </div>
+                    <div className="temp border-right">
+                      <div className="low">
+                        <BsThermometerLow />
+                      </div>
+                      {el.min}°
+                    </div>
+                    <div className="temp">
+                      <div className="high">
+                        <BsThermometerHigh />
+                      </div>
+                      {el.max}°
+                    </div>
+                    <div className="temp border-right">
+                      <div className="rain">
+                        <BsUmbrella />
+                      </div>
+                      {el.popAm}%
+                    </div>
+                    <div className="temp">
+                      <div className="rain">
+                        <BsUmbrella />
+                      </div>
+                      {el.popPm}%
+                    </div>
+                  </div>
+                </div>
+              </WeekWeatherBox>
+            );
+          })}
       </WeatherContainer>
     </Wrapper>
   );
@@ -452,6 +410,7 @@ const Wrapper = styled.div`
   height: 100vh;
   background-color: white;
   flex-direction: column;
+  padding-bottom: 12rem;
 
   h1 {
     font-size: 2.4rem;
@@ -472,6 +431,44 @@ const Wrapper = styled.div`
     border-radius: 1rem;
     margin-bottom: 3rem;
   }
+
+  .weather {
+    display: flex;
+  }
+
+  .temp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 2px;
+  }
+
+  & .low {
+    color: #11468f;
+    margin: 0 1px;
+  }
+
+  & .high {
+    color: #da1212;
+    margin: 0 1px;
+  }
+
+  & .rain {
+    color: #016483;
+    margin: 0 1px;
+  }
+
+  & .border-right {
+    width: 100%;
+    border-right: 1px solid;
+    margin-right: 1px;
+  }
+
+  & .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    place-items: center;
+  }
 `;
 
 const WeatherContainer = styled.div`
@@ -481,6 +478,11 @@ const WeatherContainer = styled.div`
   padding: 1rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
+
+  & .boarder-top {
+    border-top: 1px solid #cccccc;
+    margin-top: -1px;
+  }
 `;
 
 const TodayWeatherBox = styled.div`
@@ -505,18 +507,16 @@ const TodayWeatherBox = styled.div`
 `;
 
 const WeekWeatherBox = styled.div`
-  margin-bottom: 1rem;
-  padding: 1rem 2rem;
-  border-radius: 1rem;
+  padding: 0 2rem;
   font-size: 1.4rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: white;
 
-  & .firstline {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  & .border-top {
+    border-top: 1px solid #cccccc;
+    margin-top: -1px;
+  }
+
+  & .padding-y {
+    padding: 1rem 0;
   }
 `;
