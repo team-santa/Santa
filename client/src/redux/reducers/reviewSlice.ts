@@ -1,12 +1,6 @@
 /* eslint-disable no-console */
 import { createSlice, PayloadAction, Reducer } from "@reduxjs/toolkit";
 import {
-  REVIEW_LIST,
-  REGION_LIST,
-  MOUNTAIN_LIST,
-  HIKING_TRAIL_LIST,
-} from "src/utils";
-import {
   getCourseList,
   getMountainList,
   getLocalList,
@@ -14,7 +8,6 @@ import {
   getReviewList,
   getSpecificReviewList,
 } from "../actions/review";
-import { REVIEW_DETAIL } from "../../utils/dummy-data";
 import { ReviewInitialState, ChageSelectedPlace } from "../../types/review";
 
 const initialState: ReviewInitialState = {
@@ -77,6 +70,12 @@ const reviewSlice = createSlice({
       state.selectedCourse = "";
       state.sortByViews = false;
       state.currentPage = 1;
+      state.pageInfo = {
+        page: 1,
+        size: 10,
+        totalElement: 100,
+        totalPages: 3,
+      };
     },
   },
   extraReducers: (builder) =>

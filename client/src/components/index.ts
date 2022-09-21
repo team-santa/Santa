@@ -3,5 +3,14 @@ import ReviewCard from "./ReviewCard/ReviewCard";
 import Slider from "./Slider/Slider";
 import { Comment, DeleteModal } from "./Comment";
 import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
+import NoResult from "./NoResult/NoResult";
 
-export { DropDown, ReviewCard, Slider, Comment, DeleteModal, LoadingSpinner };
+export {
+  DropDown,
+  ReviewCard,
+  Slider,
+  Comment,
+  DeleteModal,
+  LoadingSpinner,
+  NoResult,
+};

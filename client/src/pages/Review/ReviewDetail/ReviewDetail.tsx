@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Slider, Comment, DeleteModal } from "src/components";
+import { Slider, Comment, DeleteModal, NoResult } from "src/components";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "src/redux";
@@ -18,6 +18,9 @@ import {
   SInputContainer,
 } from "./ReviewDetailWrapper";
 
+const noImg =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBKEGmmEQ4WlpXIfdqhhaFbJER2pXMLOFU3A&usqp=CAU";
+
 const ReviewDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -32,6 +35,8 @@ const ReviewDetail = () => {
   });
 
   const handleAddComment = () => {
+    if (!inputValue.trim().length) return;
+
     dispatch(
       addComment({
         userId: user.memberId,
@@ -90,24 +95,32 @@ const ReviewDetail = () => {
           </div>
         </section>
         <section className="image-container">
-          <Slider imgList={[reviewDetail.thumbnail]} />
+          <Slider
+            imgList={
+              reviewDetail.thumbnail ? [reviewDetail.thumbnail] : [noImg]
+            }
+          />
         </section>
         <section className="review-container">
           {parse(reviewDetail.body)}
         </section>
         <SCommentsContainer>
-          <h1>댓글</h1>
-          {reviewDetail.commentList.map((comment) => (
-            <Comment
-              key={comment.commentId}
-              commentId={comment.commentId}
-              memberId={comment.memberId}
-              profileImageUrl={comment.profileImageUrl}
-              writer={comment.writer}
-              modifiedAt={comment.modifiedAt}
-              body={comment.body}
-            />
-          ))}
+          <h1>댓글 {reviewDetail.commentList.length}</h1>
+          {reviewDetail.commentList.length > 0 ? (
+            reviewDetail.commentList.map((comment) => (
+              <Comment
+                key={comment.commentId}
+                commentId={comment.commentId}
+                memberId={comment.memberId}
+                profileImageUrl={comment.profileImageUrl}
+                writer={comment.writer}
+                modifiedAt={comment.modifiedAt}
+                body={comment.body}
+              />
+            ))
+          ) : (
+            <NoResult type="comment" />
+          )}
         </SCommentsContainer>
         <SInputContainer>
           <SInput

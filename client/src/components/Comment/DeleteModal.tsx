@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "src/redux";
 import { deleteComment, deleteReview } from "src/redux/actions/review";
 import styled from "styled-components";
@@ -47,13 +49,15 @@ interface Prop {
 }
 
 const DeleteModal = ({ type, reviewBoardId, commentId }: Prop) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { closeModal } = useModal();
+  const [deleteIsDone, setDeleteIsDone] = useState(false);
 
-  const handleDelete = () => {
-    console.log(type, reviewBoardId);
+  const handleDelete = async () => {
     if (type === "review") {
-      dispatch(deleteReview({ reviewBoardId: reviewBoardId as number }));
+      await dispatch(deleteReview({ reviewBoardId: reviewBoardId as number }));
+      setDeleteIsDone(true);
     }
     if (type === "comment") {
       dispatch(deleteComment({ commentId: commentId as number }));
@@ -61,9 +65,14 @@ const DeleteModal = ({ type, reviewBoardId, commentId }: Prop) => {
     closeModal();
   };
 
+  useEffect(() => {
+    if (deleteIsDone) {
+      navigate("/main/review");
+    }
+  }, [navigate, deleteIsDone]);
+
   return (
     <SArticle>
-      {/* <CloseSVG viewBox="0 0 20 20" onClick={closeModal} /> */}
       <H2>정말 삭제하시겠습니까 ?</H2>
       <ButtonsContainer>
         <Confirm type="button" onClick={handleDelete}>
