@@ -1,14 +1,17 @@
 # 🏞 산타 (야 너도 산 탈 수 있어 !!)
 
-***사용자 현재 위치 기반 등산로 추천 및 후기 서비스***입니다. 
+***사용자 현재 위치 기반 등산로 추천 및 후기 서비스***입니다.
 
+<br/>
 
 ## 👨‍👩‍👧‍👦 프로젝트 팀원
 
 | 모상빈(FE) | 정환민(FE) | 정혜선(FE) | 신창호(BE) | 이민우(BE) | 최동현(BE) |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | <img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/95295766?v=4" alt="avatar" /> | <img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/65848374?v=4" alt="avatar" /> | <img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/90498108?v=4" alt="avatar" /> | <img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/104331549?v=4" alt="avatar" /> |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/44282342?v=4" alt="avatar" />|<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/95848796?v=4" alt="avatar" />|
-| [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/Topbin2) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/JEONGHWANMIN) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/seonnn) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/Gloom-shin) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/minoolian) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/5witchkr)|
+| [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/Topbin2) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/JEONGHWANMIN) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/seonnn) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/Gloom-shin) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/minoolian) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/5witchkr)|  
+
+<br/>
 
 ## 🛠 기술스택
 
@@ -27,6 +30,8 @@
 | Git | Github | Discord |
 | :---: | :---: | :---: |
 | <img alt="git logo" src="https://git-scm.com/images/logos/logomark-orange@2x.png" width="65" height="65" > | <img alt="github logo" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |
+
+<br/>
 
 ## ✨ 주요기능
 <table align="left-align">
@@ -68,9 +73,13 @@
 </tr>
 </table>
 
+<br/>
+
 ## 📊 프로젝트 아키텍처
 
 ![santa (1)](https://user-images.githubusercontent.com/44282342/204125391-41c38fc9-e2e1-4958-bdbd-feb750f4976e.png)
+
+<br/>
 
 ## ⚙ 프로젝트 구조
 ```
@@ -154,6 +163,8 @@ server
     └── utils
 
 ```
+
+<br/>
 
 ## 💡 커밋 컨벤션
 
